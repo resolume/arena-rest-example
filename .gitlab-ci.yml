@@ -19,7 +19,7 @@ build:
 
 bundle:
   variables:
-    PUBLIC_URL: "/api/docs/rest" # the path our built-in arena webserver will serve this as
+    PUBLIC_URL: "/api/docs/example" # the path our built-in arena webserver will serve this as
   tags:
     - docker
   stage: build
