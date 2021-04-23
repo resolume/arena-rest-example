@@ -1,22 +1,19 @@
 import React from 'react'
-import Parameter from './parameter.js'
 import PropTypes from 'prop-types'
 
 /**
   * Component rendering a column within the composition
   */
 function Column(props) {
+
+    /* Replace # with ((index+1) of Layer) */
+    const name = props.name.value.replace(/#/g, props.index+1);
     return (
         <div
             className={`column ${props.connected ? 'connected' : ''}`}
             onClick={props.connect}
         >
-            <Parameter
-                parameters={props.parameters}
-                initial={props.name}
-                key={props.name.id}
-                id={props.name.id}
-            />
+        {name}
         </div>
     );
 }

@@ -143,9 +143,10 @@ class Composition extends React.Component {
       * Generate the component output
       */
     render() {
-        const columns = this.state.columns.map(column =>
+        const columns = this.state.columns.map((column, index) =>
             <Column
                 key={column.id}
+                index={index}
                 name={column.name}
                 connect={() => this.connect_column(column.id)}
                 connected={column.connected.value}
@@ -170,9 +171,10 @@ class Composition extends React.Component {
             />
         ).reverse();
 
-        const decks = this.state.decks.map(deck =>
+        const decks = this.state.decks.map((deck, index) =>
             <Deck
                 key={deck.id}
+                index={index}
                 name={deck.name}
                 select={() => this.select_deck(deck.id)}
                 selected={deck.selected.value}

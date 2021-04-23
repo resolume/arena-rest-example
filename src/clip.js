@@ -4,48 +4,15 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import ContextMenu from './context_menu.js';
 
-
 // we need to draw outside of our container, but instead
 // draw elsewhere in the html hierarchy
 const clip_root = document.getElementById('clip_properties');
-
 
 /**
   * Component for rendering a clip, responds to clicks
   * to activate the clip. Renders the clip name below.
   */
 class Clip extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { selected: props.selected.value };
-
-        // the handler function for updates to the
-        // selected property - e.g. when a clip
-        // gets triggered by the user or autopilot
-        this.on_update = (parameter) => {
-            // extract selection value
-            const selected = parameter.value;
-
-            // update state
-            this.setState({ selected });
-        };
-    }
-
-    /**
-      * Handle the component being mounted into
-      * the browsers DOM
-      */
-    componentDidMount() {
-        this.props.parameters.register_monitor(this.props.selected.id, this.on_update, this.props.selected);
-    }
-
-    /**
-      * Handle the component being unmounted from
-      * the browsers DOM
-      */
-    componentWillUnmount() {
-        this.props.parameters.unregister_monitor(this.props.selected.id, this.on_update);
-    }
 
     render() {
         const menu_options = {
@@ -80,7 +47,7 @@ class Clip extends React.Component {
                         />
                     </div>
                 </ContextMenu>
-                {this.state.selected &&
+                {this.props.selected.value &&
                     <Properties
                         name={this.props.name.value}    
                         video={this.props.video}

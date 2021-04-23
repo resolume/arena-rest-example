@@ -1,5 +1,4 @@
 import React from 'react'
-import Parameter from './parameter.js'
 import PropTypes from 'prop-types'
 
 /**
@@ -11,12 +10,7 @@ function Deck(props) {
             className={`deck ${props.selected ? 'selected' : ''}`}
             onClick={props.select}
         >
-            <Parameter
-                parameters={props.parameters}
-                initial={props.name}
-                key={props.name.id}
-                id={props.name.id}
-            />
+        {props.name.value}
         </div>
     );
 }
