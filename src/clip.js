@@ -23,6 +23,12 @@ class Clip extends React.Component {
             'Ignore Column Trigger':    this.props.ignorecolumntrigger,
         };
 
+        /**
+          * Connected has 5 possible states 
+          * "Empty", "Disconnected", "Previewing", "Connected", "Connected & previewing"
+          */
+        let connected = this.props.connected.index >= 3;
+
         return (
             <div className="clip">
                 <img
@@ -31,7 +37,6 @@ class Clip extends React.Component {
                     onMouseUp={this.props.connect_up}
                     alt={this.props.name.value}
                 />
-
                 <ContextMenu
                     name={this.props.name.value}
                     options={menu_options}
