@@ -82,9 +82,10 @@ class Clip extends React.Component {
                 </ContextMenu>
                 {this.state.selected &&
                     <Properties
+                        name={this.props.name.value}    
                         video={this.props.video}
                         parameters={this.props.parameters}
-                        name="Clip"
+                        title="Clip"
                         root={clip_root}
                     />
                 }

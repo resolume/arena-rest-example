@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Parameter from './parameter.js'
 import Parameters from './parameters.js'
 
-
 class Properties extends React.Component {
     constructor(props) {
         super(props);
@@ -29,8 +28,7 @@ class Properties extends React.Component {
             return null;
         }
 
-        const hasAdditionalParams = this.props.video.additionalparams && Object.keys(this.props.video.additionalparams).length > 0;
-
+        const hasSourceParams = this.props.video.sourceparams != null;
         // the elements to show
         const effects = this.props.video.effects.map((value) => {
             return (
@@ -44,23 +42,35 @@ class Properties extends React.Component {
                 />
             );
         });
-
+        
+        const title = this.props.title + " (" + this.props.name + ")";
+        
         const effect_section = (
             <div className="properties">
-                <div className="title">{this.props.name}</div>
+                <div className="title">{title}</div>
                 <div className="content">
-                    <span className="label" onDoubleClick={() => this.handle_reset(this.props.video.opacity.id)}>Opacity</span>
-                    <Parameter
-                        parameters={this.props.parameters}
-                        key={this.props.video.opacity.id}
-                        id={this.props.video.opacity.id}
-                        initial={this.props.video.opacity}
-                    /> 
-                    {hasAdditionalParams &&
+                    <div>
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.video.opacity.id)}>Opacity</span>
+                        <Parameter
+                            parameters={this.props.parameters}
+                            key={this.props.video.opacity.id}
+                            id={this.props.video.opacity.id}
+                            initial={this.props.video.opacity}
+                        /> 
+                    </div>
+                    {this.props.video.mixer &&
+                        <Parameters
+                            key={`mixer_${this.props.name}`}
+                            name="Mixer"
+                            params={this.props.video.mixer}
+                            parameters={this.props.parameters}
+                        />    
+                    }
+                    {hasSourceParams &&
                         <Parameters
                             key={`source_${this.props.name}`}
                             name="Source"
-                            params={this.props.video.additionalparams}
+                            params={this.props.video.sourceparams}
                             parameters={this.props.parameters}
                         />    
                     }                                                      

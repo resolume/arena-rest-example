@@ -66,26 +66,25 @@ class Layer extends React.Component {
             />
         );
 
+        /* Replace # with ((index+1) of Layer) */
+        const name = this.props.name.value.replace(/#/g, this.props.index+1);
+
         return (
             <div className={`layer ${this.state.selected ? 'selected' : ''}`}>            
                 <div><input type="button" value="Clear" onClick={this.props.clear}/></div>
                 <div className="control" onClick={this.props.select}>
-                    <Parameter
-                        parameters={this.props.parameters}
-                        initial={this.props.name}
-                        key={this.props.name.id}
-                        id={this.props.name.id}
-                    />
+                    <div>{name}</div>
                 </div>                 
-                {clips}                
                 {this.state.selected &&
                     <Properties
-                        video={this.props.video}
+                        name={name}    
+                        video={this.props.video}                        
                         parameters={this.props.parameters}
-                        name="Layer"
+                        title="Layer"
                         root={layer_root}
                     />
                 }                
+                {clips}                
             </div>
         );
     }

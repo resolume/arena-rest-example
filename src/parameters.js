@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 class Parameters extends React.Component {    
 
     render() {
-
-        const parameters = this.props.params.map((value) => {
+        
+        const parameters = Object.entries(this.props.params).map((value) => {
             const name = value[0];
             const param = value[1];
 

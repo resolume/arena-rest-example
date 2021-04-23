@@ -22,11 +22,6 @@ class Effect extends React.Component {
 
     render() {
         
-        /* An Effect does not always have a mixer, Mask and Transform do not for instance */
-        /* Merge base params, mixer and effect params */
-        const params = Object.entries(this.props.params || {}).concat(Object.entries(this.props.mixer || {}).concat(Object.entries(this.props.effect || {})));
-        const show_params = this.state.expanded && params.length > 0;
-
         return (
             <div className="effect">
                 <div className="title">
@@ -35,15 +30,31 @@ class Effect extends React.Component {
                         className={`arrow ${this.state.expanded ? 'down' : 'right'}`}
                     ></span>
                     {this.props.name}
-                </div>
-                {show_params &&
+                </div>                
+                {this.state.expanded && this.props.mixer &&
+                    /* An Effect does not always have a mixer, Mask and Transform do not for instance */
                     <Parameters
                         key={`mixer_${this.props.name}`}
                         name={this.props.name}
-                        params={params}
+                        params={this.props.mixer}
                         parameters={this.props.parameters}
                     /> 
                 }
+                <Parameters
+                    key={`params_${this.props.name}`}
+                    name={this.props.name}
+                    params={this.props.params}
+                    parameters={this.props.parameters}
+                />
+                {this.state.expanded && this.props.effect &&
+                    <Parameters
+                        key={`effect_${this.props.name}`}
+                        name={this.props.name}
+                        params={this.props.effect}
+                        parameters={this.props.parameters}
+                    /> 
+                }                
+
             </div>
         )
     }

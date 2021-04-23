@@ -156,7 +156,9 @@ class Composition extends React.Component {
         const layers = this.state.layers.map((layer, index) =>
             <Layer
                 key={layer.id}
+                index={index}
                 name={layer.name}
+                video={layer.video}
                 clips={layer.clips}
                 select={() => this.select_layer(layer.id)}
                 clear={() => this.clear_layer(layer.id)}
@@ -177,6 +179,7 @@ class Composition extends React.Component {
                 parameters={this.parameters}
             />
         );
+        const name = "Composition";
 
         return (
             <React.Fragment>
@@ -189,11 +192,11 @@ class Composition extends React.Component {
                         {decks}
                     </div>
                 </div>
-
                 <Properties
-                    video={this.state.video}
+                    name={name}
+                    video={this.state.video}                    
                     parameters={this.parameters}
-                    name="Composition"
+                    title="Composition"
                     root={composition_root}
                 />
             </React.Fragment>
