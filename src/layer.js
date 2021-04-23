@@ -1,5 +1,6 @@
 import Clip from './clip.js'
 import React from 'react'
+import Parameter from './parameter.js';
 import Properties from './properties.js';
 import PropTypes from 'prop-types';
 
@@ -39,7 +40,16 @@ class Layer extends React.Component {
 
         return (
             <div className={`layer ${this.props.selected.value ? 'selected' : ''}`}>            
-                <div onClick={this.props.clear}>Clear</div>
+                <div onClick={this.props.clear}>Clear
+                    <div>Bypassed
+                        <Parameter
+                            parameters={this.props.parameters}
+                            key={this.props.bypassed.id}
+                            id={this.props.bypassed.id}
+                            initial={this.props.bypassed}
+                        />
+                    </div>
+                </div>                                                 
                 <div className="control" onClick={this.props.select}>
                     <div>{name}</div>
                 </div>                 
