@@ -1,7 +1,9 @@
 body {
-    font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
+    font: 13px Noto Sans, Arial, sans-serif;
+    color: #f0f0f0;
+    margin: 30px;
     cursor: default;
+    background-color: #000000;
 }
 
 .composition {
@@ -11,8 +13,8 @@ body {
 .layer {
     height: 100px;
     border-radius: 5px;
-    border: 1px solid #f0f0f0;
-    background-color: #fcfcfc;
+    /* border: 1px solid #f0f0f0; */
+    background-color: #1b1b1b;
     padding: 5px;
     margin-bottom: 5px;
     transition: all .5s;
@@ -20,12 +22,12 @@ body {
 }
 
 .layer:hover {
-    border: 1px solid #e0e0e0;
+    border: 1px solid #1a1a1a;
 }
 
 .layer.selected {
-    border: 1px solid #e0e0e0;
-    background-color: #f0f0f0;
+    border: 1px solid #1a1a1a;
+    background-color: #1b1b1b;
 }
 
 .layer.selected:hover {
@@ -36,13 +38,14 @@ body {
     display: inline-block;
     height: 90px;
     padding: 5px;
-    background-color: rgba(0, 0, 0, .05);
+    background-color: #2A2A2A;
     margin-right: 5px;
     overflow: hidden;
+    text-align: center;
 }
 
 .layer > .control {
-    width: 250px;
+    width: 100px;
     overflow: ellipsis;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -61,11 +64,12 @@ body {
     width: 90px;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: #474747;
 }
 
 .columns {
     height: 30px;
-    padding-left: 270px;
+    padding-left: 168px;
 }
 
 .columns > div {
@@ -74,19 +78,20 @@ body {
     text-align: center;
     margin-right: 5px;
     padding: 5px;
-    background-color: rgba(0, 0, 0, .05);
+    background-color: #2A2A2A;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
 
 .columns > div.connected {
-    background-color: #d0d0d0;
+    background-color: #535353;
 }
 
 span.parameter input {
     border: none;
     background: transparent;
     padding: 0;
+    color: #f0f0f0;
 }
 
 span.parameter input:focus {
@@ -94,7 +99,7 @@ span.parameter input:focus {
 }
 
 div.properties .title {
-    background-color: #e0e0e0;
+    background-color: #535353;
     padding: 5px;
     margin-top: 5px;
     border-top-left-radius: 5px;
@@ -103,7 +108,7 @@ div.properties .title {
 
 div.properties .content {
     padding: 5px;
-    background-color: #f0f0f0;
+    background-color: #1a1a1a;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -115,7 +120,7 @@ span.label {
 
 .decks {
     height: 30px;
-    padding-left: 270px;
+    padding-left: 168px;
 }
 
 .decks > div {
@@ -124,13 +129,13 @@ span.label {
     text-align: center;
     margin-right: 5px;
     padding: 5px;
-    background-color: rgba(0, 0, 0, .05);
+    background-color: #2a2a2a;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
 .decks > div.selected {
-    background-color: #d0d0d0;
+    background-color: #535353;
 }
 
 .arrow {
@@ -212,4 +217,8 @@ span.label {
     top: 0px;
     left: 250px;
     width: 250px;
+}
+
+.properties {
+    margin-top: 30px;
 }
