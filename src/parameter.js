@@ -101,7 +101,7 @@ function ChoiceParameter(props) {
     });
 
     return (
-        <select
+        <select className="choice"
             value={value || parameter.index}
             onChange={(event) => debouncer.set_value(parseInt(event.target.value, 10))}
             readOnly={readonly}
@@ -137,6 +137,7 @@ function RangedParameter(props) {
         <span className="parameter">
             <input
                 type="range"
+                className="slider"
                 min={parameter.min * multiplier}
                 max={parameter.max * multiplier}
                 step={step}
