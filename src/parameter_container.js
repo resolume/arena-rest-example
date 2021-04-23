@@ -57,6 +57,20 @@ class ParameterContainer
     }
 
     /**
+      * Send an reset request for a parameter to the server
+      *
+      * @param  id      The parameter id
+      */
+    reset_parameter(id) {
+        // send message over the transport
+        this.transport.send_message({
+            action:     'reset',
+            parameter:  '/parameter/by-id/' + id,
+        });
+    }
+
+    
+    /**
       * Start monitoring a parameter
       *
       * @param  id      The parameter id

@@ -3,12 +3,12 @@ import ParameterContainer from './parameter_container.js'
 import Column from './column.js'
 import Deck from './deck.js'
 import Layer from './layer.js'
-import Effects from './effects.js'
+import Properties from './properties.js'
 import React from 'react'
 import PropTypes from 'prop-types';
 
 // composition effect controls are rendered elseewhere
-const effect_root = document.getElementById('composition');
+const composition_root = document.getElementById('composition_properties');
 
 /**
   * Component rendering the entire composition
@@ -163,7 +163,7 @@ class Composition extends React.Component {
                 clip_url={(id, last_update) => this.clip_url(id, last_update)}
                 connect_clip={(id, down) => this.connect_clip(id, down)}
                 select_clip={(id) => this.select_clip(id)}
-                selected={layer.selected.value}
+                selected={layer.selected}
                 parameters={this.parameters}
             />
         ).reverse();
@@ -190,11 +190,11 @@ class Composition extends React.Component {
                     </div>
                 </div>
 
-                <Effects
+                <Properties
                     video={this.state.video}
                     parameters={this.parameters}
                     name="Composition"
-                    root={effect_root}
+                    root={composition_root}
                 />
             </React.Fragment>
         );

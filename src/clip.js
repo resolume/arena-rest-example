@@ -1,5 +1,5 @@
 import Parameter from './parameter.js'
-import Effects from './effects.js'
+import Properties from './properties.js'
 import React from 'react'
 import PropTypes from 'prop-types';
 import ContextMenu from './context_menu.js';
@@ -7,7 +7,7 @@ import ContextMenu from './context_menu.js';
 
 // we need to draw outside of our container, but instead
 // draw elsewhere in the html hierarchy
-const effect_root = document.getElementById('effects');
+const clip_root = document.getElementById('clip_properties');
 
 
 /**
@@ -80,13 +80,12 @@ class Clip extends React.Component {
                         />
                     </div>
                 </ContextMenu>
-
                 {this.state.selected &&
-                    <Effects
+                    <Properties
                         video={this.props.video}
                         parameters={this.props.parameters}
                         name="Clip"
-                        root={effect_root}
+                        root={clip_root}
                     />
                 }
             </div>

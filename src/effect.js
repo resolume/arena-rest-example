@@ -1,55 +1,59 @@
-import React, { useState } from 'react';
-import Parameter from './parameter.js'
+import React from 'react'
+import Parameters from './parameters.js'
+import PropTypes from 'prop-types';
 
 /**
   * Render a single effect in the
-  * effect chain (renderpass)
+  * effect chain
   */
-function Effect(props) {
-    const [ expanded, setExpanded ] = useState(true);
+class Effect extends React.Component {  
 
-    const name = props.name;
-    const params = Object.entries(props.mixer || {}).concat(Object.entries(props.params).concat(Object.entries(props.effect || {})));
+    constructor(props) {
+        super(props);
+        this.state = {
+            expanded: true,
+        };
+    }
 
-    const parameters = params.map((value) => {
-        const name = value[0];
-        const param = value[1];
+    setExpanded(value)
+    {
+        this.setState( {expanded: value });
+    }
 
-        // do not render parameters that are supposed to be hidden
-        // (should we be doing this in the frontend?)
-        if (param.view && param.view.visible === false) {
-            return null;
-        }
+    render() {
+        
+        /* An Effect does not always have a mixer, Mask and Transform do not for instance */
+        /* Merge base params, mixer and effect params */
+        const params = Object.entries(this.props.params || {}).concat(Object.entries(this.props.mixer || {}).concat(Object.entries(this.props.effect || {})));
+        const show_params = this.state.expanded && params.length > 0;
 
         return (
-            <div key={`parameter_wrapper_${param.id}`}>
-                <span className="label">{name}</span>
-                <Parameter
-                    parameters={props.parameters}
-                    key={param.id}
-                    id={param.id}
-                    initial={param}
-                />
+            <div className="effect">
+                <div className="title">
+                    <span
+                        onClick={() => this.setExpanded(!this.state.expanded)}
+                        className={`arrow ${this.state.expanded ? 'down' : 'right'}`}
+                    ></span>
+                    {this.props.name}
+                </div>
+                {show_params &&
+                    <Parameters
+                        key={`mixer_${this.props.name}`}
+                        name={this.props.name}
+                        params={params}
+                        parameters={this.props.parameters}
+                    /> 
+                }
             </div>
         )
-    });
+    }
+}
 
-    return (
-        <React.Fragment>
-            <div className="title">
-                <span
-                    onClick={() => setExpanded(!expanded)}
-                    className={`arrow ${expanded ? 'down' : 'right'}`}
-                ></span>
-                {name}
-            </div>
-            {expanded && 
-                <div className="content">
-                    {parameters}
-                </div>
-            }
-        </React.Fragment>
-    )
+/**
+  * Property declaration for Effect component
+  */
+Effect.propTypes = {
+    parameters: PropTypes.object.isRequired
 }
 
 export default Effect

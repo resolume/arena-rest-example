@@ -5,6 +5,7 @@ body {
 }
 
 .composition {
+    
 }
 
 .layer {
@@ -92,7 +93,7 @@ span.parameter input:focus {
     background-color: white;
 }
 
-div.effects .title {
+div.properties .title {
     background-color: #e0e0e0;
     padding: 5px;
     margin-top: 5px;
@@ -100,7 +101,7 @@ div.effects .title {
     border-top-right-radius: 5px;
 }
 
-div.effects .content {
+div.properties .content {
     padding: 5px;
     background-color: #f0f0f0;
     border-bottom-left-radius: 5px;
