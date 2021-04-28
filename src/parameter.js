@@ -41,7 +41,7 @@ class value_debouncer
 /**
   * A parameter showing a simple text field
   */
-function TextParameter(props) {
+function ParamString(props) {
     // are we showing a read-only parameter
     if (props.readonly) {
         return (
@@ -68,7 +68,7 @@ function TextParameter(props) {
 /**
   * A parameter showing a checkbox for yes/no parameters
   */
-function BooleanParameter(props) {
+function ParamBoolean(props) {
     const { parameter, readonly, on_update } = props;
 
     return (
@@ -86,7 +86,7 @@ function BooleanParameter(props) {
 /**
   * A parameter showing a dropdown with options
   */
-function ChoiceParameter(props) {
+function ParamChoice(props) {
     const [ value, setValue ] = useState();
     const { parameter, readonly, on_update } = props;
 
@@ -114,7 +114,7 @@ function ChoiceParameter(props) {
 /**
   * A parameter showing a slider for a range of values
   */
-function RangedParameter(props) {
+function ParamRange(props) {
     const [ value, setValue ] = useState();
     const { parameter, readonly, on_update } = props;
 
@@ -197,29 +197,29 @@ class Parameter extends React.Component {
     render() {
         const param = this.state.parameter;
 
-        if (!this.state.parameter) {
+        if (!param) {
             return (
                 <span>Loading</span>
             )
-        } else if (typeof param.value === 'boolean') {
+        } else if (param.valuetype === "ParamBoolean") {
             return (
-                <BooleanParameter
+                <ParamBoolean
                     parameter={param}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
                 />
             )
-        } else if (typeof param.min !== 'undefined' && typeof param.max !== 'undefined') {
+        } else if (param.valuetype === "ParamRange") {
             return (
-                <RangedParameter
+                <ParamRange
                     parameter={param}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
                 />
             )
-        } else if (param.options instanceof Array) {
+        } else if (param.valuetype === "ParamChoice") {
             return (
-                <ChoiceParameter
+                <ParamChoice
                     parameter={param}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
@@ -227,7 +227,7 @@ class Parameter extends React.Component {
             )
         } else {
             return (
-                <TextParameter
+                <ParamString
                     parameter={this.state.parameter}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
