@@ -69,7 +69,7 @@ body {
 
 .columns {
     height: 30px;
-    padding-left: 168px;
+    padding-left: 193px;
 }
 
 .columns > div {
@@ -123,7 +123,7 @@ span.label {
 
 .decks {
     height: 30px;
-    padding-left: 168px;
+    padding-left: 193px;
 }
 
 .decks > div {
@@ -135,6 +135,9 @@ span.label {
     background-color: #2a2a2a;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .decks > div.selected {
@@ -251,4 +254,9 @@ span.label {
     border: none;
     color: #f0f0f0;
     margin-left: 10px;
+}
+
+.option {
+    background-color: #1d1d1d;
+    border: 1px solid #474747;
 }
