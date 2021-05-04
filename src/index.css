@@ -6,19 +6,18 @@ body {
     background-color: #000000;
 }
 
-.composition {
-    
-}
 
 .layer {
     height: 100px;
     border-radius: 5px;
-    /* border: 1px solid #f0f0f0; */
     background-color: #1b1b1b;
     padding: 5px;
     margin-bottom: 5px;
     transition: all .5s;
     clear: left;
+   /* display: flex;
+   flex-wrap: nowrap;
+   overflow-x: auto; */
 }
 
 .layer:hover {
@@ -260,3 +259,13 @@ span.label {
     background-color: #1d1d1d;
     border: 1px solid #474747;
 }
+
+/*
+.clip {
+    flex: 0 0 auto;
+}
+
+.control {
+    flex: 0 0 auto;
+}
+*/
