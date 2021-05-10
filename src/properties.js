@@ -23,32 +23,67 @@ class Properties extends React.Component {
         this.props.parameters.reset_parameter(id);
     }
     render() {
-        // do we even have a video to render effects for?
-        if (!this.props.video) {
-            return null;
-        }
 
-        const hasSourceParams = this.props.video.sourceparams != null;
-        // the elements to show
-        const effects = this.props.video.effects.map((value) => {
-            return (
-                <Effect
-                    key={`effect_${value.name}`}
-                    name={value.name}
-                    mixer={value.mixer}
-                    params={value.params}
-                    effect={value.effect}
-                    parameters={this.props.parameters}
-                />
+        let audio_section = null;
+        if (this.props.audio) {
+            // the elements to show
+            //const effects = null;
+            const effects = this.props.audio.effects.map((value) => {
+                return (
+                    <Effect
+                        key={`effect_${value.name}`}
+                        name={value.name}
+                        mixer={value.mixer}
+                        params={value.params}
+                        effect={value.effect}
+                        parameters={this.props.parameters}
+                    />
+                );
+            });
+
+            audio_section = (
+                <div>
+                    <div>
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.volume.id)}>Volume</span>
+                        <Parameter
+                            parameters={this.props.parameters}
+                            key={this.props.audio.volume.id}
+                            id={this.props.audio.volume.id}
+                            initial={this.props.audio.volume}
+                        /> 
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.pan.id)}>Pan</span>
+                        <Parameter
+                            parameters={this.props.parameters}
+                            key={this.props.audio.pan.id}
+                            id={this.props.audio.pan.id}
+                            initial={this.props.audio.pan}
+                        />                         
+                    </div>
+                    <div className="effects">
+                        {effects}
+                    </div>
+                </div>
             );
-        });
-        
-        const title = this.props.title + " (" + this.props.name + ")";
-        
-        const effect_section = (
-            <div className="properties">
-                <div className="title">{title}</div>
-                <div className="content">
+        }  
+
+        let video_section = null;
+        if (this.props.video) {
+            // the elements to show
+            const effects = this.props.video.effects.map((value) => {
+                return (
+                    <Effect
+                        key={`effect_${value.name}`}
+                        name={value.name}
+                        mixer={value.mixer}
+                        params={value.params}
+                        effect={value.effect}
+                        parameters={this.props.parameters}
+                    />
+                );
+            });
+
+            video_section = (
+                <div>
                     <div>
                         <span className="label" onDoubleClick={() => this.handle_reset(this.props.video.opacity.id)}>Opacity</span>
                         <Parameter
@@ -66,23 +101,34 @@ class Properties extends React.Component {
                             parameters={this.props.parameters}
                         />    
                     }
-                    {hasSourceParams &&
+                    {this.props.video.sourceparams &&
                         <Parameters
                             key={`source_${this.props.name}`}
                             name="Source"
                             params={this.props.video.sourceparams}
                             parameters={this.props.parameters}
                         />    
-                    }                                                      
+                    }
                     <div className="effects">
                         {effects}
                     </div>
+                </div>
+            );
+        }
+
+        const title = this.props.title + " (" + this.props.name + ")";
+        const properties = (
+            <div className="properties">
+                <div className="title">{title}</div>
+                <div className="content">
+                    {audio_section}
+                    {video_section}
                 </div>
             </div>
         );
 
         return ReactDOM.createPortal(
-            effect_section,
+            properties,
             this.element
         );
     }

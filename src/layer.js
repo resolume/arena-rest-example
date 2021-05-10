@@ -22,6 +22,7 @@ class Layer extends React.Component {
                 src={this.props.clip_url(clip.id, clip.thumbnail.last_update)}
                 name={clip.name}
                 connected={clip.connected}
+                audio={clip.audio}
                 video={clip.video}
                 connect_down={() => this.props.connect_clip(clip.id, true)}
                 connect_up={() =>  this.props.connect_clip(clip.id, false)}

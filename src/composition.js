@@ -160,6 +160,7 @@ class Composition extends React.Component {
                 index={index}
                 name={layer.name}
                 bypassed={layer.bypassed}
+                audio={layer.audio}
                 video={layer.video}
                 clips={layer.clips}
                 select={() => this.select_layer(layer.id)}

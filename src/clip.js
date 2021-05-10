@@ -55,6 +55,7 @@ class Clip extends React.Component {
                 {this.props.selected.value &&
                     <Properties
                         name={this.props.name.value}    
+                        audio={this.props.audio}
                         video={this.props.video}
                         parameters={this.props.parameters}
                         title="Clip"
