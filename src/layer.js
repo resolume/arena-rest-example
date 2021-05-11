@@ -44,14 +44,12 @@ class Layer extends React.Component {
             <div className={`layer ${this.props.selected.value ? 'selected' : ''}`}>            
                 <div onClick={this.props.clear}>Clear
                     <div>Bypassed
-                        {this.props.bypassed &&
                         <Parameter
                             parameters={this.props.parameters}
                             key={this.props.bypassed.id}
                             id={this.props.bypassed.id}
                             initial={this.props.bypassed}
                         />
-                        }
                     </div>
                 </div>                                                 
                 <div className="control" onClick={this.props.select}>

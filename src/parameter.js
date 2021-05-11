@@ -160,11 +160,11 @@ function ParamRange(props) {
     const debouncer = new value_debouncer(on_update, setValue);
     
     /**  
-      * Right now we ignore the alpha part of the color value
+      * Right now we ignore the alpha component of the color value we receive
       * Resolume sends hex values with four components, r,g,b,a
       * There is no HTML native way of representing a color with an alpha component
     */
-    // only copy firt three components
+    // only copy first three components
     const v = String(value || parameter.value).substring(0, 7);
 
     console.log(v);
