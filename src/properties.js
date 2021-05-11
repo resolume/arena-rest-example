@@ -44,20 +44,24 @@ class Properties extends React.Component {
             audio_section = (
                 <div>
                     <div>
-                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.volume.id)}>Volume</span>
-                        <Parameter
-                            parameters={this.props.parameters}
-                            key={this.props.audio.volume.id}
-                            id={this.props.audio.volume.id}
-                            initial={this.props.audio.volume}
-                        /> 
-                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.pan.id)}>Pan</span>
-                        <Parameter
-                            parameters={this.props.parameters}
-                            key={this.props.audio.pan.id}
-                            id={this.props.audio.pan.id}
-                            initial={this.props.audio.pan}
-                        />                         
+                        <div>
+                            <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.volume.id)}>Volume</span>
+                            <Parameter
+                                parameters={this.props.parameters}
+                                key={this.props.audio.volume.id}
+                                id={this.props.audio.volume.id}
+                                initial={this.props.audio.volume}
+                            /> 
+                        </div>
+                        <div>
+                            <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.pan.id)}>Pan</span>
+                            <Parameter
+                                parameters={this.props.parameters}
+                                key={this.props.audio.pan.id}
+                                id={this.props.audio.pan.id}
+                                initial={this.props.audio.pan}
+                            />
+                        </div>                         
                     </div>
                     <div className="effects">
                         {effects}
@@ -120,11 +124,21 @@ class Properties extends React.Component {
         const properties = (
             <div className="properties">
                 <div className="title">{title}</div>
-                <div className="content">
-                    {audio_section}
-                    {video_section}
+                {audio_section &&
+                    <div>
+                        <div className="title">Audio</div>
+                        <div className="content">
+                            {audio_section}
+                        </div>
+                    </div>
+                }
+                <div>
+                    <div className="title">Video</div>
+                    <div className="content">
+                        {video_section}
+                    </div>
                 </div>
-            </div>
+            </div>            
         );
 
         return ReactDOM.createPortal(
