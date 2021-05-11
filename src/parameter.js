@@ -151,6 +151,37 @@ function ParamRange(props) {
 }
 
 /**
+  * A parameter showing a color input color parameters
+  */
+ function ParamColor(props) {
+
+    const [ value, setValue ] = useState();
+    const { parameter, readonly, on_update } = props;
+    const debouncer = new value_debouncer(on_update, setValue);
+    
+    /**  
+      * Right now we ignore the alpha part of the color value
+      * Resolume sends hex values with four components, r,g,b,a
+      * There is no HTML native way of representing a color with an alpha component
+    */
+    // only copy firt three components
+    const v = String(value || parameter.value).substring(0, 7);
+
+    console.log(v);
+    return (
+        <span className="parameter">
+            <input
+                type="color"
+                value={v}
+                readOnly={readonly}
+                onChange={(event) => debouncer.set_value(event.target.value)}
+            />
+        </span>
+    )    
+}
+
+
+/**
   * Class for rendering a parameter
   */
 class Parameter extends React.Component {
@@ -159,7 +190,6 @@ class Parameter extends React.Component {
 
         this.state = { parameter: props.initial };
 
-        // this.state.parameter = props;
         this.on_update = (update) => {
             let parameter = Object.assign({}, this.state.parameter, update);
             this.setState({ parameter });
@@ -224,7 +254,15 @@ class Parameter extends React.Component {
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
                 />
-            )
+            )   
+        } else if (param.valuetype === "ParamColor") {
+            return (
+                <ParamColor
+                    parameter={param}
+                    readonly={this.props.readonly}
+                    on_update={(value) => this.handle_update(value)}
+                />
+            )                         
         } else {
             return (
                 <ParamString
