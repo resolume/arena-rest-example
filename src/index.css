@@ -6,18 +6,14 @@ body {
     background-color: #000000;
 }
 
-
 .layer {
     height: 100px;
+    width: 250px;
     border-radius: 5px;
     background-color: #1b1b1b;
     padding: 5px;
     margin-bottom: 5px;
     transition: all .5s;
-    clear: left;
-   /* display: flex;
-   flex-wrap: nowrap;
-   overflow-x: auto; */
 }
 
 .layer:hover {
@@ -35,7 +31,7 @@ body {
 
 .layer > div {
     display: inline-block;
-    height: 90px;
+    height: 100px;
     padding: 5px;
     background-color: #2A2A2A;
     margin-right: 5px;
@@ -43,32 +39,51 @@ body {
     text-align: center;
 }
 
-.layer > .control {
-    width: 100px;
+.layer > .control {   
     overflow: ellipsis;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-.layer > .clip {
-    width: 90px;
+.clip {
+    width: 100px;
+    margin-right: 5px;
 }
 
-.layer > .clip img {
-    width: 90px;
-}
-
-.layer > .clip span {
+.clip div {
     display: inline-block;
-    width: 90px;
+    width: 100px;
+    height: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
     background-color: #474747;
 }
 
+.clip img{
+    width: 100px;
+    height: 80px;
+    background-color:#2d2d2d;
+}
+
+.layers_and_clips {
+    display: flex;     
+}
+
+.layers {
+    background-color:#1b1b1b;
+}
+
+.clips {
+    display: grid;          
+    flex-wrap: nowrap;
+    overflow-x: auto;    
+    padding-left: 0px;
+    background-color:#1b1b1b;
+}
+
 .columns {
     height: 30px;
-    padding-left: 193px;
+    padding-left: 260px;
 }
 
 .columns > div {
@@ -121,8 +136,7 @@ span.label {
 }
 
 .decks {
-    height: 30px;
-    padding-left: 193px;
+    height: 30px;    
 }
 
 .decks > div {
@@ -167,10 +181,10 @@ span.label {
 
 #controls {
     display: flex;
-    }
+}
 
 #controls > div {
-    width: 50%
+    width: 100%
 }
 
 #controls > div + div {

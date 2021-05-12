@@ -28,7 +28,7 @@ class Clip extends React.Component {
           * "Empty", "Disconnected", "Previewing", "Connected", "Connected & previewing"
           */
         let connected = this.props.connected.index >= 3;
-
+        
         return (
             <div className="clip">
                 <img
@@ -43,13 +43,7 @@ class Clip extends React.Component {
                     parameters={this.props.parameters}
                 >
                     <div onClick={this.props.select}>
-                        <Parameter
-                            parameters={this.props.parameters}
-                            readonly={true}
-                            initial={this.props.name}
-                            key={this.props.name.id}
-                            id={this.props.name.id}
-                        />
+                        {this.props.name.value}
                     </div>
                 </ContextMenu>
                 {this.props.selected.value &&
