@@ -1,5 +1,6 @@
 import Transport from './transport.js'
 import ParameterContainer from './parameter_container.js'
+import CrossFader from './crossfader.js'
 import Column from './column.js'
 import Deck from './deck.js'
 import Layer from './layer.js'
@@ -24,6 +25,7 @@ class Composition extends React.Component {
         this.parameters = new ParameterContainer(this.transport);
         this.transport.on_message((message) => this.handle_message(message));
         this.state = {
+            crossfader: {},
             decks: [],
             columns: [],
             layers: [],
@@ -144,6 +146,7 @@ class Composition extends React.Component {
       * Generate the component output
       */
     render() {
+
         const columns = this.state.columns.map((column, index) =>
             <Column
                 key={column.id}
@@ -216,7 +219,6 @@ class Composition extends React.Component {
         }
 
         const name = "Composition";
-
         return (
             <React.Fragment>
                 <div className="composition">
@@ -232,6 +234,16 @@ class Composition extends React.Component {
                     <div className="decks">
                         {decks}
                     </div>
+                    {/* {this.state.crossfader.id &&
+                        <CrossFader
+                            key={this.state.crossfader.id}
+                            phase={this.state.crossfader.phase}
+                            behaviour={this.state.crossfader.behaviour}
+                            curve={this.state.crossfader.curve}
+                            video={this.state.crossfader.video}
+                            parameters={this.parameters}
+                        />
+                    } */}
                 </div>
                 <Properties
                     name={name}

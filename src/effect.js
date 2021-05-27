@@ -48,14 +48,6 @@ class Effect extends React.Component {
                     parameters={this.props.parameters}
                 />
                 }
-                {this.state.expanded && this.props.effect &&
-                    <Parameters
-                        key={`effect_${this.props.name}`}
-                        name={this.props.name}
-                        params={this.props.params}
-                        parameters={this.props.parameters}
-                    /> 
-                }                
             </div>
         )
     }
