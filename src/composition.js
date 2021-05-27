@@ -3,6 +3,7 @@ import ParameterContainer from './parameter_container.js'
 import Column from './column.js'
 import Deck from './deck.js'
 import Layer from './layer.js'
+import Clip from './clip.js'
 import Properties from './properties.js'
 import React from 'react'
 import PropTypes from 'prop-types';
@@ -149,12 +150,38 @@ class Composition extends React.Component {
                 index={index}
                 name={column.name}
                 connect={() => this.connect_column(column.id)}
-                connected={column.connected.value}
+                connected={column.connected}
                 parameters={this.parameters}
             />
         );
 
-        const layers = this.state.layers.map((layer, index) =>
+        let all_clips = [];
+        for (let i=this.state.layers.length-1;i>=0;--i)
+            all_clips = all_clips.concat(this.state.layers[i].clips);
+
+        const clips = all_clips.map((clip) => 
+            <Clip
+                id={clip.id}
+                key={clip.id}
+                src={this.clip_url(clip.id, clip.thumbnail.last_update)}
+                name={clip.name}
+                selected={clip.selected}
+                select={() =>  this.select_clip(clip.id)}                
+                connected={clip.connected}
+                connect_down={() => this.connect_clip(clip.id, true)}
+                connect_up={() =>  this.connect_clip(clip.id, false)}
+                audio={clip.audio}
+                video={clip.video}
+                parameters={this.parameters}
+                beatsnap={clip.beatsnap}
+                target={clip.target}
+                triggerstyle={clip.triggerstyle}
+                faderstart={clip.faderstart}
+                ignorecolumntrigger={clip.ignorecolumntrigger}
+            />
+        );
+
+        const layers = this.state.layers.map((layer, index) =>                    
             <Layer
                 key={layer.id}
                 index={index}
@@ -162,7 +189,6 @@ class Composition extends React.Component {
                 bypassed={layer.bypassed}
                 audio={layer.audio}
                 video={layer.video}
-                clips={layer.clips}
                 select={() => this.select_layer(layer.id)}
                 clear={() => this.clear_layer(layer.id)}
                 clip_url={(id, last_update) => this.clip_url(id, last_update)}
@@ -183,21 +209,33 @@ class Composition extends React.Component {
                 parameters={this.parameters}
             />
         );
+        
+        const c = columns.length;
+        let s = {
+            gridTemplateColumns: `repeat( ${c}, minmax(105px, 1fr)`
+        }
+
         const name = "Composition";
 
         return (
             <React.Fragment>
                 <div className="composition">
-                    <div className="columns">
-                        {columns}
+                    <div className="layers_and_clips">                    
+                        <div className="layers">
+                            {layers}
+                        </div>
+                        <div className="clips" style={s}>
+                            {columns}
+                            {clips}
+                        </div>
                     </div>
-                    {layers}
                     <div className="decks">
                         {decks}
                     </div>
                 </div>
                 <Properties
                     name={name}
+                    audio={this.state.audio}
                     video={this.state.video}                    
                     parameters={this.parameters}
                     title="Composition"

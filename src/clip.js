@@ -28,10 +28,11 @@ class Clip extends React.Component {
           * "Empty", "Disconnected", "Previewing", "Connected", "Connected & previewing"
           */
         let connected = this.props.connected.index >= 3;
+        let selected = this.props.selected.value;
 
         return (
-            <div className="clip">
-                <img
+            <div className={`clip ${selected ? 'selected' : ''} ${connected ? 'connected' : ''}`}>
+                <img className="thumbnail"
                     src={this.props.src}
                     onMouseDown={this.props.connect_down}
                     onMouseUp={this.props.connect_up}
@@ -42,15 +43,15 @@ class Clip extends React.Component {
                     options={menu_options}
                     parameters={this.props.parameters}
                 >
-                    <div onClick={this.props.select}>
-                        <Parameter
-                            parameters={this.props.parameters}
-                            readonly={true}
-                            initial={this.props.name}
-                            key={this.props.name.id}
-                            id={this.props.name.id}
-                        />
-                    </div>
+                <div className="handle" onClick={this.props.select}>
+                    <Parameter
+                        parameters={this.props.parameters}
+                        readonly={true}
+                        initial={this.props.name}
+                        key={this.props.name.id}
+                        id={this.props.name.id}
+                    />
+                </div>
                 </ContextMenu>
                 {this.props.selected.value &&
                     <Properties
