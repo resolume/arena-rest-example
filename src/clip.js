@@ -30,7 +30,7 @@ class Clip extends React.Component {
         let connected = this.props.connected.index >= 3;
         
         return (
-            <div className="clip">
+            <div className={`clip ${this.props.selected.value ? 'selected' : ''}`}>
                 <img
                     src={this.props.src}
                     onMouseDown={this.props.connect_down}

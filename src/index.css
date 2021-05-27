@@ -6,9 +6,11 @@ body {
     background-color: #000000;
 }
 
+/**~~~~~~LAYERS~~~~~~~**/
+
 .layer {
     height: 100px;
-    width: 250px;
+    width: 180px;
     border-radius: 5px;
     background-color: #1b1b1b;
     padding: 5px;
@@ -31,7 +33,7 @@ body {
 
 .layer > div {
     display: inline-block;
-    height: 100px;
+    height: 90px;
     padding: 5px;
     background-color: #2A2A2A;
     margin-right: 5px;
@@ -41,14 +43,19 @@ body {
 
 .layer > .control {   
     overflow: ellipsis;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
+    width: 70px;
+    height: 90px;
+    }
+
+
+
+/**~~~~~~CLIPS~~~~~~~**/
 
 .clip {
     width: 100px;
     margin-right: 5px;
 }
+
 
 .clip div {
     display: inline-block;
@@ -57,6 +64,11 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     background-color: #474747;
+}
+
+.clip.selected div {
+    color: #1b1b1b;
+    background-color: #80ffd2;
 }
 
 .clip img{
@@ -70,6 +82,7 @@ body {
 }
 
 .layers {
+    margin-top: 30px;
     background-color:#1b1b1b;
 }
 
@@ -79,25 +92,24 @@ body {
     overflow-x: auto;    
     padding-left: 0px;
     background-color:#1b1b1b;
+    text-align: center;
 }
 
-.columns {
-    height: 30px;
-    padding-left: 260px;
-}
+/**~~~~~~COLUMNS~~~~~~~**/
 
-.columns > div {
+.column {
+    height: 20px;
     display: inline-block;
     width: 90px;
     text-align: center;
-    margin-right: 5px;
     padding: 5px;
     background-color: #2A2A2A;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
 
-.columns > div.connected {
+
+.column.connected {
     background-color: #80ffd2;
     color: #1b1b1b;
 }
@@ -135,8 +147,11 @@ span.label {
     margin-left: 15px;
 }
 
+/**~~~~~~DECKS~~~~~~~**/
+
 .decks {
     height: 30px;    
+    margin-left: 193px;
 }
 
 .decks > div {
@@ -272,6 +287,10 @@ span.label {
 .option {
     background-color: #1d1d1d;
     border: 1px solid #474747;
+}
+
+.composition {
+    
 }
 
 /*

@@ -156,7 +156,7 @@ class Composition extends React.Component {
         );
 
         let all_clips = [];
-        for (let i=0;i<this.state.layers.length;++i)
+        for (let i=this.state.layers.length-1;i>=0;--i)
             all_clips = all_clips.concat(this.state.layers[i].clips);
 
         const clips = all_clips.map((clip) => 
@@ -209,9 +209,10 @@ class Composition extends React.Component {
                 parameters={this.parameters}
             />
         );
-
+        
+        const c = columns.length;
         let s = {
-            gridTemplateColumns: 'repeat( 20, minmax(105px, 1fr)'
+            gridTemplateColumns: `repeat( ${c}, minmax(105px, 1fr)`
         }
 
         const name = "Composition";
@@ -219,14 +220,12 @@ class Composition extends React.Component {
         return (
             <React.Fragment>
                 <div className="composition">
-                    <div className="columns">
-                        {columns}
-                    </div>
                     <div className="layers_and_clips">                    
                         <div className="layers">
                             {layers}
                         </div>
                         <div className="clips" style={s}>
+                            {columns}
                             {clips}
                         </div>
                     </div>
