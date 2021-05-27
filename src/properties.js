@@ -35,7 +35,6 @@ class Properties extends React.Component {
                         name={value.name}
                         mixer={value.mixer}
                         params={value.params}
-                        effect={value.effect}
                         parameters={this.props.parameters}
                     />
                 );
@@ -80,7 +79,6 @@ class Properties extends React.Component {
                         name={value.name}
                         mixer={value.mixer}
                         params={value.params}
-                        effect={value.effect}
                         parameters={this.props.parameters}
                     />
                 );

@@ -52,7 +52,7 @@ class Effect extends React.Component {
                     <Parameters
                         key={`effect_${this.props.name}`}
                         name={this.props.name}
-                        params={this.props.effect}
+                        params={this.props.params}
                         parameters={this.props.parameters}
                     /> 
                 }                
