@@ -135,7 +135,7 @@ class Properties extends React.Component {
         const properties = (
             <div className="properties">
                 <div className="title">{title}</div>
-                <div>
+                <div className="content">
                     {dashboard}
                 </div>
                 {audio_section &&
