@@ -24,6 +24,19 @@ class Properties extends React.Component {
     }
     render() {
 
+        let dashboard = null;
+        if (this.props.dashboard) {
+            dashboard = (
+                /* An Effect does not always have a mixer, Mask and Transform do not for instance */
+                <Parameters
+                    key={`dashboard_${this.props.name}`}
+                    name={this.props.name}
+                    params={this.props.dashboard}
+                    parameters={this.props.parameters}
+                /> 
+            );
+        }
+        
         let audio_section = null;
         if (this.props.audio) {
             // the elements to show
@@ -122,6 +135,9 @@ class Properties extends React.Component {
         const properties = (
             <div className="properties">
                 <div className="title">{title}</div>
+                <div>
+                    {dashboard}
+                </div>
                 {audio_section &&
                     <div>
                         <div className="title">Audio</div>
@@ -150,6 +166,7 @@ class Properties extends React.Component {
   * Property declaration for Clip component
   */
  Properties.propTypes = {
+    dashboard: PropTypes.object.isRequired,
     parameters: PropTypes.object.isRequired,
 }
 

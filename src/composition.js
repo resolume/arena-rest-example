@@ -25,6 +25,7 @@ class Composition extends React.Component {
         this.parameters = new ParameterContainer(this.transport);
         this.transport.on_message((message) => this.handle_message(message));
         this.state = {
+            dashboard: {},
             crossfader: {},
             decks: [],
             columns: [],
@@ -173,6 +174,7 @@ class Composition extends React.Component {
                 connected={clip.connected}
                 connect_down={() => this.connect_clip(clip.id, true)}
                 connect_up={() =>  this.connect_clip(clip.id, false)}
+                dashboard={clip.dashboard}
                 audio={clip.audio}
                 video={clip.video}
                 parameters={this.parameters}
@@ -190,6 +192,7 @@ class Composition extends React.Component {
                 index={index}
                 name={layer.name}
                 bypassed={layer.bypassed}
+                dashboard={layer.dashboard}
                 audio={layer.audio}
                 video={layer.video}
                 select={() => this.select_layer(layer.id)}
@@ -247,6 +250,7 @@ class Composition extends React.Component {
                 </div>
                 <Properties
                     name={name}
+                    dashboard={this.state.dashboard}
                     audio={this.state.audio}
                     video={this.state.video}                    
                     parameters={this.parameters}

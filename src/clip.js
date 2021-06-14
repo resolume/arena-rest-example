@@ -55,7 +55,8 @@ class Clip extends React.Component {
                 </ContextMenu>
                 {this.props.selected.value &&
                     <Properties
-                        name={this.props.name.value}    
+                        name={this.props.name.value}
+                        dashboard={this.props.dashboard}    
                         audio={this.props.audio}
                         video={this.props.video}
                         parameters={this.props.parameters}
@@ -75,6 +76,7 @@ Clip.propTypes = {
     src: PropTypes.string.isRequired,
     select: PropTypes.func.isRequired,
     name: PropTypes.object.isRequired,
+    dashboard: PropTypes.object.isRequired,
     parameters: PropTypes.object.isRequired,
     id: PropTypes.number.isRequired
 }

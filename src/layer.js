@@ -35,6 +35,7 @@ class Layer extends React.Component {
                 {this.props.selected.value &&
                     <Properties
                         name={name}    
+                        dashboard={this.props.dashboard}
                         video={this.props.video}                        
                         parameters={this.props.parameters}
                         title="Layer"
@@ -53,6 +54,7 @@ Layer.propTypes = {
     selected: PropTypes.object.isRequired,
     select: PropTypes.func.isRequired,
     clear: PropTypes.func.isRequired,
+    dashboard: PropTypes.object.isRequired,
     parameters: PropTypes.object.isRequired
 }
 
