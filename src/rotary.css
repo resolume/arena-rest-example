@@ -1,0 +1,51 @@
+.rotary {
+  	position: relative;
+    display: inline-block;
+}
+
+.rotary .dial {
+  	position: absolute;
+
+    border-bottom-color: green;
+    border-bottom-style: solid;
+
+    height: 50%;
+    left: 50%;
+    top: 25%;
+}
+
+.rotary .dial div {
+    position: absolute;
+
+    border-right-color: transparent;
+    border-right-style: solid;
+
+    border-left-color: transparent;
+    border-left-style: solid;
+
+    border-bottom-color: green;
+    border-bottom-style: solid;
+
+    width: 0;
+    height: 0;
+
+    top: 0;
+    right: 0;
+
+    margin: auto;
+}
+
+.rotary circle {
+    fill: transparent;
+    stroke-dashoffset: 0;
+    transform: rotate(155deg);
+    transform-origin: 50% 50%;
+}
+
+.rotary circle.empty {
+    stroke: gray;
+}
+
+.rotary circle.full {
+    stroke: blue;
+}

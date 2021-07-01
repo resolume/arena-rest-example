@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Rotary from './rotary.js';
 import { useDebouncedCallback } from 'use-debounce';
 
 /**
@@ -131,6 +132,20 @@ function ParamRange(props) {
         } else {
             return number.toFixed(2);
         }
+    }
+
+    if (view.control_type === 'CT_ROTARY') {
+        return (
+            <Rotary
+                size={30}
+                min={parameter.min * multiplier}
+                max={parameter.max * multiplier}
+                step={step}
+                value={(value || parameter.value) * multiplier}
+                readOnly={readonly}
+                onChange={(value) => debouncer.set_value(value / multiplier)}
+            />
+        )
     }
 
     return (
