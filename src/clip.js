@@ -33,22 +33,24 @@ class Clip extends React.Component {
 
         return (
             <div>
-                <div className={`clip ${connected ? 'connected' : ''}`}>
-                    <img className="thumbnail"
-                        src={this.props.src}
-                        onMouseDown={this.props.connect_down}
-                        onMouseUp={this.props.connect_up}
-                        alt={this.props.name.value}
-                    />
-                    <ContextMenu
-                        name={this.props.name.value}
-                        options={menu_options}
-                        parameters={this.props.parameters}
-                    >    
-                        <div className={`handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
-                            {name}
-                        </div>
-                    </ContextMenu>
+                <div>
+                    <div className={`clip ${connected ? 'connected' : ''}`}>
+                        <img className="thumbnail"
+                            src={this.props.src}
+                            onMouseDown={this.props.connect_down}
+                            onMouseUp={this.props.connect_up}
+                            alt={this.props.name.value}
+                        />
+                        <ContextMenu
+                            name={this.props.name.value}
+                            options={menu_options}
+                            parameters={this.props.parameters}
+                        >    
+                        </ContextMenu>
+                    </div>
+                    <div className={`clip handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
+                        {name}
+                    </div>
                 </div>
                 {this.props.selected.value &&
                     <Properties

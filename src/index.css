@@ -60,39 +60,7 @@ body {
 
 /**~~~~~~CLIPS~~~~~~~**/
 
-/*
-.clip {
-    width: 100px;
-    margin-right: 5px;
-}
 
-.handle {
-    display: inline-block;
-    width: 100px;
-    height: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    background-color: #474747;
-}
-
-
-.clip.selected .handle {
-    color: #1b1b1b;
-    background-color: #80ffd2;
-}
-
-.clip .thumbnail{
-    width: 100px;
-    height: 80px;
-    background-color:#2d2d2d;
-}
-
-.clip.connected .thumbnail{
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color:  #80ffd2;
-}
-*/
 .clip
 {
     width: 100px;
@@ -113,15 +81,14 @@ body {
 
 .handle {
     background-color: #3a3a39;
-    text-align: center;
     font-size:80%;
     border-radius: 0 0 2px 2px;
-    height: 2em;
-    padding-top: 0.5em;
+    height: 1.6em;
+    padding-top: 0.25em;
     font-size: 1em;
 }
 
-.clip .selected {
+.selected {
     background-color: #A1FCD5;
     color: #1C1C1C;
 }
