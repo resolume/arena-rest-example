@@ -15,8 +15,9 @@ class Effect extends React.Component {
         };
     }
 
-    setExpanded(value)
+    setExpanded(value, event)
     {
+        event.preventDefault();
         this.setState( {expanded: value });
     }
 
@@ -24,7 +25,7 @@ class Effect extends React.Component {
         
         return (
             <div className="effect">
-                <div className="title" onClick={() => this.setExpanded(!this.state.expanded)}>
+                <div className="title" onClick={(event) => this.setExpanded(!this.state.expanded, event)}>
                     <span className={`arrow ${this.state.expanded ? 'down' : 'right'}`}></span>                    
                     {this.props.name}
                 </div>                

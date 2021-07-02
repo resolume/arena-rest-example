@@ -162,6 +162,7 @@ div.properties .title {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     height: 17px;
+    user-select: none;
 }
 
 div.properties .content {
@@ -188,6 +189,7 @@ div.properties .content {
 /**~~~~~~PARAMETERS~~~~~~~**/
 
 .dashboard .parameters {
+    margin-top: 0.2em;
     margin-left: 2em;
     display: grid;    
     grid-template-columns: repeat(auto-fit, minmax(40px, 0.125fr));

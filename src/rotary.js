@@ -72,8 +72,8 @@ class Rotary extends React.Component {
         };
 
         const circle_center = this.props.size / 2;
-        const circle_radius = this.props.size * 5 / 11;
-        const stroke_width = this.props.size / 10;
+        const circle_radius = this.props.size * 5 / 12;
+        const stroke_width = this.props.size / 8;
 
         const empty_style = {
             strokeDasharray: `${circle_radius * 4} ${circle_radius * 10}`,
