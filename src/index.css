@@ -6,6 +6,11 @@ body {
     background-color: #000000;
 }
 
+/**~~~~~~COMPOSITION~~~~~~~**/
+.composition {
+    
+}
+
 /**~~~~~~CROSSFADER~~~~~~~**/
 
 .crossfader {
@@ -122,40 +127,6 @@ body {
     color: #1b1b1b;
 }
 
-span.parameter input {
-    border: none;
-    background: transparent;
-    padding: 0;
-    color: #f0f0f0;
-}
-
-span.parameter input:focus {
-    background-color: white;
-}
-
-div.properties .title {
-    background-color: #4d8c75;
-    margin-top: 5px;
-    padding: 5px 10px 7px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    height: 17px;
-}
-
-div.properties .content {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background-color: #1a1a1a;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-span.label {
-    display: inline-block;
-    width: 125px;
-    margin-left: 15px;
-}
-
 /**~~~~~~DECKS~~~~~~~**/
 
 .decks {
@@ -182,6 +153,57 @@ span.label {
     color: #1b1b1b;
 }
 
+/**~~~~~~PROPERTIES~~~~~~~**/
+
+div.properties .title {
+    background-color: #4d8c75;
+    margin-top: 5px;
+    padding: 5px 10px 7px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 17px;
+}
+
+div.properties .content {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #1a1a1a;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#controls {
+    display: flex;
+}
+
+#controls > div {
+    width: 100%
+}
+
+#controls > div + div {
+    margin-left: 5px;
+}
+
+
+/**~~~~~~PARAMETERS~~~~~~~**/
+
+span.parameter input {
+    border: none;
+    background: transparent;
+    padding: 0;
+    color: #f0f0f0;
+}
+
+span.parameter input:focus {
+    background-color: white;
+}
+
+span.label {
+    display: inline-block;
+    width: 125px;
+    margin-left: 15px;
+}
+
 .arrow {
     width: 0px;
     height: 0px;
@@ -204,17 +226,39 @@ span.label {
     border-left: 5px solid darkgrey;
 }
 
-#controls {
-    display: flex;
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #5f5f5f !important;
+    height: 5px;
+    border-radius: 5px;
+    margin: 10px;
+    }
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #4d8c75 !important;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
 }
 
-#controls > div {
-    width: 100%
+.choice {
+    width: 130px;
+    background-color: #474747;
+    border: none;
+    color: #f0f0f0;
+    margin-left: 10px;
 }
 
-#controls > div + div {
-    margin-left: 5px;
+.option {
+    background-color: #1d1d1d;
+    border: 1px solid #474747;
 }
+
+
+/**~~~~~~MENU~~~~~~~**/
 
 .context-menu {
     position: absolute;
@@ -262,43 +306,4 @@ span.label {
     top: 0px;
     left: 250px;
     width: 250px;
-}
-
-.properties {
-    margin-top: 30px;
-}
-
-.slider {
-    -webkit-appearance: none;
-    appearance: none;
-    background: #5f5f5f !important;
-    height: 5px;
-    border-radius: 5px;
-    margin: 10px;
-    }
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    background: #4d8c75 !important;
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
-}
-
-.choice {
-    width: 130px;
-    background-color: #474747;
-    border: none;
-    color: #f0f0f0;
-    margin-left: 10px;
-}
-
-.option {
-    background-color: #1d1d1d;
-    border: 1px solid #474747;
-}
-
-.composition {
-    
 }

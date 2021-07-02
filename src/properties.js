@@ -27,12 +27,14 @@ class Properties extends React.Component {
         let dashboard = null;
         if (this.props.dashboard) {
             dashboard = (
-                <Parameters
-                    key={`dashboard_${this.props.name}`}
-                    name={this.props.name}
-                    params={this.props.dashboard}
-                    parameters={this.props.parameters}
-                /> 
+                <div className="dashboard">
+                    <Parameters
+                        key={`dashboard_${this.props.name}`}
+                        name={this.props.name}
+                        params={this.props.dashboard}
+                        parameters={this.props.parameters}
+                    /> 
+                </div>
             );
         }
         
