@@ -6,7 +6,7 @@
 .rotary .dial {
   	position: absolute;
 
-    border-bottom-color: green;
+    border-bottom-color: #4d8c75;
     border-bottom-style: solid;
 
     height: 50%;
@@ -23,7 +23,7 @@
     border-left-color: transparent;
     border-left-style: solid;
 
-    border-bottom-color: green;
+    border-bottom-color: #4d8c75;
     border-bottom-style: solid;
 
     width: 0;
@@ -43,9 +43,9 @@
 }
 
 .rotary circle.empty {
-    stroke: gray;
+    stroke: #4d8c75;
 }
 
 .rotary circle.full {
-    stroke: blue;
+    stroke: #80ffd2;
 }

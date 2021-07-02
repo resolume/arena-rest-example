@@ -33,6 +33,7 @@ class Properties extends React.Component {
                         name={this.props.name}
                         params={this.props.dashboard}
                         parameters={this.props.parameters}
+                        labelLast={true}
                     /> 
                 </div>
             );

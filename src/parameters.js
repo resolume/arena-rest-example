@@ -13,6 +13,7 @@ class Parameters extends React.Component {
         const parameters = Object.entries(this.props.params).map((value) => {
             const name = value[0];
             const param = value[1];
+            const labelLast = this.props.labelLast || false;
 
             // do not render parameters that are supposed to be hidden
             // (should we be doing this in the frontend?)
@@ -22,13 +23,18 @@ class Parameters extends React.Component {
 
             return (
                 <div key={`parameter_wrapper_${param.id}`}>
-                    <span className="label" onDoubleClick={() => this.props.parameters.reset_parameter(param.id)}>{name}</span>
+                    {!this.props.labelLast &&                    
+                        <span className="label" onDoubleClick={() => this.props.parameters.reset_parameter(param.id)}>{name}</span>    
+                    }
                     <Parameter
                         parameters={this.props.parameters}
                         key={param.id}
                         id={param.id}
                         initial={param}
                     />
+                    {this.props.labelLast &&                 
+                        <span className="label" onDoubleClick={() => this.props.parameters.reset_parameter(param.id)}>{name}</span>    
+                    }                    
                 </div>
             )
         });
