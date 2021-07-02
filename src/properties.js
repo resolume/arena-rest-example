@@ -39,8 +39,6 @@ class Properties extends React.Component {
         
         let audio_section = null;
         if (this.props.audio) {
-            // the elements to show
-            //const effects = null;
             const effects = this.props.audio.effects.map((value) => {
                 return (
                     <Effect
@@ -63,7 +61,7 @@ class Properties extends React.Component {
                                 key={this.props.audio.volume.id}
                                 id={this.props.audio.volume.id}
                                 initial={this.props.audio.volume}
-                            /> 
+                            />
                         </div>
                         <div>
                             <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.pan.id)}>Pan</span>
@@ -84,7 +82,6 @@ class Properties extends React.Component {
 
         let video_section = null;
         if (this.props.video) {
-            // the elements to show
             const effects = this.props.video.effects.map((value) => {
                 return (
                     <Effect
@@ -163,7 +160,7 @@ class Properties extends React.Component {
 }
 
 /**
-  * Property declaration for Clip component
+  * Property declaration for Properties component
   */
  Properties.propTypes = {
     dashboard: PropTypes.object.isRequired,

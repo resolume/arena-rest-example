@@ -20,7 +20,7 @@ class value_debouncer
 
         this.debounced_change = useDebouncedCallback((value) => {
             updater(value);
-        }, 25, { max_wait: 25 });
+        }, 10, { max_wait: 25 });
 
         this.debounced_clear = useDebouncedCallback(() => {
             displayer(undefined);
