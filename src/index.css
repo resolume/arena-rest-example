@@ -19,52 +19,38 @@ body {
 
 /**~~~~~~LAYERS~~~~~~~**/
 
-.layer {
-    height: 100px;
+.layer
+{
     width: 180px;
-    border-radius: 5px;
-    background-color: #1b1b1b;
-    padding: 5px;
-    margin-bottom: 5px;
-    transition: all .5s;
 }
 
-.layer:hover {
-    border: 1px solid #1a1a1a;
+.layer .controls { 
+    display: grid; 
+    grid-template-rows: 3fr 1fr;
 }
 
-.layer.selected {
-    border: 1px solid #80ffd2;
-    background-color: #1b1b1b;
+.layer .cbs {    
+    display: grid;   
+    grid-template-columns: repeat(3, 1fr); 
 }
 
-.layer.selected:hover {
-    border: 1px solid #80ffd2;
-}
-
-.layer > div {
-    display: inline-block;
-    height: 90px;
-    padding: 5px;
-    background-color: #2A2A2A;
-    margin-right: 5px;
-    overflow: hidden;
+.layer .cbs > div {    
+    background-color: #3a3a39;
     text-align: center;
+    margin-right: 2px;
 }
 
-.layer > .control {   
-    overflow: ellipsis;
-    width: 70px;
-    height: 90px;
+.layer .handle {    
+    margin-top: 3px;
+    margin-right: 2px;
 }
 
 /**~~~~~~CLIPS~~~~~~~**/
 
-
 .clip
 {
     width: 100px;
-    margin-right: 5px;    
+    margin-right: 5px;        
     background-color: #191818;    
 }
 
@@ -86,6 +72,7 @@ body {
     height: 1.6em;
     padding-top: 0.25em;
     font-size: 1em;
+    text-align: center;    
 }
 
 .selected {
@@ -94,22 +81,19 @@ body {
 }
 
 .layers_and_clips {
-    display: flex;
-    background-color: #0f0f0f;
+    display: flex;    
 }
 
 .layers {
-    margin-top: 30px;
-    background-color: #0f0f0f;
+    display: grid;
+    margin-top: 35px;
+    margin-right: 5px;    
 }
 
 .clips {
-    display: grid;          
+    display: grid;
     flex-wrap: nowrap;
-    overflow-x: auto;    
-    padding-left: 0px;
-    background-color: #0f0f0f;
-    text-align: center;
+    overflow-x: auto;
 }
 
 /**~~~~~~COLUMNS~~~~~~~**/
@@ -133,7 +117,7 @@ body {
 /**~~~~~~DECKS~~~~~~~**/
 
 .decks {
-    height: 30px;    
+    height: 30px;
     margin-left: 193px;
 }
 
