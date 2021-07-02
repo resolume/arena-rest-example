@@ -60,12 +60,13 @@ body {
 
 /**~~~~~~CLIPS~~~~~~~**/
 
+/*
 .clip {
     width: 100px;
     margin-right: 5px;
 }
 
-.clip .handle {
+.handle {
     display: inline-block;
     width: 100px;
     height: 20px;
@@ -73,6 +74,7 @@ body {
     text-overflow: ellipsis;
     background-color: #474747;
 }
+
 
 .clip.selected .handle {
     color: #1b1b1b;
@@ -90,14 +92,48 @@ body {
     outline-width: 2px;
     outline-color:  #80ffd2;
 }
+*/
+.clip
+{
+    width: 100px;
+    margin-right: 5px;    
+    background-color: #191818;    
+}
+
+.connected {
+    outline: 4px solid #A1FCD5;
+    outline-offset: -4px;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+    background-color: #191818;
+}
+
+.handle {
+    background-color: #3a3a39;
+    text-align: center;
+    font-size:80%;
+    border-radius: 0 0 2px 2px;
+    height: 2em;
+    padding-top: 0.5em;
+    font-size: 1em;
+}
+
+.clip .selected {
+    background-color: #A1FCD5;
+    color: #1C1C1C;
+}
 
 .layers_and_clips {
-    display: flex;     
+    display: flex;
+    background-color: #0f0f0f;
 }
 
 .layers {
     margin-top: 30px;
-    background-color:#1b1b1b;
+    background-color: #0f0f0f;
 }
 
 .clips {
@@ -105,7 +141,7 @@ body {
     flex-wrap: nowrap;
     overflow-x: auto;    
     padding-left: 0px;
-    background-color:#1b1b1b;
+    background-color: #0f0f0f;
     text-align: center;
 }
 
@@ -276,46 +312,45 @@ span.label {
 .context-menu {
     position: absolute;
     display: inline-block;
-    background-color: white;
-    box-shadow: 3px 3px 3px #cccccc;
-    border: 1px solid black;
-    padding: 3px;
+    background-color: #0f0f0f;
+    box-shadow: 2px 2px 2px #000000;
+    border: 0px solid black;    
     width: 250px;
 }
 
 .context-menu .label {
-    color: gray;
+    text-align: left;
 }
 
 .context-menu .option {
-    padding: 2px;
-    padding-left: 20px;
+    padding: 3px;
+    padding-top: 8px;
+    padding-left: 12px;
     position: relative;
+    border: 1px solid black;
+    height: 20px;
+    text-align: left;
 }
 
 .context-menu > .option:after {
     content: '▸';
     position: absolute;
-    right: 4px;
+    right: 8px;
 }
 
 .context-menu .option.selected:before {
     content: '✓';
     position: absolute;
-    left: 4px;
+    right: 8px;
 }
 
 .context-menu .option:hover {
-    background-color: #dedede;
+    background-color: #3a3a39;
 }
 
 .context-menu .sub-menu {
     position: absolute;
     display: inline-block;
-    background-color: white;
-    box-shadow: 3px 3px 3px #cccccc;
-    border: 1px solid black;
-    padding: 3px;
     top: 0px;
     left: 250px;
     width: 250px;

@@ -29,30 +29,27 @@ class Clip extends React.Component {
           */
         let connected = this.props.connected.index >= 3;
         let selected = this.props.selected.value;
+        let name = this.props.name.value.length > 23 ? this.props.name.value.substring(0,22) + "..." : this.props.name.value;
 
         return (
-            <div className={`clip ${selected ? 'selected' : ''} ${connected ? 'connected' : ''}`}>
-                <img className="thumbnail"
-                    src={this.props.src}
-                    onMouseDown={this.props.connect_down}
-                    onMouseUp={this.props.connect_up}
-                    alt={this.props.name.value}
-                />
-                <ContextMenu
-                    name={this.props.name.value}
-                    options={menu_options}
-                    parameters={this.props.parameters}
-                >
-                <div className="handle" onClick={this.props.select}>
-                    <Parameter
-                        parameters={this.props.parameters}
-                        readonly={true}
-                        initial={this.props.name}
-                        key={this.props.name.id}
-                        id={this.props.name.id}
+            <div>
+                <div className={`clip ${connected ? 'connected' : ''}`}>
+                    <img className="thumbnail"
+                        src={this.props.src}
+                        onMouseDown={this.props.connect_down}
+                        onMouseUp={this.props.connect_up}
+                        alt={this.props.name.value}
                     />
+                    <ContextMenu
+                        name={this.props.name.value}
+                        options={menu_options}
+                        parameters={this.props.parameters}
+                    >    
+                        <div className={`handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
+                            {name}
+                        </div>
+                    </ContextMenu>
                 </div>
-                </ContextMenu>
                 {this.props.selected.value &&
                     <Properties
                         name={this.props.name.value}
@@ -63,7 +60,7 @@ class Clip extends React.Component {
                         title="Clip"
                         root={clip_root}
                     />
-                }
+            }
             </div>
         )
     }
