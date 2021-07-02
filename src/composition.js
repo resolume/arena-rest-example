@@ -193,6 +193,8 @@ class Composition extends React.Component {
                 name={layer.name}
                 bypassed={layer.bypassed}
                 dashboard={layer.dashboard}
+                autopilot={layer.autopilot}
+                transition={layer.transition}
                 audio={layer.audio}
                 video={layer.video}
                 select={() => this.select_layer(layer.id)}

@@ -36,6 +36,8 @@ class Layer extends React.Component {
                     <Properties
                         name={name}    
                         dashboard={this.props.dashboard}
+                        autopilot={this.props.autopilot}
+                        transition={this.props.transition}
                         video={this.props.video}                        
                         parameters={this.props.parameters}
                         title="Layer"

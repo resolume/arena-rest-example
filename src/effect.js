@@ -24,11 +24,8 @@ class Effect extends React.Component {
         
         return (
             <div className="effect">
-                <div className="title">
-                    <span
-                        onClick={() => this.setExpanded(!this.state.expanded)}
-                        className={`arrow ${this.state.expanded ? 'down' : 'right'}`}
-                    ></span>
+                <div className="title" onClick={() => this.setExpanded(!this.state.expanded)}>
+                    <span className={`arrow ${this.state.expanded ? 'down' : 'right'}`}></span>                    
                     {this.props.name}
                 </div>                
                 {this.state.expanded && this.props.mixer &&
