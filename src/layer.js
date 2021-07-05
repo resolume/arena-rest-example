@@ -18,6 +18,7 @@ class Layer extends React.Component {
                 <div>Bypassed
                     <Parameter
                         parameters={this.props.parameters}
+                        name="Bypassed"
                         key={this.props.bypassed.id}
                         id={this.props.bypassed.id}
                         initial={this.props.bypassed}

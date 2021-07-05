@@ -67,6 +67,22 @@ function ParamString(props) {
 }
 
 /**
+ *  A parameter showing a button that triggers events
+ */
+function ParamEvent(props) {
+    const { parameter, on_update } = props;
+
+    const view  = parameter.view        || {};
+    const name  = view.alternative_name || props.name;
+
+    return (
+        <button onMouseDown={() => on_update(true)} onMouseUp={() => on_update(false)}>
+            {name}
+        </button>
+    )
+}
+
+/**
   * A parameter showing a checkbox for yes/no parameters
   */
 function ParamBoolean(props) {
@@ -246,10 +262,20 @@ class Parameter extends React.Component {
             return (
                 <span>Loading</span>
             )
+        } else if (param.valuetype === "ParamEvent") {
+            return (
+                <ParamEvent
+                    parameter={param}
+                    name={this.props.name}
+                    readonly={this.props.readonly}
+                    on_update={(value) => this.handle_update(value)}
+                />
+            )
         } else if (param.valuetype === "ParamBoolean") {
             return (
                 <ParamBoolean
                     parameter={param}
+                    name={this.props.name}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
                 />
@@ -258,6 +284,7 @@ class Parameter extends React.Component {
             return (
                 <ParamRange
                     parameter={param}
+                    name={this.props.name}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
                 />
@@ -266,6 +293,7 @@ class Parameter extends React.Component {
             return (
                 <ParamChoice
                     parameter={param}
+                    name={this.props.name}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
                 />
@@ -274,6 +302,7 @@ class Parameter extends React.Component {
             return (
                 <ParamColor
                     parameter={param}
+                    name={this.props.name}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
                 />
@@ -282,6 +311,7 @@ class Parameter extends React.Component {
             return (
                 <ParamString
                     parameter={this.state.parameter}
+                    name={this.props.name}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
                 />
@@ -295,6 +325,7 @@ class Parameter extends React.Component {
   */
 Parameter.propTypes = {
     id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
     parameters: PropTypes.object.isRequired,
     initial: PropTypes.object
 };

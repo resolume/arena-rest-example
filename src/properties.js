@@ -46,6 +46,7 @@ class Properties extends React.Component {
                     <span className="label" onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}>Behaviour</span>
                     <Parameter
                         parameters={this.props.parameters}
+                        name="Target"
                         key={this.props.autopilot.target.id}
                         id={this.props.autopilot.target.id}
                         initial={this.props.autopilot.target}
@@ -62,6 +63,7 @@ class Properties extends React.Component {
                         <span className="label" onDoubleClick={() => this.handle_reset(this.props.transition.duration.id)}>Duration</span>
                         <Parameter
                             parameters={this.props.parameters}
+                            name="Duration"
                             key={this.props.transition.duration.id}
                             id={this.props.transition.duration.id}
                             initial={this.props.transition.duration}
@@ -71,6 +73,7 @@ class Properties extends React.Component {
                         <span className="label" onDoubleClick={() => this.handle_reset(this.props.transition.blend_mode.id)}>Blend Mode</span>
                         <Parameter
                             parameters={this.props.parameters}
+                            name="Blend Mode"
                             key={this.props.transition.blend_mode.id}
                             id={this.props.transition.blend_mode.id}
                             initial={this.props.transition.blend_mode}
@@ -101,6 +104,7 @@ class Properties extends React.Component {
                             <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.volume.id)}>Volume</span>
                             <Parameter
                                 parameters={this.props.parameters}
+                                name="Volume"
                                 key={this.props.audio.volume.id}
                                 id={this.props.audio.volume.id}
                                 initial={this.props.audio.volume}
@@ -110,6 +114,7 @@ class Properties extends React.Component {
                             <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.pan.id)}>Pan</span>
                             <Parameter
                                 parameters={this.props.parameters}
+                                name="Audio Pan"
                                 key={this.props.audio.pan.id}
                                 id={this.props.audio.pan.id}
                                 initial={this.props.audio.pan}
@@ -158,6 +163,7 @@ class Properties extends React.Component {
                                 <span className="label" onDoubleClick={() => this.handle_reset(this.props.video.opacity.id)}>Opacity</span>
                                 <Parameter
                                     parameters={this.props.parameters}
+                                    name="Opacity"
                                     key={this.props.video.opacity.id}
                                     id={this.props.video.opacity.id}
                                     initial={this.props.video.opacity}

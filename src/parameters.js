@@ -28,6 +28,7 @@ class Parameters extends React.Component {
                     }
                     <Parameter
                         parameters={this.props.parameters}
+                        name={name}
                         key={param.id}
                         id={param.id}
                         initial={param}
