@@ -11,15 +11,18 @@ class Parameters extends React.Component {
     render() {
         
         const parameters = Object.entries(this.props.params).map((value) => {
-            const name = value[0];
+
+            let name = value[0];
             const param = value[1];
             const labelLast = this.props.labelLast || false;
 
             // do not render parameters that are supposed to be hidden
             // (should we be doing this in the frontend?)
-            if (param.view && param.view.visible === false) {
+            if (param.view && param.view.visible === false)
                 return null;
-            }
+
+            if (param.view && param.view.alternative_name)
+                name = param.view.alternative_name;
 
             return (
                 <div key={`parameter_wrapper_${param.id}`}>
