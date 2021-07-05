@@ -218,9 +218,10 @@ class Composition extends React.Component {
             />
         );
         
+        //min is 100 + 5 margin
         const c = columns.length;
         let s = {
-            gridTemplateColumns: `repeat( ${c}, minmax(100px, 1fr)`
+            gridTemplateColumns: `repeat( ${c}, minmax(105px, 1fr)`
         }
 
         const name = "Composition";

@@ -47,9 +47,9 @@ class Clip extends React.Component {
                             parameters={this.props.parameters}
                         >    
                         </ContextMenu>
-                    </div>
-                    <div className={`clip handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
-                        {name}
+                        <div className={`clip handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
+                            {name}
+                        </div>
                     </div>
                 </div>
                 {this.props.selected.value &&
