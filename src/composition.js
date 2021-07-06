@@ -192,6 +192,7 @@ class Composition extends React.Component {
                 index={index}
                 name={layer.name}
                 bypassed={layer.bypassed}
+                solo={layer.solo}
                 dashboard={layer.dashboard}
                 autopilot={layer.autopilot}
                 transition={layer.transition}

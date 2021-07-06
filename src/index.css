@@ -38,7 +38,7 @@ body {
 }
 
 .layer .cbs > div {    
-    background-color: #3a3a3a;
+    
     text-align: center;
     padding-top: 5px;
     margin-bottom: 3px;
@@ -49,6 +49,26 @@ body {
     margin-right: 2px;
 }
 
+.button
+{
+    
+}
+
+.button 
+{
+    background-color: #3a3a3a;
+}
+
+.on
+{
+    background-color: #A1FCD5;
+    color: black;
+}
+
+.off
+{
+    background-color: #3a3a3a;
+}
 /**~~~~~~CLIPS~~~~~~~**/
 
 .clip
