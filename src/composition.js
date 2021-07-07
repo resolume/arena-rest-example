@@ -39,7 +39,6 @@ class Composition extends React.Component {
       * @param  message The message coming from the server
       */
     handle_message(message) {
-        // TODO: properly check the type, right now it's only for param updates
         if (typeof message.type !== 'string') {
             this.setState(message);
         }
@@ -48,21 +47,16 @@ class Composition extends React.Component {
     /**
       * Connect the column with the given id
       *
-      * @param  id  The id of the column to select
+      * @param  id  The id of the column to connect
       */
-    connect_column(id) {
+    connect_column(id, down) {
         this.transport.send_message({
             action:     "trigger",
             parameter:  `/composition/columns/by-id/${id}/connect`,
-            value:      true,
-        });
-
-        this.transport.send_message({
-            action:     "trigger",
-            parameter:  `/composition/columns/by-id/${id}/connect`,
-            value:      false,
+            value:      down,
         });
     }
+
 
     /**
       * Select the layer with the given id
@@ -116,14 +110,11 @@ class Composition extends React.Component {
     }
 
     /**
-      * Connect a clip, possibly causing it to be displayed
+      * Connect a clip
       *
-      * @param  id  The id of the clip to trigger
+      * @param  id  The id of the clip to connect
       */
     connect_clip(id, down) {
-        // TODO: fix this weirdness with toggling 'selected', we should
-        // find a better name for this parameter, because setting it to
-        // false will not stop it being selected.
         this.transport.send_message({
             action:     "trigger",
             parameter:  `/composition/clips/by-id/${id}/connect`,
@@ -132,9 +123,9 @@ class Composition extends React.Component {
     }
 
     /**
-      * Select a clip, triggering it for display
+      * Select a clip
       *
-      * @param  id  The id of the clip to trigger
+      * @param  id  The id of the clip to select
       */
     select_clip(id) {
         this.transport.send_message({
@@ -143,9 +134,6 @@ class Composition extends React.Component {
         });
     }
 
-    /**
-      * Generate the component output
-      */
     render() {
 
         const columns = this.state.columns.map((column, index) =>
@@ -153,7 +141,8 @@ class Composition extends React.Component {
                 key={column.id}
                 index={index}
                 name={column.name}
-                connect={() => this.connect_column(column.id)}
+                connect_down={() => this.connect_column(column.id, true)}
+                connect_up={() =>  this.connect_column(column.id, false)}
                 connected={column.connected}
                 parameters={this.parameters}
             />
@@ -201,8 +190,6 @@ class Composition extends React.Component {
                 select={() => this.select_layer(layer.id)}
                 clear={() => this.clear_layer(layer.id)}
                 clip_url={(id, last_update) => this.clip_url(id, last_update)}
-                connect_clip={(id, down) => this.connect_clip(id, down)}
-                select_clip={(id) => this.select_clip(id)}
                 selected={layer.selected}
                 parameters={this.parameters}
             />

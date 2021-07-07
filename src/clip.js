@@ -1,4 +1,3 @@
-import Parameter from './parameter.js'
 import Properties from './properties.js'
 import React from 'react'
 import PropTypes from 'prop-types';
@@ -27,30 +26,31 @@ class Clip extends React.Component {
           * Connected has 5 possible states 
           * "Empty", "Disconnected", "Previewing", "Connected", "Connected & previewing"
           */
-        let connected = this.props.connected.index >= 3;
-        let selected = this.props.selected.value;
-        let name = this.props.name.value.length > 23 ? this.props.name.value.substring(0,22) + "..." : this.props.name.value;
+        const connected = this.props.connected.index >= 3;
+        const name = this.props.name.value.length > 23 ? this.props.name.value.substring(0,22) + "..." : this.props.name.value;
 
         return (
             <div>
                 <div>
-                    <div className={`clip ${connected ? 'connected' : ''}`}>
-                        <img className="thumbnail"
-                            src={this.props.src}
-                            onMouseDown={this.props.connect_down}
-                            onMouseUp={this.props.connect_up}
-                            alt={this.props.name.value}
-                        />
-                        <ContextMenu
-                            name={this.props.name.value}
-                            options={menu_options}
-                            parameters={this.props.parameters}
-                        >    
-                        </ContextMenu>
+                    <ContextMenu
+                        name={this.props.name.value}
+                        options={menu_options}
+                        parameters={this.props.parameters}
+                    >
+                    <div className="clip">
+                        <div className={`${connected ? 'connected' : ''}`}>
+                            <img className="thumbnail"
+                                src={this.props.src}
+                                onMouseDown={this.props.connect_down}
+                                onMouseUp={this.props.connect_up}
+                                alt={this.props.name.value}
+                            />
+                        </div>
                         <div className={`clip handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
                             {name}
                         </div>
                     </div>
+                    </ContextMenu>
                 </div>
                 {this.props.selected.value &&
                     <Properties
@@ -72,12 +72,14 @@ class Clip extends React.Component {
   * Property declaration for Clip component
   */
 Clip.propTypes = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.object.isRequired,
     src: PropTypes.string.isRequired,
     select: PropTypes.func.isRequired,
-    name: PropTypes.object.isRequired,
+    connect_down: PropTypes.func.isRequired,
+    connect_up: PropTypes.func.isRequired,
     dashboard: PropTypes.object.isRequired,
-    parameters: PropTypes.object.isRequired,
-    id: PropTypes.number.isRequired
+    parameters: PropTypes.object.isRequired
 }
 
 export default Clip;

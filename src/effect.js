@@ -15,9 +15,7 @@ class Effect extends React.Component {
         };
     }
 
-    setExpanded(value, event)
-    {
-        event.preventDefault();
+    setExpanded(value, event) {
         this.setState( {expanded: value });
     }
 

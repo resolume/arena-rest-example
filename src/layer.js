@@ -1,5 +1,4 @@
 import React from 'react'
-import Parameter from './parameter.js';
 import Properties from './properties.js';
 import PropTypes from 'prop-types';
 
@@ -50,7 +49,6 @@ class Layer extends React.Component {
     }
 
     render() {
-
         /* Replace # with ((index+1) of Layer) */
         const name = this.props.name.value.replace(/#/g, this.props.index+1);
 

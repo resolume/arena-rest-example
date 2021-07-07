@@ -18,10 +18,11 @@ class Properties extends React.Component {
     componentWillUnmount() {
         this.props.root.removeChild(this.element);
     }
-    handle_reset(id)
-    {
+    
+    handle_reset(id) {
         this.props.parameters.reset_parameter(id);
     }
+
     render() {
 
         let dashboard = null;
@@ -34,8 +35,8 @@ class Properties extends React.Component {
                         params={this.props.dashboard}
                         parameters={this.props.parameters}
                         labelLast={true}
-                    /> 
-                </div>
+                    />
+                </div>                
             );
         }
         

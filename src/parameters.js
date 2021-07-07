@@ -14,7 +14,6 @@ class Parameters extends React.Component {
 
             let name = value[0];
             const param = value[1];
-            const labelLast = this.props.labelLast || false;
 
             // do not render parameters that are supposed to be hidden
             // (should we be doing this in the frontend?)

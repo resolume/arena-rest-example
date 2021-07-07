@@ -276,35 +276,38 @@ span.label {
     margin-left: 10px;
 }
 
-.option {
-    background-color: #1d1d1d;
-    border: 1px solid #474747;
-}
+
 
 
 /**~~~~~~MENU~~~~~~~**/
 
+.option {
+    background-color: #1d1d1d;
+    border: 1px solid black;
+    padding: 3px;
+    padding-top: 8px;
+    padding-left: 12px;
+    text-align: left;
+    color: white;    
+    height: 20px;
+    position: relative;
+}
+
 .context-menu {
-    position: absolute;
-    display: inline-block;
     background-color: #0f0f0f;
+    position: absolute;
+    display: inline-block;    
     box-shadow: 2px 2px 2px #000000;
     border: 0px solid black;    
     width: 250px;
+    z-index: 100;
 }
 
 .context-menu .label {
     text-align: left;
-}
-
-.context-menu .option {
-    padding: 3px;
+    height: 20px;
     padding-top: 8px;
     padding-left: 12px;
-    position: relative;
-    border: 1px solid black;
-    height: 20px;
-    text-align: left;
 }
 
 .context-menu > .option:after {
@@ -316,7 +319,7 @@ span.label {
 .context-menu .option.selected:before {
     content: '✓';
     position: absolute;
-    right: 8px;
+    right: 8px; 
 }
 
 .context-menu .option:hover {
