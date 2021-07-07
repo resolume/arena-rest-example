@@ -133,14 +133,15 @@ function ParamChoice(props) {
   */
 function ParamRange(props) {
     const [ value, setValue ] = useState();
-    const { parameter, readonly, on_update } = props;
+    const { parameter, readonly, on_update, hidelabel } = props;
 
     // retrieve the multiplier and view - if given
     const view          = parameter.view || {};
     const multiplier    = view.multiplier || 1;
     const step          = view.step || (parameter.max - parameter.min) / 100;
     const suffix        = view.suffix || "";
-    const debouncer     = new value_debouncer(on_update, setValue);
+    const debouncer     = new value_debouncer(on_update, setValue);        
+    const showlabel     = hidelabel === "no";
 
     let show_number = (number) => {
         if (Number.isInteger(number)) {
@@ -176,7 +177,9 @@ function ParamRange(props) {
                 readOnly={readonly}
                 onChange={(event) => debouncer.set_value(parseFloat(event.target.value) / multiplier)}
             />
-            <span>{show_number(value || parameter.value) * multiplier} {suffix}</span>
+            {showlabel &&
+                <span>{show_number(value || parameter.value) * multiplier} {suffix}</span>
+            }
         </span>
     )
 }
@@ -219,7 +222,9 @@ class Parameter extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { parameter: props.initial };
+        this.state = { 
+            parameter: props.initial
+        };
 
         this.on_update = (update) => {
             let parameter = Object.assign({}, this.state.parameter, update);
@@ -257,6 +262,7 @@ class Parameter extends React.Component {
       */
     render() {
         const param = this.state.parameter;
+        const hidelabel = this.props.hidelabel || "no";
 
         if (!param) {
             return (
@@ -287,6 +293,7 @@ class Parameter extends React.Component {
                     name={this.props.name}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
+                    hidelabel={hidelabel}
                 />
             )
         } else if (param.valuetype === "ParamChoice") {

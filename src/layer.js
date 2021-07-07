@@ -19,7 +19,7 @@ class Layer extends React.Component {
         this.state = {
             bypassed: this.props.bypassed,
             solo: this.props.solo,
-            crossfader_group: this.props.crossfader_group
+            crossfadergroup: this.props.crossfadergroup
         };
 
         this.update_bypass = (parameter) => {
@@ -30,8 +30,8 @@ class Layer extends React.Component {
             this.setState({ solo: parameter });
         };
 
-        this.update_crossfader_group = (parameter) => {
-            this.setState({ crossfader_group: parameter });
+        this.update_crossfadergroup = (parameter) => {
+            this.setState({ crossfadergroup: parameter });
         };
 
         this.toggle_bypass = () => {
@@ -42,8 +42,8 @@ class Layer extends React.Component {
             this.props.parameters.update_parameter(this.props.solo.id, !this.state.solo.value);
         }        
 
-        this.toggle_crossfader_group = (value) => {
-            this.props.parameters.update_parameter(this.props.crossfader_group.id, value);
+        this.toggle_crossfadergroup = (value) => {
+            this.props.parameters.update_parameter(this.props.crossfadergroup.id, value);
         }        
 
     }
@@ -51,13 +51,13 @@ class Layer extends React.Component {
     componentDidMount() {
         this.props.parameters.register_monitor(this.props.bypassed.id, this.update_bypass, this.props.bypassed);
         this.props.parameters.register_monitor(this.props.solo.id, this.update_solo, this.props.solo);
-        this.props.parameters.register_monitor(this.props.crossfader_group.id, this.update_crossfader_group, this.props.crossfader_group);
+        this.props.parameters.register_monitor(this.props.crossfadergroup.id, this.update_crossfadergroup, this.props.crossfadergroup);
     }
 
     componentWillUnmount() {
         this.props.parameters.unregister_monitor(this.props.bypassed.id, this.update_bypass);
         this.props.parameters.unregister_monitor(this.props.solo.id, this.update_solo);
-        this.props.parameters.unregister_monitor(this.props.crossfader_group.id, this.update_crossfader_group);
+        this.props.parameters.unregister_monitor(this.props.crossfadergroup.id, this.update_crossfadergroup);
     }
 
     render() {
@@ -69,17 +69,29 @@ class Layer extends React.Component {
         return (
             <div className="layer">       
                 <div className="controls">
-                    <div className="cbs">
-                        <div className={`button off`} onClick={this.props.clear}>Clear</div>
-                        <div className={`button ${this.state.bypassed.value ? 'on' : 'off'}`} onClick={this.toggle_bypass}>B</div>
-                        <div className={`button ${this.state.solo.value ? 'on' : 'off'}`} onClick={this.toggle_solo}>S</div>
+                    <div className="buttons">
+                        <div className="cbs">
+                            <div className={`button off`} onClick={this.props.clear}>Clear</div>
+                            <div className={`button ${this.state.bypassed.value ? 'on' : 'off'}`} onClick={this.toggle_bypass}>B</div>
+                            <div className={`button ${this.state.solo.value ? 'on' : 'off'}`} onClick={this.toggle_solo}>S</div>
+                        </div>
+                        <div className="crossfadergroup">
+                            <div className={`button ${this.state.crossfadergroup.index === 1 ? 'on' : 'off'}`} onClick={() => this.toggle_crossfadergroup(1)}>A</div>
+                            <div className={`button ${this.state.crossfadergroup.index === 2 ? 'on' : 'off'}`} onClick={() => this.toggle_crossfadergroup(2)}>B</div>
+                        </div>
+                        <div className={`handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
+                            {name}
+                        </div>
                     </div>
-                    <div className="crossfader_group">
-                        <div className={`button ${this.state.crossfader_group.index == 1 ? 'on' : 'off'}`} onClick={() => this.toggle_crossfader_group(1)}>A</div>
-                        <div className={`button ${this.state.crossfader_group.index == 2 ? 'on' : 'off'}`} onClick={() => this.toggle_crossfader_group(2)}>B</div>
-                    </div>
-                    <div className={`handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
-                        {name}
+                    <div className="master">
+                        <Parameter
+                            parameters={this.props.parameters}
+                            name="Master"
+                            initial={this.props.master}
+                            hidelabel="yes"
+                            key={this.props.master.id}
+                            id={this.props.master.id}
+                        />
                     </div>
                 </div>
                 {this.props.selected.value &&
@@ -88,7 +100,8 @@ class Layer extends React.Component {
                         dashboard={this.props.dashboard}
                         autopilot={this.props.autopilot}
                         transition={this.props.transition}
-                        video={this.props.video}                        
+                        audio={this.props.audio}
+                        video={this.props.video}
                         parameters={this.props.parameters}
                         title="Layer"
                         root={layer_root}

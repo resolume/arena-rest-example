@@ -9,9 +9,6 @@ import PropTypes from 'prop-types';
  
 class CrossFader extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
 
     handle_reset(id) {
         this.props.parameters.reset_parameter(id);
