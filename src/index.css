@@ -28,11 +28,6 @@ body {
     margin-bottom: 5px;
 }
 
-.layer .controls { 
-    display: grid;
-    grid-template-rows: 3.25fr 0.75fr;
-}
-
 .layer .cbs {    
     display: grid;    
     grid-template-columns: repeat(3, 1fr); 
@@ -40,21 +35,26 @@ body {
     height: 100%;    
 }
 
-.layer .cbs > div {    
-    
-    text-align: center;
-    padding-top: 5px;
-    margin-bottom: 3px;
-    margin-right: 2px;
+.layer .crossfader_group {       
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
 }
 
 .layer .handle {    
     margin-right: 2px;
 }
 
+.layer .controls { 
+    display: grid;
+    grid-template-rows: 2.25fr 1fr 1fr;
+}
+
 .button
 {
-    
+    text-align: center;        
+    padding-top: 5px;
+    margin-right: 2px;
+    margin-bottom: 2px;    
 }
 
 .button 
@@ -180,6 +180,7 @@ body {
 }
 
 .content {
+    padding-top: 5px;
     padding-bottom: 5px;
     background-color: #1a1a1a;
     border-bottom-left-radius: 5px;

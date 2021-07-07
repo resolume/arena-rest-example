@@ -9,6 +9,9 @@ import PropTypes from 'prop-types';
  
 class CrossFader extends React.Component {
 
+    constructor(props) {
+        super(props);
+    }
 
     handle_reset(id) {
         this.props.parameters.reset_parameter(id);
@@ -20,7 +23,7 @@ class CrossFader extends React.Component {
                 <div className="title">Crossfader</div>
                 <div className="content">
                     <div>
-                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}>Phase</span>
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.phase.id)}>Phase</span>
                         <Parameter
                             parameters={this.props.parameters}
                             name="Phase"
@@ -30,7 +33,7 @@ class CrossFader extends React.Component {
                         />
                     </div>
                     <div>
-                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}>Behaviour</span>
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.behaviour.id)}>Behaviour</span>
                         <Parameter
                             parameters={this.props.parameters}
                             name="Behaviour"
@@ -40,7 +43,7 @@ class CrossFader extends React.Component {
                         />                
                     </div>
                     <div>
-                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}>Curve</span>
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.curve.id)}>Curve</span>
                         <Parameter
                             parameters={this.props.parameters}
                             name="Curve"

@@ -182,6 +182,7 @@ class Composition extends React.Component {
                 name={layer.name}
                 bypassed={layer.bypassed}
                 solo={layer.solo}
+                crossfader_group={layer.crossfader_group}
                 dashboard={layer.dashboard}
                 autopilot={layer.autopilot}
                 transition={layer.transition}
