@@ -9,39 +9,55 @@ import PropTypes from 'prop-types';
  
 class CrossFader extends React.Component {
 
+
+    handle_reset(id) {
+        this.props.parameters.reset_parameter(id);
+    }
+
     render() {
         return (
             <div className="crossfader">
-                <div className="properties">
-                    <div className="title">Crossfader</div>
-                    <Parameter
-                        parameters={this.props.parameters}
-                        name="Phase"
-                        initial={this.props.phase}
-                        key={this.props.phase.id}
-                        id={this.props.phase.id}
-                    />
-                    <Parameter
-                        parameters={this.props.parameters}
-                        name="Behaviour"
-                        initial={this.props.behaviour}
-                        key={this.props.behaviour.id}
-                        id={this.props.behaviour.id}
-                    />                
-                    <Parameter
-                        parameters={this.props.parameters}
-                        name="Curve"
-                        initial={this.props.curve}
-                        key={this.props.curve.id}
-                        id={this.props.curve.id}
-                    />
-                    {this.props.video.mixer &&                
-                        <Parameters
-                            key="mixer_crossfader"
-                            name="Mixer"
-                            params={this.props.video.mixer}
+                <div className="title">Crossfader</div>
+                <div className="content">
+                    <div>
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}>Phase</span>
+                        <Parameter
                             parameters={this.props.parameters}
-                        />  
+                            name="Phase"
+                            initial={this.props.phase}
+                            key={this.props.phase.id}
+                            id={this.props.phase.id}
+                        />
+                    </div>
+                    <div>
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}>Behaviour</span>
+                        <Parameter
+                            parameters={this.props.parameters}
+                            name="Behaviour"
+                            initial={this.props.behaviour}
+                            key={this.props.behaviour.id}
+                            id={this.props.behaviour.id}
+                        />                
+                    </div>
+                    <div>
+                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}>Curve</span>
+                        <Parameter
+                            parameters={this.props.parameters}
+                            name="Curve"
+                            initial={this.props.curve}
+                            key={this.props.curve.id}
+                            id={this.props.curve.id}
+                        />
+                    </div>
+                    {this.props.video.mixer &&                
+                        <div>
+                            <Parameters
+                                key="mixer_crossfader"
+                                name="Mixer"
+                                params={this.props.video.mixer}
+                                parameters={this.props.parameters}
+                            />  
+                        </div>
                     }
                 </div>
             </div>

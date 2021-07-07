@@ -1,7 +1,9 @@
 body {
     font: 13px Noto Sans, Arial, sans-serif;
     color: #f0f0f0;
-    margin: 30px;
+    margin-top: 3px;
+    margin-left: 18px;
+    margin-right: 0px;    
     cursor: default;
     background-color: #000000;
 }
@@ -13,8 +15,9 @@ body {
 
 /**~~~~~~CROSSFADER~~~~~~~**/
 
+
 .crossfader {
-    width: 280px;
+    width: 33%;
 }
 
 /**~~~~~~LAYERS~~~~~~~**/
@@ -166,7 +169,7 @@ body {
 
 /**~~~~~~PROPERTIES~~~~~~~**/
 
-div.properties .title {
+.title {
     background-color: #4d8c75;
     margin-top: 5px;
     padding: 5px 10px 7px;
@@ -176,8 +179,7 @@ div.properties .title {
     user-select: none;
 }
 
-div.properties .content {
-    padding-top: 5px;
+.content {
     padding-bottom: 5px;
     background-color: #1a1a1a;
     border-bottom-left-radius: 5px;
@@ -199,6 +201,7 @@ div.properties .content {
 
 /**~~~~~~PARAMETERS~~~~~~~**/
 
+
 .dashboard .parameters {
     margin-top: 0.2em;
     margin-left: 2em;
@@ -211,10 +214,10 @@ div.properties .content {
     margin-left: 0px;
 }
 
+
 span.parameter input {
     border: none;
     background: transparent;
-    padding: 0;
     color: #f0f0f0;
 }
 
@@ -274,10 +277,16 @@ span.label {
     border: none;
     color: #f0f0f0;
     margin-left: 10px;
+    margin-bottom: 4px;
 }
 
+input[type="checkbox"] {
+    margin-left: 10px;
+}
 
-
+input[type="color"] {
+   margin-left: 6px;
+}
 
 /**~~~~~~MENU~~~~~~~**/
 

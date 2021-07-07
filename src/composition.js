@@ -212,6 +212,20 @@ class Composition extends React.Component {
             gridTemplateColumns: `repeat( ${c}, minmax(105px, 1fr)`
         }
 
+        let crossfader = null;
+        if (this.state.crossfader.id) {
+            crossfader = ( 
+                <CrossFader
+                    key={this.state.crossfader.id}
+                    parameters={this.parameters}
+                    phase={this.state.crossfader.phase}
+                    behaviour={this.state.crossfader.behaviour}
+                    curve={this.state.crossfader.curve}
+                    video={this.state.crossfader.video}                    
+                />            
+            );
+        };
+
         const name = "Composition";
         return (
             <React.Fragment>
@@ -228,16 +242,7 @@ class Composition extends React.Component {
                     <div className="decks">
                         {decks}
                     </div>
-                    {/* {this.state.crossfader.id &&
-                        <CrossFader
-                            key={this.state.crossfader.id}
-                            phase={this.state.crossfader.phase}
-                            behaviour={this.state.crossfader.behaviour}
-                            curve={this.state.crossfader.curve}
-                            video={this.state.crossfader.video}
-                            parameters={this.parameters}
-                        />
-                    } */}
+                    {crossfader}
                 </div>
                 <Properties
                     name={name}
