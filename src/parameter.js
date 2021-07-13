@@ -268,6 +268,19 @@ class Parameter extends React.Component {
             return (
                 <span>Loading</span>
             )
+        } else if (this.props.modifier && this.props.label) {
+            const handle_click = () => {
+                const updated = this.props.modifier(param.value);
+                this.handle_update(updated);
+            };
+
+            return (
+                <span>
+                    <button onClick={handle_click}>
+                        {this.props.label}
+                    </button>
+                </span>
+            )
         } else if (param.valuetype === "ParamEvent") {
             return (
                 <ParamEvent

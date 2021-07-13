@@ -1,6 +1,7 @@
 import Transport from './transport.js'
 import ParameterContainer from './parameter_container.js'
 import CrossFader from './crossfader.js'
+import TempoToolbar from './tempo_toolbar.js'
 import Column from './column.js'
 import Deck from './deck.js'
 import Layer from './layer.js'
@@ -27,6 +28,7 @@ class Composition extends React.Component {
         this.state = {
             dashboard: {},
             crossfader: {},
+            tempocontroller: {},
             decks: [],
             columns: [],
             layers: [],
@@ -228,6 +230,16 @@ class Composition extends React.Component {
             );
         };
 
+        let tempocontroller = null;
+        if (this.state.tempocontroller.tempo) {
+            tempocontroller = (
+                <TempoToolbar
+                    parameters={this.parameters}
+                    tempocontroller={this.state.tempocontroller}
+                />
+            );
+        }
+
         const name = "Composition";
         return (
             <React.Fragment>
@@ -245,6 +257,7 @@ class Composition extends React.Component {
                         {decks}
                     </div>
                     {crossfader}
+                    {tempocontroller}
                 </div>
                 <Properties
                     name={name}

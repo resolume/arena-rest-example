@@ -1,0 +1,25 @@
+.tempo_toolbar {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 15px;
+}
+
+.tempo_toolbar > span {
+    border-right: 2px solid black;
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 100%;
+    background-color: #1a1a1a;
+}
+
+.tempo_toolbar > span:hover {
+    background-color: #50504f;
+}
+
+.tempo_toolbar > span button {
+    background-color: inherit;
+    border-color: transparent;
+    color: white;
+    height: 100%;
+}
