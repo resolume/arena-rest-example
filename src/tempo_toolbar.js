@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Parameter from './parameter.js';
 import "./tempo_toolbar.css"
 
 function TempoToolbar(props) {
     return (
-        <div class="tempo_toolbar content">
+        <div class="tempo_toolbar">
             <span>
                 BPM
                 <Parameter
+                    view_type="number"
                     parameters={props.parameters}
                     name="BPM"
                     initial={props.tempocontroller.tempo}

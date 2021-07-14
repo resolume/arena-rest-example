@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Rotary from './rotary.js';
 import { useDebouncedCallback } from 'use-debounce';
+import './parameter.css';
 
 /**
   * Debounce handler for smoothly updating
@@ -165,11 +166,12 @@ function ParamRange(props) {
         )
     }
 
+    const view_type = props.view_type || "range";
+
     return (
         <span className="parameter">
             <input
-                type="range"
-                className="slider"
+                type={view_type}
                 min={parameter.min * multiplier}
                 max={parameter.max * multiplier}
                 step={step}
@@ -306,6 +308,7 @@ class Parameter extends React.Component {
                     name={this.props.name}
                     readonly={this.props.readonly}
                     on_update={(value) => this.handle_update(value)}
+                    view_type={this.props.view_type}
                     hidelabel={hidelabel}
                 />
             )
