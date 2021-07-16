@@ -1,3 +1,4 @@
+import { ResolumeContext } from './resolume_provider.js'
 import React from 'react'
 import Properties from './properties.js';
 import PropTypes from 'prop-types';
@@ -44,7 +45,7 @@ class Layer extends React.Component {
 
         this.toggle_crossfadergroup = (value) => {
             this.props.parameters.update_parameter(this.props.crossfadergroup.id, value);
-        }        
+        }
 
     }
 
@@ -64,6 +65,9 @@ class Layer extends React.Component {
         /* Replace # with ((index+1) of Layer) */
         const name = this.props.name.value.replace(/#/g, this.props.index+1);
 
+        const select = () => this.context.action('trigger', `/composition/layers/by-id/${this.props.id}/select`);
+        const clear = () => this.context.action('trigger', `/composition/layers/by-id/${this.props.id}/clear`);
+
 //onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}
 
         return (
@@ -71,7 +75,7 @@ class Layer extends React.Component {
                 <div className="controls">
                     <div className="buttons">
                         <div className="cbs">
-                            <div className={`button off`} onClick={this.props.clear}>Clear</div>
+                            <div className={`button off`} onClick={clear}>Clear</div>
                             <div className={`button ${this.state.bypassed.value ? 'on' : 'off'}`} onClick={this.toggle_bypass}>B</div>
                             <div className={`button ${this.state.solo.value ? 'on' : 'off'}`} onClick={this.toggle_solo}>S</div>
                         </div>
@@ -79,15 +83,14 @@ class Layer extends React.Component {
                             <div className={`button ${this.state.crossfadergroup.index === 1 ? 'on' : 'off'}`} onClick={() => this.toggle_crossfadergroup(1)}>A</div>
                             <div className={`button ${this.state.crossfadergroup.index === 2 ? 'on' : 'off'}`} onClick={() => this.toggle_crossfadergroup(2)}>B</div>
                         </div>
-                        <div className={`handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={this.props.select}>
+                        <div className={`handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={select}>
                             {name}
                         </div>
                     </div>
                     <div className="master">
                         <Parameter
-                            parameters={this.props.parameters}
                             name="Master"
-                            initial={this.props.master}
+                            parameter={this.props.master}
                             hidelabel="yes"
                             key={this.props.master.id}
                             id={this.props.master.id}
@@ -102,7 +105,6 @@ class Layer extends React.Component {
                         transition={this.props.transition}
                         audio={this.props.audio}
                         video={this.props.video}
-                        parameters={this.props.parameters}
                         title="Layer"
                         root={layer_root}
                     />
@@ -112,13 +114,14 @@ class Layer extends React.Component {
     }
 }
 
+Layer.contextType = ResolumeContext;
+
 /**
   * Property declaration for Layer component
   */
 Layer.propTypes = {
+    id: PropTypes.number.isRequired,
     selected: PropTypes.object.isRequired,
-    select: PropTypes.func.isRequired,
-    clear: PropTypes.func.isRequired,
     dashboard: PropTypes.object.isRequired,
     parameters: PropTypes.object.isRequired
 }

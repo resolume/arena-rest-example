@@ -2,27 +2,23 @@ import React from 'react';
 import Parameter from './parameter.js';
 import "./tempo_toolbar.css"
 
-function TempoToolbar(props) {
+function TempoToolbar({ tempocontroller }) {
     return (
-        <div class="tempo_toolbar">
+        <div className="tempo_toolbar">
             <span>
                 BPM
                 <Parameter
                     view_type="number"
-                    parameters={props.parameters}
                     name="BPM"
-                    initial={props.tempocontroller.tempo}
+                    parameter={tempocontroller.tempo}
                     hidelabel="yes"
-                    id={props.tempocontroller.tempo.id}
                 />
             </span>
 
             <span>
                 <Parameter
-                    parameters={props.parameters}
                     name="BPM"
-                    initial={props.tempocontroller.tempo}
-                    id={props.tempocontroller.tempo.id}
+                    parameter={tempocontroller.tempo}
                     label="-"
                     modifier={value => value - 1}
                 />
@@ -30,10 +26,8 @@ function TempoToolbar(props) {
 
             <span>
                 <Parameter
-                    parameters={props.parameters}
                     name="BPM"
-                    initial={props.tempocontroller.tempo}
-                    id={props.tempocontroller.tempo.id}
+                    parameter={tempocontroller.tempo}
                     label="+"
                     modifier={value => value + 1}
                 />
@@ -41,28 +35,22 @@ function TempoToolbar(props) {
 
             <span>
                 <Parameter
-                    parameters={props.parameters}
                     name="↤"
-                    initial={props.tempocontroller.tempo_pull}
-                    id={props.tempocontroller.tempo_pull.id}
+                    parameter={tempocontroller.tempo_pull}
                 />
             </span>
 
             <span>
                 <Parameter
-                    parameters={props.parameters}
                     name="↦"
-                    initial={props.tempocontroller.tempo_push}
-                    id={props.tempocontroller.tempo_push.id}
+                    parameter={tempocontroller.tempo_push}
                 />
             </span>
 
             <span>
                 <Parameter
-                    parameters={props.parameters}
                     name="BPM"
-                    initial={props.tempocontroller.tempo}
-                    id={props.tempocontroller.tempo.id}
+                    parameter={tempocontroller.tempo}
                     label="/2"
                     modifier={value => value / 2}
                 />
@@ -70,10 +58,8 @@ function TempoToolbar(props) {
 
             <span>
                 <Parameter
-                    parameters={props.parameters}
                     name="BPM"
-                    initial={props.tempocontroller.tempo}
-                    id={props.tempocontroller.tempo.id}
+                    parameter={tempocontroller.tempo}
                     label="x2"
                     modifier={value => value * 2}
                 />
@@ -81,19 +67,15 @@ function TempoToolbar(props) {
 
             <span>
                 <Parameter
-                    parameters={props.parameters}
                     name="TAP"
-                    initial={props.tempocontroller.tempo_tap}
-                    id={props.tempocontroller.tempo_tap.id}
+                    parameter={tempocontroller.tempo_tap}
                 />
             </span>
 
             <span>
                 <Parameter
-                    parameters={props.parameters}
                     name="RESYNC"
-                    initial={props.tempocontroller.resync}
-                    id={props.tempocontroller.resync.id}
+                    parameter={tempocontroller.resync}
                 />
             </span>
         </div>

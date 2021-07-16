@@ -1,5 +1,4 @@
-import Transport from './transport.js'
-import ParameterContainer from './parameter_container.js'
+import { ResolumeContext } from './resolume_provider.js'
 import CrossFader from './crossfader.js'
 import TempoToolbar from './tempo_toolbar.js'
 import Column from './column.js'
@@ -17,72 +16,6 @@ const composition_root = document.getElementById('composition_properties');
   * Component rendering the entire composition
   */
 class Composition extends React.Component {
-    /**
-      * Constructor
-      */
-    constructor(props) {
-        super(props);
-        this.transport = new Transport(props.host, props.port);
-        this.parameters = new ParameterContainer(this.transport);
-        this.transport.on_message((message) => this.handle_message(message));
-        this.state = {
-            dashboard: {},
-            crossfader: {},
-            tempocontroller: {},
-            decks: [],
-            columns: [],
-            layers: [],
-        };
-    }
-
-    /**
-      * Handle incoming messages
-      *
-      * @param  message The message coming from the server
-      */
-    handle_message(message) {
-        if (typeof message.type !== 'string') {
-            this.setState(message);
-        }
-    }
-
-    /**
-      * Connect the column with the given id
-      *
-      * @param  id  The id of the column to connect
-      */
-    connect_column(id, down) {
-        this.transport.send_message({
-            action:     "trigger",
-            parameter:  `/composition/columns/by-id/${id}/connect`,
-            value:      down,
-        });
-    }
-
-
-    /**
-      * Select the layer with the given id
-      *
-      * @param  id  The id of the layer to select
-      */
-    select_layer(id) {
-        this.transport.send_message({
-            action:     "trigger",
-            parameter:  `/composition/layers/by-id/${id}/select`,
-        });
-    }
-
-    /**
-      * Clear the layer with the given id
-      *
-      * @param  id  The id of the layer to clear
-      */
-    clear_layer(id) {
-        this.transport.send_message({
-            action:     "trigger",
-            parameter:  `/composition/layers/by-id/${id}/clear`,
-        });
-    }
 
     /**
       * Select the deck with the given id
@@ -90,7 +23,7 @@ class Composition extends React.Component {
       * @param  id  The id of the deck to select
       */
     select_deck(id) {
-        this.transport.send_message({
+        this.context.transport.send_message({
             action:     "trigger",
             parameter:  `/composition/decks/by-id/${id}/select`,
         });
@@ -117,7 +50,7 @@ class Composition extends React.Component {
       * @param  id  The id of the clip to connect
       */
     connect_clip(id, down) {
-        this.transport.send_message({
+        this.context.transport.send_message({
             action:     "trigger",
             parameter:  `/composition/clips/by-id/${id}/connect`,
             value:      down,
@@ -130,29 +63,27 @@ class Composition extends React.Component {
       * @param  id  The id of the clip to select
       */
     select_clip(id) {
-        this.transport.send_message({
+        this.context.transport.send_message({
             action:     "trigger",
             parameter:  `/composition/clips/by-id/${id}/select`,
         });
     }
 
     render() {
-
-        const columns = this.state.columns.map((column, index) =>
+        const columns = this.context.composition.columns.map((column, index) =>
             <Column
+                id={column.id}
                 key={column.id}
                 index={index}
                 name={column.name}
-                connect_down={() => this.connect_column(column.id, true)}
-                connect_up={() =>  this.connect_column(column.id, false)}
                 connected={column.connected}
-                parameters={this.parameters}
+                parameters={this.context.parameters}
             />
         );
 
         let all_clips = [];
-        for (let i=this.state.layers.length-1;i>=0;--i)
-            all_clips = all_clips.concat(this.state.layers[i].clips);
+        for (let i=this.context.composition.layers.length-1;i>=0;--i)
+            all_clips = all_clips.concat(this.context.composition.layers[i].clips);
 
         const clips = all_clips.map((clip) => 
             <Clip
@@ -168,7 +99,7 @@ class Composition extends React.Component {
                 dashboard={clip.dashboard}
                 audio={clip.audio}
                 video={clip.video}
-                parameters={this.parameters}
+                parameters={this.context.parameters}
                 beatsnap={clip.beatsnap}
                 target={clip.target}
                 triggerstyle={clip.triggerstyle}
@@ -177,8 +108,9 @@ class Composition extends React.Component {
             />
         );
 
-        const layers = this.state.layers.map((layer, index) =>                    
+        const layers = this.context.composition.layers.map((layer, index) =>
             <Layer
+                id={layer.id}
                 key={layer.id}
                 index={index}
                 name={layer.name}
@@ -191,22 +123,20 @@ class Composition extends React.Component {
                 transition={layer.transition}
                 audio={layer.audio}
                 video={layer.video}
-                select={() => this.select_layer(layer.id)}
-                clear={() => this.clear_layer(layer.id)}
                 clip_url={(id, last_update) => this.clip_url(id, last_update)}
                 selected={layer.selected}
-                parameters={this.parameters}
+                parameters={this.context.parameters}
             />
         ).reverse();
 
-        const decks = this.state.decks.map((deck, index) =>
+        const decks = this.context.composition.decks.map((deck, index) =>
             <Deck
                 key={deck.id}
                 index={index}
                 name={deck.name}
                 select={() => this.select_deck(deck.id)}
                 selected={deck.selected.value}
-                parameters={this.parameters}
+                parameters={this.context.parameters}
             />
         );
         
@@ -217,25 +147,23 @@ class Composition extends React.Component {
         }
 
         let crossfader = null;
-        if (this.state.crossfader.id) {
+        if (this.context.composition.crossfader.id) {
             crossfader = ( 
                 <CrossFader
-                    key={this.state.crossfader.id}
-                    parameters={this.parameters}
-                    phase={this.state.crossfader.phase}
-                    behaviour={this.state.crossfader.behaviour}
-                    curve={this.state.crossfader.curve}
-                    video={this.state.crossfader.video}                    
+                    key={this.context.composition.crossfader.id}
+                    phase={this.context.composition.crossfader.phase}
+                    behaviour={this.context.composition.crossfader.behaviour}
+                    curve={this.context.composition.crossfader.curve}
+                    video={this.context.composition.crossfader.video}
                 />            
             );
         };
 
         let tempocontroller = null;
-        if (this.state.tempocontroller.tempo) {
+        if (this.context.composition.tempocontroller.tempo) {
             tempocontroller = (
                 <TempoToolbar
-                    parameters={this.parameters}
-                    tempocontroller={this.state.tempocontroller}
+                    tempocontroller={this.context.composition.tempocontroller}
                 />
             );
         }
@@ -261,10 +189,9 @@ class Composition extends React.Component {
                 </div>
                 <Properties
                     name={name}
-                    dashboard={this.state.dashboard}
-                    audio={this.state.audio}
-                    video={this.state.video}                    
-                    parameters={this.parameters}
+                    dashboard={this.context.composition.dashboard}
+                    audio={this.context.composition.audio}
+                    video={this.context.composition.video}
                     title="Composition"
                     root={composition_root}
                 />
@@ -272,6 +199,8 @@ class Composition extends React.Component {
         );
     }
 }
+
+Composition.contextType = ResolumeContext;
 
 /**
   * Property declaration for Composition component

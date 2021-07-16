@@ -58,7 +58,6 @@ class Clip extends React.Component {
                         dashboard={this.props.dashboard}    
                         audio={this.props.audio}
                         video={this.props.video}
-                        parameters={this.props.parameters}
                         title="Clip"
                         root={clip_root}
                     />
@@ -79,7 +78,6 @@ Clip.propTypes = {
     connect_down: PropTypes.func.isRequired,
     connect_up: PropTypes.func.isRequired,
     dashboard: PropTypes.object.isRequired,
-    parameters: PropTypes.object.isRequired
 }
 
 export default Clip;

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { ResolumeContext } from './resolume_provider.js'
+import ParameterMonitor from './parameter_monitor.js'
 import PropTypes from 'prop-types';
 import Rotary from './rotary.js';
 import { useDebouncedCallback } from 'use-debounce';
@@ -221,136 +223,110 @@ function ParamRange(props) {
   * Class for rendering a parameter
   */
 class Parameter extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { 
-            parameter: props.initial
-        };
-
-        this.on_update = (update) => {
-            let parameter = Object.assign({}, this.state.parameter, update);
-            this.setState({ parameter });
-        };
-    }
-
-    /**
-      * Register the parameter when the component
-      * is added to the DOM
-      */
-    componentDidMount() {
-        this.props.parameters.register_monitor(this.props.id, this.on_update, this.props.initial);
-    }
-
-    /**
-      * Unregister the parameter when the component
-      * is about to be removed from the DOM
-      */
-    componentWillUnmount() {
-        this.props.parameters.unregister_monitor(this.props.id, this.on_update);
-    }
-
     /**
       * Handle an update to the parameter value
       *
       * @param  value   The new value for the parameter
       */
     handle_update(value) {
-        this.props.parameters.update_parameter(this.props.id, value);
+        this.context.parameters.update_parameter(this.props.parameter.id, value);
     }
 
     /**
       * Render the component
       */
     render() {
-        const param = this.state.parameter;
-        const hidelabel = this.props.hidelabel || "no";
+        return (
+            <ParameterMonitor.Single parameter={this.props.parameter} render={param => {
+                const hidelabel = this.props.hidelabel || "no";
 
-        if (!param) {
-            return (
-                <span>Loading</span>
-            )
-        } else if (this.props.modifier && this.props.label) {
-            const handle_click = () => {
-                const updated = this.props.modifier(param.value);
-                this.handle_update(updated);
-            };
+                if (!param) {
+                    return (
+                        <span>Loading</span>
+                    )
+                } else if (this.props.modifier && this.props.label) {
+                    const handle_click = () => {
+                        const updated = this.props.modifier(param.value);
+                        this.handle_update(updated);
+                    };
 
-            return (
-                <span>
-                    <button onClick={handle_click}>
-                        {this.props.label}
-                    </button>
-                </span>
-            )
-        } else if (param.valuetype === "ParamEvent") {
-            return (
-                <ParamEvent
-                    parameter={param}
-                    name={this.props.name}
-                    readonly={this.props.readonly}
-                    on_update={(value) => this.handle_update(value)}
-                />
-            )
-        } else if (param.valuetype === "ParamBoolean") {
-            return (
-                <ParamBoolean
-                    parameter={param}
-                    name={this.props.name}
-                    readonly={this.props.readonly}
-                    on_update={(value) => this.handle_update(value)}
-                />
-            )
-        } else if (param.valuetype === "ParamRange") {
-            return (
-                <ParamRange
-                    parameter={param}
-                    name={this.props.name}
-                    readonly={this.props.readonly}
-                    on_update={(value) => this.handle_update(value)}
-                    view_type={this.props.view_type}
-                    hidelabel={hidelabel}
-                />
-            )
-        } else if (param.valuetype === "ParamChoice") {
-            return (
-                <ParamChoice
-                    parameter={param}
-                    name={this.props.name}
-                    readonly={this.props.readonly}
-                    on_update={(value) => this.handle_update(value)}
-                />
-            )   
-        } else if (param.valuetype === "ParamColor") {
-            return (
-                <ParamColor
-                    parameter={param}
-                    name={this.props.name}
-                    readonly={this.props.readonly}
-                    on_update={(value) => this.handle_update(value)}
-                />
-            )                         
-        } else {
-            return (
-                <ParamString
-                    parameter={this.state.parameter}
-                    name={this.props.name}
-                    readonly={this.props.readonly}
-                    on_update={(value) => this.handle_update(value)}
-                />
-            )
-        }
+                    return (
+                        <span>
+                            <button onClick={handle_click}>
+                                {this.props.label}
+                            </button>
+                        </span>
+                    )
+                } else if (param.valuetype === "ParamEvent") {
+                    return (
+                        <ParamEvent
+                            parameter={param}
+                            name={this.props.name}
+                            readonly={this.props.readonly}
+                            on_update={(value) => this.handle_update(value)}
+                        />
+                    )
+                } else if (param.valuetype === "ParamBoolean") {
+                    return (
+                        <ParamBoolean
+                            parameter={param}
+                            name={this.props.name}
+                            readonly={this.props.readonly}
+                            on_update={(value) => this.handle_update(value)}
+                        />
+                    )
+                } else if (param.valuetype === "ParamRange") {
+                    return (
+                        <ParamRange
+                            parameter={param}
+                            name={this.props.name}
+                            readonly={this.props.readonly}
+                            on_update={(value) => this.handle_update(value)}
+                            view_type={this.props.view_type}
+                            hidelabel={hidelabel}
+                        />
+                    )
+                } else if (param.valuetype === "ParamChoice") {
+                    return (
+                        <ParamChoice
+                            parameter={param}
+                            name={this.props.name}
+                            readonly={this.props.readonly}
+                            on_update={(value) => this.handle_update(value)}
+                        />
+                    )   
+                } else if (param.valuetype === "ParamColor") {
+                    return (
+                        <ParamColor
+                            parameter={param}
+                            name={this.props.name}
+                            readonly={this.props.readonly}
+                            on_update={(value) => this.handle_update(value)}
+                        />
+                    )                         
+                } else {
+                    return (
+                        <ParamString
+                            parameter={this.state.parameter}
+                            name={this.props.name}
+                            readonly={this.props.readonly}
+                            on_update={(value) => this.handle_update(value)}
+                        />
+                    )
+                }
+            }} />
+        )
     }
 }
+
+Parameter.contextType = ResolumeContext;
 
 /**
   * Property declaration for Parameter component
   */
 Parameter.propTypes = {
-    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    parameters: PropTypes.object.isRequired,
-    initial: PropTypes.object
+    parameter: PropTypes.object
 };
 
 export default Parameter;

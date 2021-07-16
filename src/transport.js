@@ -4,8 +4,9 @@
   */
 class Transport {
     constructor(host, port) {
-        // initialize empty listeners
+        // initialize empty listeners and state listeners
         this.listeners = [];
+        this.state_listeners = [];
 
         // in case of connection failure, we will retry
         // to connect with an increasing timeout
@@ -31,6 +32,11 @@ class Transport {
 
                 console.log('connection closed, reconnecting in ' + this.reconnect_timeout + ' seconds');
 
+                // notify all listeners we are now disconnected
+                for (const callback of this.state_listeners) {
+                    callback(false);
+                }
+
                 // re-attempt connection after the timeout and increase timeout
                 this.reconnect_timer = setTimeout(this.open_websocket, this.reconnect_timeout * 1000);
                 this.reconnect_timeout *= 2;
@@ -46,6 +52,11 @@ class Transport {
 
                 console.log('failed to connect, retrying in ' + this.reconnect_timeout + ' seconds');
 
+                // notify all listeners we are now disconnected
+                for (const callback of this.state_listeners) {
+                    callback(false);
+                }
+
                 // re-attempt connection after the timeout and increase timeout
                 this.reconnect_timer = setTimeout(this.open_websocket, this.reconnect_timeout * 1000);
                 this.reconnect_timeout *= 2;
@@ -54,6 +65,12 @@ class Transport {
             // handler for connection success
             this.ws.onopen = () => {
                 console.log('websocket connection established');
+
+                // notify all listeners we are now disconnected
+                for (const callback of this.state_listeners) {
+                    callback(true);
+                }
+
                 this.reconnect_timeout = 1;
             };
 
@@ -61,7 +78,7 @@ class Transport {
             this.ws.onmessage = (data) => {
                 try {
                     const message = JSON.parse(data.data);
-                    console.log('receiving message', message);
+                    // console.log('receiving message', message);
                     for (const listener of this.listeners) {
                         listener(message);
                     }
@@ -105,8 +122,22 @@ class Transport {
       * @param  message     The message to send
       */
     send_message(message) {
-        console.log('sending message', message);
+        // console.log('sending message', message);
         this.ws.send(JSON.stringify(message));
+    }
+
+    /**
+     *  Register a handler for when the websocket connection
+     *  state is changed. This is called when a connection is established,
+     *  or when the connection is closed for any reason.
+     *
+     *  The callback is called with boolean false when the connection is closed,
+     *  and called with boolean true whenever a connection is established.
+     *
+     *  @param  callback    The callback that is invoked upon connection
+     */
+    on_connection_state_change(callback) {
+        this.state_listeners.push(callback);
     }
 }
 

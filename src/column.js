@@ -1,35 +1,36 @@
-import React from 'react'
+import { ResolumeContext } from './resolume_provider.js'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 
 /**
   * Component rendering a column within the composition
   */
-class Column extends React.Component {  
+function Column(props) {
+    const context = useContext(ResolumeContext);
+
+    const connect = down => { context.action('trigger', `/composition/columns/by-id/${props.id}/connect`, down); }
 
     /* Replace # with ((index+1) of Colunn) */
-    render() {
-      const name = this.props.name.value.replace(/#/g, this.props.index+1);
-      const connected = this.props.connected.value;
-      return (
-          <div
-              className={`column ${connected ? 'connected' : ''}`}
-              onClick={this.props.connect}
-              onMouseDown={this.props.connect_down}
-              onMouseUp={this.props.connect_up}
-          >
-          {name}
-          </div>
-      );
-    }
+    const name = props.name.value.replace(/#/g, props.index+1);
+    const connected = props.connected.value;
+
+    return (
+        <div
+            className={`column ${connected ? 'connected' : ''}`}
+            onMouseDown={() => connect(true)}
+            onMouseUp={() => connect(false)}
+        >
+            {name}
+        </div>
+    );
 }
 
 /**
   * Property declaration for Column component
   */
 Column.propTypes = {
+    name: PropTypes.object.isRequired,
     connected: PropTypes.object.isRequired,
-    connect_down: PropTypes.func.isRequired,
-    connect_up: PropTypes.func.isRequired
 }
 
 export default Column;

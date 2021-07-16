@@ -33,7 +33,6 @@ class Properties extends React.Component {
                         key={`dashboard_${this.props.name}`}
                         name={this.props.name}
                         params={this.props.dashboard}
-                        parameters={this.props.parameters}
                         labelLast={true}
                     />
                 </div>                
@@ -50,7 +49,7 @@ class Properties extends React.Component {
                         name="Target"
                         key={this.props.autopilot.target.id}
                         id={this.props.autopilot.target.id}
-                        initial={this.props.autopilot.target}
+                        parameter={this.props.autopilot.target}
                     />
                 </div>
             );
@@ -67,7 +66,7 @@ class Properties extends React.Component {
                             name="Duration"
                             key={this.props.transition.duration.id}
                             id={this.props.transition.duration.id}
-                            initial={this.props.transition.duration}
+                            parameter={this.props.transition.duration}
                         />
                     </div>
                     <div>
@@ -77,7 +76,7 @@ class Properties extends React.Component {
                             name="Blend Mode"
                             key={this.props.transition.blend_mode.id}
                             id={this.props.transition.blend_mode.id}
-                            initial={this.props.transition.blend_mode}
+                            parameter={this.props.transition.blend_mode}
                         />
                     </div>
                 </div>
@@ -93,7 +92,6 @@ class Properties extends React.Component {
                         name={value.name}
                         mixer={value.mixer}
                         params={value.params}
-                        parameters={this.props.parameters}
                     />
                 );
             });
@@ -108,7 +106,7 @@ class Properties extends React.Component {
                                 name="Volume"
                                 key={this.props.audio.volume.id}
                                 id={this.props.audio.volume.id}
-                                initial={this.props.audio.volume}
+                                parameter={this.props.audio.volume}
                             />
                         </div>
                         <div>
@@ -118,7 +116,7 @@ class Properties extends React.Component {
                                 name="Audio Pan"
                                 key={this.props.audio.pan.id}
                                 id={this.props.audio.pan.id}
-                                initial={this.props.audio.pan}
+                                parameter={this.props.audio.pan}
                             />
                         </div>                         
                     </div>
@@ -153,7 +151,6 @@ class Properties extends React.Component {
                                     key={`source_${this.props.name}`}
                                     name="Source"
                                     params={this.props.video.sourceparams}
-                                    parameters={this.props.parameters}
                                 />
                             </div>
                         </div>
@@ -163,11 +160,10 @@ class Properties extends React.Component {
                             <div>
                                 <span className="label" onDoubleClick={() => this.handle_reset(this.props.video.opacity.id)}>Opacity</span>
                                 <Parameter
-                                    parameters={this.props.parameters}
                                     name="Opacity"
                                     key={this.props.video.opacity.id}
                                     id={this.props.video.opacity.id}
-                                    initial={this.props.video.opacity}
+                                    parameter={this.props.video.opacity}
                                 /> 
                             </div>
                             {this.props.video.mixer &&
@@ -175,7 +171,6 @@ class Properties extends React.Component {
                                     key={`mixer_${this.props.name}`}
                                     name="Mixer"
                                     params={this.props.video.mixer}
-                                    parameters={this.props.parameters}
                                 />    
                             }
                             <div className="effects">
@@ -236,7 +231,6 @@ class Properties extends React.Component {
   */
  Properties.propTypes = {
     dashboard: PropTypes.object.isRequired,
-    parameters: PropTypes.object.isRequired,
 }
 
 export default Properties

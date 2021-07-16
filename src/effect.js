@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Parameters from './parameters.js'
 import PropTypes from 'prop-types';
 
@@ -6,54 +6,39 @@ import PropTypes from 'prop-types';
   * Render a single effect in the
   * effect chain
   */
-class Effect extends React.Component {  
+function Effect(props) {
+    const [ expanded, setExpanded ] = useState(true);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            expanded: true,
-        };
-    }
-
-    setExpanded(value, event) {
-        this.setState( {expanded: value });
-    }
-
-    render() {
-        
-        return (
-            <div className="effect">
-                <div className="title" onClick={(event) => this.setExpanded(!this.state.expanded, event)}>
-                    <span className={`arrow ${this.state.expanded ? 'down' : 'right'}`}></span>                    
-                    {this.props.name}
-                </div>                
-                {this.state.expanded && this.props.mixer &&
-                    /* An Effect does not always have a mixer, Mask and Transform do not for instance */
-                    <Parameters
-                        key={`mixer_${this.props.name}`}
-                        name={this.props.name}
-                        params={this.props.mixer}
-                        parameters={this.props.parameters}
-                    /> 
-                }
-                {this.state.expanded &&
-                <Parameters
-                    key={`params_${this.props.name}`}
-                    name={this.props.name}
-                    params={this.props.params}
-                    parameters={this.props.parameters}
-                />
-                }
+    return (
+        <div className="effect">
+            <div className="title" onClick={() => setExpanded(!expanded)}>
+                <span className={`arrow ${expanded ? 'down' : 'right'}`}></span>
+                {props.name}
             </div>
-        )
-    }
+            {expanded && props.mixer &&
+                /* An Effect does not always have a mixer, Mask and Transform do not for instance */
+                <Parameters
+                    key={`mixer_${props.name}`}
+                    name={props.name}
+                    params={props.mixer}
+                />
+            }
+            {expanded &&
+                <Parameters
+                    key={`params_${props.name}`}
+                    name={props.name}
+                    params={props.params}
+                />
+            }
+        </div>
+    )
 }
 
 /**
   * Property declaration for Effect component
   */
 Effect.propTypes = {
-    parameters: PropTypes.object.isRequired
+    mixer: PropTypes.object
 }
 
 export default Effect
