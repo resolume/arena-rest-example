@@ -5,22 +5,20 @@ import PropTypes from 'prop-types'
 /**
   * Component rendering a column within the composition
   */
-function Column(props) {
+function Column({ id, index, name, connected }) {
     const context = useContext(ResolumeContext);
-
-    const connect = down => { context.action('trigger', `/composition/columns/by-id/${props.id}/connect`, down); }
+    const connect = down => context.action('trigger', `/composition/columns/by-id/${id}/connect`, down);
 
     /* Replace # with ((index+1) of Colunn) */
-    const name = props.name.value.replace(/#/g, props.index+1);
-    const connected = props.connected.value;
+    const display_name = name.value.replace(/#/g, index+1);
 
     return (
         <div
-            className={`column ${connected ? 'connected' : ''}`}
+            className={`column ${connected.value ? 'connected' : ''}`}
             onMouseDown={() => connect(true)}
             onMouseUp={() => connect(false)}
         >
-            {name}
+            {display_name}
         </div>
     );
 }
@@ -29,6 +27,8 @@ function Column(props) {
   * Property declaration for Column component
   */
 Column.propTypes = {
+    id: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
     name: PropTypes.object.isRequired,
     connected: PropTypes.object.isRequired,
 }

@@ -8,9 +8,8 @@ import PropTypes from 'prop-types';
   * Component for rendering a CrossFader
   */
 function CrossFader({ phase, behaviour, curve, video }) {
-    const context = useContext(ResolumeContext);
-
-    const handle_reset = (id) => { context.action('reset', `/parameter/by-id/${id}`); }
+    const context       = useContext(ResolumeContext);
+    const handle_reset  = id => context.action('reset', `/parameter/by-id/${id}`);
 
     return (
         <div className="crossfader">

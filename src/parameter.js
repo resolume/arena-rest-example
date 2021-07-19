@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ResolumeContext } from './resolume_provider.js'
 import ParameterMonitor from './parameter_monitor.js'
 import PropTypes from 'prop-types';
@@ -143,7 +143,7 @@ function ParamRange(props) {
     const multiplier    = view.multiplier || 1;
     const step          = view.step || (parameter.max - parameter.min) / 100;
     const suffix        = view.suffix || "";
-    const debouncer     = new value_debouncer(on_update, setValue);        
+    const debouncer     = new value_debouncer(on_update, setValue);
     const showlabel     = hidelabel === "no";
 
     let show_number = (number) => {
@@ -196,8 +196,8 @@ function ParamRange(props) {
     const [ value, setValue ] = useState();
     const { parameter, readonly, on_update } = props;
     const debouncer = new value_debouncer(on_update, setValue);
-    
-    /**  
+
+    /**
       * Right now we ignore the alpha component of the color value we receive
       * Resolume sends hex values with four components, r,g,b,a
       * There is no HTML native way of representing a color with an alpha component
@@ -215,111 +215,98 @@ function ParamRange(props) {
                 onChange={(event) => debouncer.set_value(event.target.value)}
             />
         </span>
-    )    
+    )
 }
 
 
 /**
   * Class for rendering a parameter
   */
-class Parameter extends React.Component {
-    /**
-      * Handle an update to the parameter value
-      *
-      * @param  value   The new value for the parameter
-      */
-    handle_update(value) {
-        this.context.parameters.update_parameter(this.props.parameter.id, value);
-    }
+function Parameter(props) {
+    const context       = useContext(ResolumeContext);
+    const handle_update = value => context.parameters.update_parameter(this.props.parameter.id, value);
 
-    /**
-      * Render the component
-      */
-    render() {
-        return (
-            <ParameterMonitor.Single parameter={this.props.parameter} render={param => {
-                const hidelabel = this.props.hidelabel || "no";
+    return (
+        <ParameterMonitor.Single parameter={props.parameter} render={param => {
+            const hidelabel = props.hidelabel || "no";
 
-                if (!param) {
-                    return (
-                        <span>Loading</span>
-                    )
-                } else if (this.props.modifier && this.props.label) {
-                    const handle_click = () => {
-                        const updated = this.props.modifier(param.value);
-                        this.handle_update(updated);
-                    };
+            if (!param) {
+                return (
+                    <span>Loading</span>
+                )
+            } else if (props.modifier && props.label) {
+                const handle_click = () => {
+                    const updated = props.modifier(param.value);
+                    handle_update(updated);
+                };
 
-                    return (
-                        <span>
-                            <button onClick={handle_click}>
-                                {this.props.label}
-                            </button>
-                        </span>
-                    )
-                } else if (param.valuetype === "ParamEvent") {
-                    return (
-                        <ParamEvent
-                            parameter={param}
-                            name={this.props.name}
-                            readonly={this.props.readonly}
-                            on_update={(value) => this.handle_update(value)}
-                        />
-                    )
-                } else if (param.valuetype === "ParamBoolean") {
-                    return (
-                        <ParamBoolean
-                            parameter={param}
-                            name={this.props.name}
-                            readonly={this.props.readonly}
-                            on_update={(value) => this.handle_update(value)}
-                        />
-                    )
-                } else if (param.valuetype === "ParamRange") {
-                    return (
-                        <ParamRange
-                            parameter={param}
-                            name={this.props.name}
-                            readonly={this.props.readonly}
-                            on_update={(value) => this.handle_update(value)}
-                            view_type={this.props.view_type}
-                            hidelabel={hidelabel}
-                        />
-                    )
-                } else if (param.valuetype === "ParamChoice") {
-                    return (
-                        <ParamChoice
-                            parameter={param}
-                            name={this.props.name}
-                            readonly={this.props.readonly}
-                            on_update={(value) => this.handle_update(value)}
-                        />
-                    )   
-                } else if (param.valuetype === "ParamColor") {
-                    return (
-                        <ParamColor
-                            parameter={param}
-                            name={this.props.name}
-                            readonly={this.props.readonly}
-                            on_update={(value) => this.handle_update(value)}
-                        />
-                    )                         
-                } else {
-                    return (
-                        <ParamString
-                            parameter={this.state.parameter}
-                            name={this.props.name}
-                            readonly={this.props.readonly}
-                            on_update={(value) => this.handle_update(value)}
-                        />
-                    )
-                }
-            }} />
-        )
-    }
+                return (
+                    <span>
+                        <button onClick={handle_click}>
+                            {props.label}
+                        </button>
+                    </span>
+                )
+            } else if (param.valuetype === "ParamEvent") {
+                return (
+                    <ParamEvent
+                        parameter={param}
+                        name={props.name}
+                        readonly={props.readonly}
+                        on_update={(value) => handle_update(value)}
+                    />
+                )
+            } else if (param.valuetype === "ParamBoolean") {
+                return (
+                    <ParamBoolean
+                        parameter={param}
+                        name={props.name}
+                        readonly={props.readonly}
+                        on_update={(value) => handle_update(value)}
+                    />
+                )
+            } else if (param.valuetype === "ParamRange") {
+                return (
+                    <ParamRange
+                        parameter={param}
+                        name={props.name}
+                        readonly={props.readonly}
+                        on_update={(value) => handle_update(value)}
+                        view_type={props.view_type}
+                        hidelabel={hidelabel}
+                    />
+                )
+            } else if (param.valuetype === "ParamChoice") {
+                return (
+                    <ParamChoice
+                        parameter={param}
+                        name={props.name}
+                        readonly={props.readonly}
+                        on_update={(value) => handle_update(value)}
+                    />
+                )
+            } else if (param.valuetype === "ParamColor") {
+                return (
+                    <ParamColor
+                        parameter={param}
+                        name={props.name}
+                        readonly={props.readonly}
+                        on_update={(value) => handle_update(value)}
+                    />
+                )
+            } else {
+                return (
+                    <ParamString
+                        parameter={param}
+                        name={props.name}
+                        readonly={props.readonly}
+                        on_update={(value) => handle_update(value)}
+                    />
+                )
+            }
+        }} />
+    )
 }
-
-Parameter.contextType = ResolumeContext;
 
 /**
   * Property declaration for Parameter component

@@ -1,229 +1,214 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { ResolumeContext } from './resolume_provider.js'
 import ReactDOM from 'react-dom'
 import Effect from './effect.js'
 import PropTypes from 'prop-types';
 import Parameter from './parameter.js'
 import Parameters from './parameters.js'
 
-class Properties extends React.Component {
-    constructor(props) {
-        super(props);
-        this.element = document.createElement('div');
+function Properties(props) {
+    const context       = useContext(ResolumeContext);
+    const [ element ]   = useState(() => document.createElement('div'));
+
+    useEffect(() => {
+        props.root.appendChild(element);
+        return () => props.root.removeChild(element);
+    });
+
+    const handle_reset = (id) => { context.parameters.reset_parameter(id); }
+
+    let dashboard = null;
+    if (props.dashboard) {
+        dashboard = (
+            <div className="dashboard">
+                <Parameters
+                    key={`dashboard_${props.name}`}
+                    name={props.name}
+                    params={props.dashboard}
+                    labelLast={true}
+                />
+            </div>                
+        );
     }
 
-    componentDidMount() {
-        this.props.root.appendChild(this.element);
+    let autopilot = null;
+    if (props.autopilot) {
+        autopilot = (
+            <div>
+                <span className="label" onDoubleClick={() => handle_reset(props.autopilot.target.id)}>Behaviour</span>
+                <Parameter
+                    name="Target"
+                    key={props.autopilot.target.id}
+                    id={props.autopilot.target.id}
+                    parameter={props.autopilot.target}
+                />
+            </div>
+        );
     }
 
-    componentWillUnmount() {
-        this.props.root.removeChild(this.element);
-    }
-    
-    handle_reset(id) {
-        this.props.parameters.reset_parameter(id);
-    }
-
-    render() {
-
-        let dashboard = null;
-        if (this.props.dashboard) {
-            dashboard = (
-                <div className="dashboard">
-                    <Parameters
-                        key={`dashboard_${this.props.name}`}
-                        name={this.props.name}
-                        params={this.props.dashboard}
-                        labelLast={true}
-                    />
-                </div>                
-            );
-        }
-        
-        let autopilot = null;
-        if (this.props.autopilot) {
-            autopilot = (
+    let transition = null;
+    if (props.transition) {
+        transition = (
+            <div>
                 <div>
-                    <span className="label" onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}>Behaviour</span>
+                    <span className="label" onDoubleClick={() => handle_reset(props.transition.duration.id)}>Duration</span>
                     <Parameter
-                        parameters={this.props.parameters}
-                        name="Target"
-                        key={this.props.autopilot.target.id}
-                        id={this.props.autopilot.target.id}
-                        parameter={this.props.autopilot.target}
+                        name="Duration"
+                        key={props.transition.duration.id}
+                        id={props.transition.duration.id}
+                        parameter={props.transition.duration}
                     />
                 </div>
-            );
-        }
-
-        let transition = null;
-        if (this.props.transition) {
-            transition = (
                 <div>
-                    <div>
-                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.transition.duration.id)}>Duration</span>
-                        <Parameter
-                            parameters={this.props.parameters}
-                            name="Duration"
-                            key={this.props.transition.duration.id}
-                            id={this.props.transition.duration.id}
-                            parameter={this.props.transition.duration}
-                        />
-                    </div>
-                    <div>
-                        <span className="label" onDoubleClick={() => this.handle_reset(this.props.transition.blend_mode.id)}>Blend Mode</span>
-                        <Parameter
-                            parameters={this.props.parameters}
-                            name="Blend Mode"
-                            key={this.props.transition.blend_mode.id}
-                            id={this.props.transition.blend_mode.id}
-                            parameter={this.props.transition.blend_mode}
-                        />
-                    </div>
-                </div>
-            );
-        }        
-
-        let audio_section = null;
-        if (this.props.audio) {
-            const effects = this.props.audio.effects.map((value) => {
-                return (
-                    <Effect
-                        key={`effect_${value.name}`}
-                        name={value.name}
-                        mixer={value.mixer}
-                        params={value.params}
+                    <span className="label" onDoubleClick={() => handle_reset(props.transition.blend_mode.id)}>Blend Mode</span>
+                    <Parameter
+                        name="Blend Mode"
+                        key={props.transition.blend_mode.id}
+                        id={props.transition.blend_mode.id}
+                        parameter={props.transition.blend_mode}
                     />
-                );
-            });
-
-            audio_section = (
-                <div>
-                    <div>
-                        <div>
-                            <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.volume.id)}>Volume</span>
-                            <Parameter
-                                parameters={this.props.parameters}
-                                name="Volume"
-                                key={this.props.audio.volume.id}
-                                id={this.props.audio.volume.id}
-                                parameter={this.props.audio.volume}
-                            />
-                        </div>
-                        <div>
-                            <span className="label" onDoubleClick={() => this.handle_reset(this.props.audio.pan.id)}>Pan</span>
-                            <Parameter
-                                parameters={this.props.parameters}
-                                name="Audio Pan"
-                                key={this.props.audio.pan.id}
-                                id={this.props.audio.pan.id}
-                                parameter={this.props.audio.pan}
-                            />
-                        </div>                         
-                    </div>
-                    <div className="effects">
-                        {effects}
-                    </div>
                 </div>
-            );
-        }  
-
-        let video_section = null;
-        if (this.props.video) {
-            const effects = this.props.video.effects.map((value) => {
-                return (
-                    <Effect
-                        key={`effect_${value.name}`}
-                        name={value.name}
-                        mixer={value.mixer}
-                        params={value.params}
-                        parameters={this.props.parameters}
-                    />
-                );
-            });
-
-            video_section = (
-                <div>
-                    {this.props.video.sourceparams &&
-                        <div>
-                            <div className="title">{this.props.name}</div>
-                            <div className="content">
-                                <Parameters
-                                    key={`source_${this.props.name}`}
-                                    name="Source"
-                                    params={this.props.video.sourceparams}
-                                />
-                            </div>
-                        </div>
-                    }
-                    <div className="title">Video</div>
-                        <div className="content">
-                            <div>
-                                <span className="label" onDoubleClick={() => this.handle_reset(this.props.video.opacity.id)}>Opacity</span>
-                                <Parameter
-                                    name="Opacity"
-                                    key={this.props.video.opacity.id}
-                                    id={this.props.video.opacity.id}
-                                    parameter={this.props.video.opacity}
-                                /> 
-                            </div>
-                            {this.props.video.mixer &&
-                                <Parameters
-                                    key={`mixer_${this.props.name}`}
-                                    name="Mixer"
-                                    params={this.props.video.mixer}
-                                />    
-                            }
-                            <div className="effects">
-                                {effects}
-                            </div>
-                        </div>
-                </div>
-            );
-        }
-
-
-        const title = this.props.title + " (" + this.props.name + ")";
-        const properties = (
-            <div className="properties">
-                <div className="title">{title}</div>
-                <div className="content">
-                    {dashboard}
-                </div>
-                {autopilot &&
-                    <div>
-                        <div className="title">Autopilot</div>
-                        <div className="content">
-                            {autopilot}
-                        </div>
-                    </div>
-                }
-                {transition &&
-                    <div>
-                        <div className="title">Transition</div>
-                        <div className="content">
-                            {transition}
-                        </div>
-                    </div>
-                }                
-                {audio_section &&
-                    <div>
-                        <div className="title">Audio</div>
-                        <div className="content">
-                            {audio_section}
-                        </div>
-                    </div>
-                }
-                <div>
-                    {video_section}
-                </div>
-            </div>            
+            </div>
         );
+    }        
 
-        return ReactDOM.createPortal(
-            properties,
-            this.element
+    let audio_section = null;
+    if (props.audio) {
+        const effects = props.audio.effects.map((value) => {
+            return (
+                <Effect
+                    key={`effect_${value.name}`}
+                    name={value.name}
+                    mixer={value.mixer}
+                    params={value.params}
+                />
+            );
+        });
+
+        audio_section = (
+            <div>
+                <div>
+                    <div>
+                        <span className="label" onDoubleClick={() => handle_reset(props.audio.volume.id)}>Volume</span>
+                        <Parameter
+                            name="Volume"
+                            key={props.audio.volume.id}
+                            id={props.audio.volume.id}
+                            parameter={props.audio.volume}
+                        />
+                    </div>
+                    <div>
+                        <span className="label" onDoubleClick={() => handle_reset(props.audio.pan.id)}>Pan</span>
+                        <Parameter
+                            name="Audio Pan"
+                            key={props.audio.pan.id}
+                            id={props.audio.pan.id}
+                            parameter={props.audio.pan}
+                        />
+                    </div>                         
+                </div>
+                <div className="effects">
+                    {effects}
+                </div>
+            </div>
         );
     }
+
+    let video_section = null;
+    if (props.video) {
+        const effects = props.video.effects.map((value) => {
+            return (
+                <Effect
+                    key={`effect_${value.name}`}
+                    name={value.name}
+                    mixer={value.mixer}
+                    params={value.params}
+                />
+            );
+        });
+
+        video_section = (
+            <div>
+                {props.video.sourceparams &&
+                    <div>
+                        <div className="title">{props.name}</div>
+                        <div className="content">
+                            <Parameters
+                                key={`source_${props.name}`}
+                                name="Source"
+                                params={props.video.sourceparams}
+                            />
+                        </div>
+                    </div>
+                }
+                <div className="title">Video</div>
+                    <div className="content">
+                        <div>
+                            <span className="label" onDoubleClick={() => handle_reset(props.video.opacity.id)}>Opacity</span>
+                            <Parameter
+                                name="Opacity"
+                                key={props.video.opacity.id}
+                                id={props.video.opacity.id}
+                                parameter={props.video.opacity}
+                            /> 
+                        </div>
+                        {props.video.mixer &&
+                            <Parameters
+                                key={`mixer_${props.name}`}
+                                name="Mixer"
+                                params={props.video.mixer}
+                            />    
+                        }
+                        <div className="effects">
+                            {effects}
+                        </div>
+                    </div>
+            </div>
+        );
+    }
+
+
+    const title = props.title + " (" + props.name + ")";
+    const properties = (
+        <div className="properties">
+            <div className="title">{title}</div>
+            <div className="content">
+                {dashboard}
+            </div>
+            {autopilot &&
+                <div>
+                    <div className="title">Autopilot</div>
+                    <div className="content">
+                        {autopilot}
+                    </div>
+                </div>
+            }
+            {transition &&
+                <div>
+                    <div className="title">Transition</div>
+                    <div className="content">
+                        {transition}
+                    </div>
+                </div>
+            }                
+            {audio_section &&
+                <div>
+                    <div className="title">Audio</div>
+                    <div className="content">
+                        {audio_section}
+                    </div>
+                </div>
+            }
+            <div>
+                {video_section}
+            </div>
+        </div>            
+    );
+
+    return ReactDOM.createPortal(
+        properties,
+        element
+    );
 }
 
 /**

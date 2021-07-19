@@ -1,5 +1,6 @@
 import { ResolumeContext } from './resolume_provider.js'
-import React from 'react'
+import React, { useContext } from 'react'
+import ParameterMonitor from './parameter_monitor.js'
 import Properties from './properties.js';
 import PropTypes from 'prop-types';
 import Parameter from './parameter';
@@ -11,107 +12,71 @@ const layer_root = document.getElementById('layer_properties');
 /**
   * Render a layer
   */
-class Layer extends React.Component {
+function Layer(props) {
+    const context = useContext(ResolumeContext);
 
-    constructor(props) {
+    const set_bypass                = bypassed  => props.parameters.update_parameter(props.bypassed.id, bypassed);
+    const set_solo                  = solo      => props.parameters.update_parameter(props.solo.id, solo);
+    const toggle_crossfadergroup    = value     => props.parameters.update_parameter(props.crossfadergroup.id, value);
 
-        super(props);
+    /* Replace # with ((index+1) of Layer) */
+    const name      = props.name.value.replace(/#/g, props.index+1);
 
-        this.state = {
-            bypassed: this.props.bypassed,
-            solo: this.props.solo,
-            crossfadergroup: this.props.crossfadergroup
-        };
+    const select    = () => context.action('trigger', `/composition/layers/by-id/${props.id}/select`);
+    const clear     = () => context.action('trigger', `/composition/layers/by-id/${props.id}/clear`);
 
-        this.update_bypass = (parameter) => {
-            this.setState({ bypassed: parameter });
-        };
+//onDoubleClick={() => handle_reset(props.autopilot.target.id)}
 
-        this.update_solo = (parameter) => {
-            this.setState({ solo: parameter });
-        };
+    return (
+        <div className="layer">       
+            <div className="controls">
+                <div className="buttons">
+                    <div className="cbs">
+                        <div className={`button off`} onClick={clear}>Clear</div>
 
-        this.update_crossfadergroup = (parameter) => {
-            this.setState({ crossfadergroup: parameter });
-        };
+                        <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
+                            <div className={`button ${bypassed.value ? 'on' : 'off'}`} onClick={() => set_bypass(!bypassed.value)}>B</div>
+                        )} />
 
-        this.toggle_bypass = () => {
-            this.props.parameters.update_parameter(this.props.bypassed.id, !this.state.bypassed.value);
-        }
-
-        this.toggle_solo = () => {
-            this.props.parameters.update_parameter(this.props.solo.id, !this.state.solo.value);
-        }        
-
-        this.toggle_crossfadergroup = (value) => {
-            this.props.parameters.update_parameter(this.props.crossfadergroup.id, value);
-        }
-
-    }
-
-    componentDidMount() {
-        this.props.parameters.register_monitor(this.props.bypassed.id, this.update_bypass, this.props.bypassed);
-        this.props.parameters.register_monitor(this.props.solo.id, this.update_solo, this.props.solo);
-        this.props.parameters.register_monitor(this.props.crossfadergroup.id, this.update_crossfadergroup, this.props.crossfadergroup);
-    }
-
-    componentWillUnmount() {
-        this.props.parameters.unregister_monitor(this.props.bypassed.id, this.update_bypass);
-        this.props.parameters.unregister_monitor(this.props.solo.id, this.update_solo);
-        this.props.parameters.unregister_monitor(this.props.crossfadergroup.id, this.update_crossfadergroup);
-    }
-
-    render() {
-        /* Replace # with ((index+1) of Layer) */
-        const name = this.props.name.value.replace(/#/g, this.props.index+1);
-
-        const select = () => this.context.action('trigger', `/composition/layers/by-id/${this.props.id}/select`);
-        const clear = () => this.context.action('trigger', `/composition/layers/by-id/${this.props.id}/clear`);
-
-//onDoubleClick={() => this.handle_reset(this.props.autopilot.target.id)}
-
-        return (
-            <div className="layer">       
-                <div className="controls">
-                    <div className="buttons">
-                        <div className="cbs">
-                            <div className={`button off`} onClick={clear}>Clear</div>
-                            <div className={`button ${this.state.bypassed.value ? 'on' : 'off'}`} onClick={this.toggle_bypass}>B</div>
-                            <div className={`button ${this.state.solo.value ? 'on' : 'off'}`} onClick={this.toggle_solo}>S</div>
-                        </div>
-                        <div className="crossfadergroup">
-                            <div className={`button ${this.state.crossfadergroup.index === 1 ? 'on' : 'off'}`} onClick={() => this.toggle_crossfadergroup(1)}>A</div>
-                            <div className={`button ${this.state.crossfadergroup.index === 2 ? 'on' : 'off'}`} onClick={() => this.toggle_crossfadergroup(2)}>B</div>
-                        </div>
-                        <div className={`handle ${this.props.selected.value ? 'selected' : ''}`} onMouseDown={select}>
-                            {name}
-                        </div>
+                        <ParameterMonitor.Single parameter={props.solo} render={solo => (
+                            <div className={`button ${solo.value ? 'on' : 'off'}`} onClick={() => set_solo(!solo.value)}>S</div>
+                        )} />
                     </div>
-                    <div className="master">
-                        <Parameter
-                            name="Master"
-                            parameter={this.props.master}
-                            hidelabel="yes"
-                            key={this.props.master.id}
-                            id={this.props.master.id}
-                        />
+
+                    <ParameterMonitor.Single parameter={props.crossfadergroup} render={crossfadergroup => (
+                        <div className="crossfadergroup">
+                            <div className={`button ${crossfadergroup.index === 1 ? 'on' : 'off'}`} onClick={() => toggle_crossfadergroup(1)}>A</div>
+                            <div className={`button ${crossfadergroup.index === 2 ? 'on' : 'off'}`} onClick={() => toggle_crossfadergroup(2)}>B</div>
+                        </div>
+                    )} />
+                    <div className={`handle ${props.selected.value ? 'selected' : ''}`} onMouseDown={select}>
+                        {name}
                     </div>
                 </div>
-                {this.props.selected.value &&
-                    <Properties
-                        name={name}    
-                        dashboard={this.props.dashboard}
-                        autopilot={this.props.autopilot}
-                        transition={this.props.transition}
-                        audio={this.props.audio}
-                        video={this.props.video}
-                        title="Layer"
-                        root={layer_root}
+                <div className="master">
+                    <Parameter
+                        name="Master"
+                        parameter={props.master}
+                        hidelabel="yes"
+                        key={props.master.id}
+                        id={props.master.id}
                     />
-                }
+                </div>
             </div>
-        );
-    }
+            {props.selected.value &&
+                <Properties
+                    name={name}    
+                    dashboard={props.dashboard}
+                    autopilot={props.autopilot}
+                    transition={props.transition}
+                    audio={props.audio}
+                    video={props.video}
+                    title="Layer"
+                    root={layer_root}
+                />
+            }
+        </div>
+    );
 }
 
 Layer.contextType = ResolumeContext;

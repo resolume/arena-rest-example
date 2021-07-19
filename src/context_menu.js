@@ -1,145 +1,95 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
+import { ResolumeContext } from './resolume_provider.js'
+import ParameterMonitor from './parameter_monitor.js'
 
 
 /**
   * Component for rendering a parameter option
   * in a menu
   */
-class MenuOption extends React.Component {
-    constructor(props) {
-        super(props);
+function MenuOption(props) {
+    const context                   = useContext(ResolumeContext);
+    const [ expanded, setExpanded ] = useState(false);
 
-        this.state = {
-            parameter: props.param,
-            expand: false,
-        };
+    const update = value => context.action('set', `/parameter/by-id/${props.param.id}`, value);
 
-        this.on_update = (update) => {
-            let parameter = Object.assign({}, this.state.parameter, update);
-            this.setState({ parameter });
-        };
+    return (
+        <ParameterMonitor.Single parameter={props.param} render={parameter => {
+            const options = parameter.options.map((option, index) => {
+                return (
+                    <div
+                        className={`option ${index === parameter.index ? 'selected' : ''}`}
+                        onClick={() => update(index)}
+                    >
+                        {option}
+                    </div>
+                )
+            });
 
-        this.expand = () => {
-            this.setState({ expand: true });
-        };
-
-        this.close = () => {
-            this.setState({ expand: false });
-        }
-    }
-
-    /**
-      * Register the parameter when the component
-      * is added to the DOM
-      */
-    componentDidMount() {
-        this.props.parameters.register_monitor(this.props.param.id, this.on_update, this.props.param);
-    }
-
-    /**
-      * Unregister the parameter when the component
-      * is about to be removed from the DOM
-      */
-    componentWillUnmount() {
-        this.props.parameters.unregister_monitor(this.props.param.id, this.on_update);
-    }
-
-    /**
-      * Handle an update to the parameter value
-      *
-      * @param  value   The new value for the parameter
-      */
-    handle_update(value) {
-        this.props.parameters.update_parameter(this.props.param.id, value);
-    }
-
-    /**
-      * Render the option
-      */
-    render() {
-        const options = this.props.param.options.map((option, index) => {
             return (
-                <div
-                    className={`option ${index === this.state.parameter.index ? 'selected' : ''}`}
-                    onClick={() => this.handle_update(index)}
-                >
-                    {option}
+                <div className="option" onMouseEnter={() => setExpanded(true)} onMouseLeave={() => setExpanded(false)}>
+                    {props.name}
+                    {expanded &&
+                        <div className="sub-menu">{options}</div>
+                    }
                 </div>
             )
-        });
-
-        return (
-            <div className="option" onMouseEnter={this.expand} onMouseLeave={this.close}>
-                {this.props.name}
-                {this.state.expand && 
-                    <div className="sub-menu">{options}</div>
-                }
-            </div>
-        )
-    }
+        }} />
+    );
 }
 
 
 /**
   * Component for rendering a context menu
   */
-class ContextMenu extends React.Component
-{
-    constructor(props) {
-        super(props);
-        this.state = { open: false };
+function ContextMenu(props) {
+    const [ open, setOpen ]         = useState(false);
+    const [ position, setPosition ] = useState({ top: 0, left: 0 });
 
-        this.close_menu = (event) => {
-            event.preventDefault();
-            document.removeEventListener("click", this.close_menu);
-            this.setState({ open: false });
-        }
-
-        this.open_menu = (event) => {
-            event.preventDefault();
-            document.addEventListener("click", this.close_menu);
-
-            this.setState({
-                open: true,
-                x: event.pageX,
-                y: event.pageY,
-            });
-        };
+    const close_menu = event => {
+        event.preventDefault();
+        document.removeEventListener("click", close_menu);
+        setOpen(false);
     }
+
+    const open_menu = event => {
+        event.preventDefault();
+        document.addEventListener("click", close_menu);
+
+        setOpen(true);
+        setPosition({ top: event.pageY, left: event.pageX })
+    };
 
     /**
       * Render the menu content
       */
-    render() {
-        const options = Object.entries(this.props.options).map((value) => {
-            const name      = value[0];
-            const option    = value[1];
-
-            return (
-                <MenuOption
-                    name={name}
-                    param={option}
-                    parameters={this.props.parameters}
-                    key={`menu_option_${option.id}`}
-                />
-            )
-        });
+    const options = Object.entries(props.options).map((value) => {
+        const name      = value[0];
+        const option    = value[1];
 
         return (
-            <React.Fragment>
-                <span onContextMenu={this.open_menu}>
-                    {this.props.children}
-                </span>
-
-                {this.state.open && 
-                    <div className="context-menu" style={{ top: this.state.y, left: this.state.x }}>
-                        <div className="label">{this.props.name}</div>
-                        {options}
-                    </div>
-                }
-            </React.Fragment>
+            <MenuOption
+                name={name}
+                param={option}
+                key={`menu_option_${option.id}`}
+            />
         )
-    }
+    });
+
+    return (
+        <React.Fragment>
+            <span onContextMenu={open_menu}>
+                {props.children}
+            </span>
+
+            {open && 
+                <div className="context-menu" style={position}>
+                    <div className="label">{props.name}</div>
+                    {options}
+                </div>
+            }
+        </React.Fragment>
+    )
 }
 
 export default ContextMenu;

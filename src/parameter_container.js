@@ -51,7 +51,7 @@ class ParameterContainer
         // send message over the transport
         this.transport.send_message({
             action:     'set',
-            parameter:  '/parameter/by-id/' + id,
+            parameter:  `/parameter/by-id/${id}`,
             value:      value,
         });
     }

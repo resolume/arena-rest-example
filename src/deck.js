@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ResolumeContext } from './resolume_provider.js'
 import PropTypes from 'prop-types'
 
 /**
   * Component rendering a deck within the composition
   */
-function Deck(props) {
+function Deck({ id, name, selected }) {
+    const context   = useContext(ResolumeContext);
+    const select    = () => context.action('trigger', `/composition/decks/by-id/${id}/select`);
+
     return (
         <div
-            className={`deck ${props.selected ? 'selected' : ''}`}
-            onClick={props.select}
+            className={`deck ${selected ? 'selected' : ''}`}
+            onClick={select}
         >
-        {props.name.value}
+        {name.value}
         </div>
     );
 }
@@ -20,7 +24,8 @@ function Deck(props) {
   */
 Deck.propTypes = {
     selected: PropTypes.bool.isRequired,
-    select: PropTypes.func.isRequired
+    name: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired
 }
 
 export default Deck;
