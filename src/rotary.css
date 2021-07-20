@@ -43,7 +43,7 @@
 .rotary:hover .dial,
 .rotary.active .dial div,
 .rotary:hover .dial div {
-    border-bottom-color: #66ff00;
+    border-bottom-color: #80ffd2;
 }
 
 .rotary circle {
