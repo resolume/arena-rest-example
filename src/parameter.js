@@ -224,7 +224,7 @@ function ParamRange(props) {
   */
 function Parameter(props) {
     const context       = useContext(ResolumeContext);
-    const handle_update = value => context.parameters.update_parameter(this.props.parameter.id, value);
+    const handle_update = value => context.parameters.update_parameter(props.parameter.id, value);
 
     return (
         <ParameterMonitor.Single parameter={props.parameter} render={param => {

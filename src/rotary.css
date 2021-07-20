@@ -9,6 +9,8 @@
     border-bottom-color: #4d8c75;
     border-bottom-style: solid;
 
+    transition: border-bottom-color .25s;
+
     height: 50%;
     left: 50%;
     top: 25%;
@@ -26,6 +28,8 @@
     border-bottom-color: #4d8c75;
     border-bottom-style: solid;
 
+    transition: border-bottom-color .25s;
+
     width: 0;
     height: 0;
 
@@ -33,6 +37,13 @@
     right: 0;
 
     margin: auto;
+}
+
+.rotary.active .dial,
+.rotary:hover .dial,
+.rotary.active .dial div,
+.rotary:hover .dial div {
+    border-bottom-color: #66ff00;
 }
 
 .rotary circle {
