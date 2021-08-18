@@ -15,9 +15,9 @@ const layer_root = document.getElementById('layer_properties');
 function Layer(props) {
     const context = useContext(ResolumeContext);
 
-    const set_bypass                = bypassed  => props.parameters.update_parameter(props.bypassed.id, bypassed);
-    const set_solo                  = solo      => props.parameters.update_parameter(props.solo.id, solo);
-    const toggle_crossfadergroup    = value     => props.parameters.update_parameter(props.crossfadergroup.id, value);
+    const set_bypass                = bypassed  => context.parameters.update_parameter(props.bypassed.id, bypassed);
+    const set_solo                  = solo      => context.parameters.update_parameter(props.solo.id, solo);
+    const toggle_crossfadergroup    = value     => context.parameters.update_parameter(props.crossfadergroup.id, value);
 
     /* Replace # with ((index+1) of Layer) */
     const name      = props.name.value.replace(/#/g, props.index+1);
@@ -79,7 +79,7 @@ function Layer(props) {
     );
 }
 
-Layer.contextType = ResolumeContext;
+//Layer.contextType = ResolumeContext;
 
 /**
   * Property declaration for Layer component
@@ -87,8 +87,7 @@ Layer.contextType = ResolumeContext;
 Layer.propTypes = {
     id: PropTypes.number.isRequired,
     selected: PropTypes.object.isRequired,
-    dashboard: PropTypes.object.isRequired,
-    parameters: PropTypes.object.isRequired
+    dashboard: PropTypes.object.isRequired
 }
 
 export default Layer;
