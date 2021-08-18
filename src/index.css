@@ -78,6 +78,10 @@ body {
     background-color: #3a3a3a;
 }
 
+.button:hover {
+    background-color: #50504f;
+}
+
 .on
 {
     background-color: #A1FCD5;
@@ -117,9 +121,17 @@ body {
     text-align: center;    
 }
 
+.handle:hover {
+    background-color: #50504f;
+}
+
 .selected {
     background-color: #A1FCD5;
     color: #1C1C1C;
+}
+
+.selected:hover {
+    background-color: #A1FCD5;
 }
 
 .layers_and_clips {
@@ -152,6 +164,10 @@ body {
     border-top-right-radius: 5px;
 }
 
+.column:hover {
+    background-color: #50504f;  
+}
+
 .column.connected {
     background-color: #80ffd2;
     color: #1b1b1b;
@@ -176,6 +192,10 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.decks > div:hover {
+    background-color: #50504f;  
 }
 
 .decks > div.selected {
