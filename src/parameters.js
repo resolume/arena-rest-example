@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ResolumeContext } from './resolume_provider.js'
 import Parameter from './parameter.js'
 import PropTypes from 'prop-types';
 
@@ -7,6 +8,8 @@ import PropTypes from 'prop-types';
   * Render a list of params 
   */
 function Parameters(props) {
+    const context = useContext(ResolumeContext);
+
     const parameters = Object.entries(props.params).map((value) => {
 
         let name = value[0];
@@ -23,7 +26,7 @@ function Parameters(props) {
         return (
             <div key={`parameter_wrapper_${param.id}`}>
                 {!props.labelLast &&                    
-                    <span className="label" onDoubleClick={() => props.parameters.reset_parameter(param.id)}>{name}</span>    
+                    <span className="label" onDoubleClick={() => context.parameters.reset_parameter(param.id)}>{name}</span>    
                 }
                 <Parameter
                     name={name}
@@ -32,7 +35,7 @@ function Parameters(props) {
                     parameter={param}
                 />
                 {props.labelLast &&                 
-                    <span className="label" onDoubleClick={() => props.parameters.reset_parameter(param.id)}>{name}</span>    
+                    <span className="label" onDoubleClick={() => context.parameters.reset_parameter(param.id)}>{name}</span>    
                 }                    
             </div>
         )
