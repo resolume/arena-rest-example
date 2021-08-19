@@ -88,6 +88,10 @@ body {
     color: black;
 }
 
+.on:hover {
+    background-color: #A1FCD5;
+}
+
 .off
 {
     background-color: #3a3a3a;
