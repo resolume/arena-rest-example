@@ -28,7 +28,7 @@ function Clip(props) {
       * "Empty", "Disconnected", "Previewing", "Connected", "Connected & previewing"
       */
     const connected = props.connected.index >= 3;
-    const name = props.name.value.length > 23 ? props.name.value.substring(0,22) + "..." : props.name.value;
+    const name = props.name.value.length > 12 ? props.name.value.substring(0,11) + "..." : props.name.value;
 
     const connect   = down  => context.action('trigger', `/composition/clips/by-id/${props.id}/connect`, down);
     const select    = ()    => context.action('trigger', `/composition/clips/by-id/${props.id}/select`);

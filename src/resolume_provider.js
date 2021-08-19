@@ -39,8 +39,14 @@ function ResolumeProvider(props) {
         transport.on_message(message => {
             // TODO: properly check the type, right now it's only for param updates
             if (typeof message.type !== 'string') {
-                console.log('state update', message);
-                setComposition(message);
+                /* check if message contains a composition, does it have columns and layers */
+                if (message.columns && message.layers)
+                {
+                    console.log('state update', message);
+                    setComposition(message);
+                }
+                else
+                    console.log('state does not contain a composition', message);
             }
         });
 
