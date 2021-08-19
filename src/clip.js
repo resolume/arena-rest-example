@@ -41,7 +41,7 @@ function Clip(props) {
                     options={menu_options}
                 >
                 <div className="clip">
-                    <div className={`${connected ? 'connected' : ''}`}>
+                    <div className={`${connected ? 'connected' : 'none'}`}>
                         <img className="thumbnail"
                             src={context.clip_url(props.id, props.thumbnail.last_update)}
                             onMouseDown={() => connect(true)}
