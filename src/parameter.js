@@ -188,10 +188,27 @@ function ParamRange(props) {
     )
 }
 
+
+function PaletteEntry(props) {
+    const { color, onPick } = props;
+
+    const v = String(color).substring(0, 7);
+    const s = {
+        backgroundColor: `${v}`,
+        display: "inline-block",
+        width: "15px",
+        height: "15px",
+        marginRight: "2px"
+    }
+
+    return (
+        <span style={s} onMouseDown={onPick}/>
+    )    
+}
 /**
   * A parameter showing a color input color parameters
   */
- function ParamColor(props) {
+function ParamColor(props) {
 
     const [ value, setValue ] = useState();
     const { parameter, readonly, on_update } = props;
@@ -205,6 +222,18 @@ function ParamRange(props) {
     // only copy first three components
     const v = String(value || parameter.value).substring(0, 7);
 
+    /**
+      * Create PaletteEntry for each color in the palette
+    */
+    const palette = parameter.palette.map((color, index) =>  
+        <PaletteEntry
+            key={index}
+            parameter={parameter}
+            color={color}
+            onPick={() => debouncer.set_value(color)}
+        />
+    );
+
     return (
         <span className="parameter">
             <input
@@ -213,6 +242,9 @@ function ParamRange(props) {
                 readOnly={readonly}
                 onChange={(event) => debouncer.set_value(event.target.value)}
             />
+            <span>
+                {palette}
+            </span>
         </span>
     )
 }
