@@ -32,21 +32,21 @@ function Layer(props) {
             <div className="controls">
                 <div className="buttons">
                     <div className="cbs">
-                        <div className={`button off`} onClick={clear}>Clear</div>
+                        <div className={`button off`} onMouseDown={clear}>Clear</div>
 
                         <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
-                            <div className={`button ${bypassed.value ? 'on' : 'off'}`} onClick={() => set_bypass(!bypassed.value)}>B</div>
+                            <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
                         )} />
 
                         <ParameterMonitor.Single parameter={props.solo} render={solo => (
-                            <div className={`button ${solo.value ? 'on' : 'off'}`} onClick={() => set_solo(!solo.value)}>S</div>
+                            <div className={`button ${solo.value ? 'on' : 'off'}`} onMouseDown={() => set_solo(!solo.value)}>S</div>
                         )} />
                     </div>
 
                     <ParameterMonitor.Single parameter={props.crossfadergroup} render={crossfadergroup => (
                         <div className="crossfadergroup">
-                            <div className={`button ${crossfadergroup.index === 1 ? 'on' : 'off'}`} onClick={() => toggle_crossfadergroup(1)}>A</div>
-                            <div className={`button ${crossfadergroup.index === 2 ? 'on' : 'off'}`} onClick={() => toggle_crossfadergroup(2)}>B</div>
+                            <div className={`button ${crossfadergroup.value === "A" ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup("A")}>A</div>
+                            <div className={`button ${crossfadergroup.value === "B" ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup("B")}>B</div>
                         </div>
                     )} />
                     <div className={`handle ${props.selected.value ? 'selected' : ''}`} onMouseDown={select}>

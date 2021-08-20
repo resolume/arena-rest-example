@@ -64,7 +64,6 @@ body {
     margin-right: 2px;
 }
 
-
 .button
 {
     text-align: center;        
@@ -72,14 +71,15 @@ body {
     margin-right: 2px;
     margin-bottom: 2px;    
 }
-
 .button 
 {
     background-color: #3a3a3a;
 }
-
 .button:hover {
     background-color: #50504f;
+}
+.button:active {
+    background-color: #A1FCD5;
 }
 
 .on
@@ -259,7 +259,6 @@ body {
 .dashboard .label {
     margin-left: 0px;
 }
-
 
 span.parameter input {
     border: none;
