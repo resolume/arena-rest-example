@@ -114,7 +114,7 @@ function ParamChoice(props) {
 
     const options = parameter.options.map((option, index) => {
         return (
-            <option key={`parameter_${parameter.id}_option_${index}`} value={index}>
+            <option key={`parameter_${parameter.id}_option_${index}`} value={option}>
                 {option}
             </option>
         )
@@ -122,8 +122,8 @@ function ParamChoice(props) {
 
     return (
         <select className="choice"
-            value={value || parameter.index}
-            onChange={(event) => debouncer.set_value(parseInt(event.target.value, 10))}
+            value={value || parameter.value}
+            onChange={(event) => debouncer.set_value(event.target.value)}
             readOnly={readonly}
         >
             {options}
@@ -205,7 +205,6 @@ function ParamRange(props) {
     // only copy first three components
     const v = String(value || parameter.value).substring(0, 7);
 
-    console.log(v);
     return (
         <span className="parameter">
             <input
@@ -217,7 +216,6 @@ function ParamRange(props) {
         </span>
     )
 }
-
 
 /**
   * Class for rendering a parameter
