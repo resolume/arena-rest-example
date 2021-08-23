@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 /**
   * Component for rendering a CrossFader
   */
-function CrossFader({ phase, behaviour, curve, video }) {
+function CrossFader({ phase, behaviour, curve, mixer }) {
     const context       = useContext(ResolumeContext);
     const handle_reset  = id => context.action('reset', `/parameter/by-id/${id}`);
 
@@ -42,12 +42,12 @@ function CrossFader({ phase, behaviour, curve, video }) {
                         id={curve.id}
                     />
                 </div>
-                {video.mixer &&
+                {mixer &&
                     <div>
                         <Parameters
                             key="mixer_crossfader"
                             name="Mixer"
-                            params={video.mixer}
+                            params={mixer}
                         />
                     </div>
                 }
@@ -62,7 +62,7 @@ function CrossFader({ phase, behaviour, curve, video }) {
  CrossFader.propTypes = {
     phase: PropTypes.object.isRequired,
     behaviour: PropTypes.object.isRequired,
-    curve: PropTypes.object.isRequired,
+    curve: PropTypes.object.isRequired
 }
 
 export default CrossFader;

@@ -91,7 +91,7 @@ function Composition() {
                 phase={context.composition.crossfader.phase}
                 behaviour={context.composition.crossfader.behaviour}
                 curve={context.composition.crossfader.curve}
-                video={context.composition.crossfader.video}
+                mixer={context.composition.crossfader.mixer}
             />
         );
     };
