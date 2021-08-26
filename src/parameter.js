@@ -154,7 +154,7 @@ function ParamRange(props) {
         }
     }
 
-    if (view.control_type === 'CT_ROTARY') {
+    if (view.control_type === 'rotary') {
         return (
             <Rotary
                 size={30}
