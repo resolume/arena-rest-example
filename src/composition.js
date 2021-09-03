@@ -47,6 +47,7 @@ function Composition() {
             triggerstyle={clip.triggerstyle}
             faderstart={clip.faderstart}
             ignorecolumntrigger={clip.ignorecolumntrigger}
+            transport={clip.transport}
         />
     );
 

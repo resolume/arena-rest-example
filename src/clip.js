@@ -3,9 +3,11 @@ import React, { useContext } from 'react'
 import Properties from './properties.js'
 import PropTypes from 'prop-types';
 import ContextMenu from './context_menu.js';
+import Timeline from './timeline.js';
 
 // we need to draw outside of our container, but instead
 // draw elsewhere in the html hierarchy
+const clip_transport = document.getElementById('clip_transport');
 const clip_root = document.getElementById('clip_properties');
 
 /**
@@ -56,14 +58,20 @@ function Clip(props) {
                 </ContextMenu>
             </div>
             {props.selected.value &&
-                <Properties
-                    name={props.name.value}
-                    dashboard={props.dashboard}    
-                    audio={props.audio}
-                    video={props.video}
-                    title="Clip"
-                    root={clip_root}
-                />
+                <React.Fragment>
+                    <Timeline
+                        transport={props.transport}
+                        root={clip_transport}
+                    />
+                    <Properties
+                        name={props.name.value}
+                        dashboard={props.dashboard}    
+                        audio={props.audio}
+                        video={props.video}
+                        title="Clip"
+                        root={clip_root}
+                    />
+                </React.Fragment>
         }
         </div>
     )

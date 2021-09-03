@@ -61,7 +61,7 @@ const ParameterMonitor = {
         // merge parameters with updated state
         // use spread syntax to ensure copies of the object
         let merged = { ...parameters };
-        for (const id in parameters) {
+        for (const id in state) {
             const parameter = state[id];
 
             if (parameter !== undefined) {
