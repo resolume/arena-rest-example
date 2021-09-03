@@ -114,7 +114,7 @@ function ParamChoice(props) {
 
     const options = parameter.options.map((option, index) => {
         return (
-            <option key={`parameter_${parameter.id}_option_${index}`} value={option}>
+            <option key={`parameter_${parameter.id}_option_${index}`} value={index}>
                 {option}
             </option>
         )
@@ -122,8 +122,8 @@ function ParamChoice(props) {
 
     return (
         <select className="choice"
-            value={value || parameter.value}
-            onChange={(event) => debouncer.set_value(event.target.value)}
+            value={value || parameter.index}
+            onChange={(event) => debouncer.set_value(parseInt(event.target.value, 10))}
             readOnly={readonly}
         >
             {options}

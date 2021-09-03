@@ -45,8 +45,8 @@ function Layer(props) {
 
                     <ParameterMonitor.Single parameter={props.crossfadergroup} render={crossfadergroup => (
                         <div className="crossfadergroup">
-                            <div className={`button ${crossfadergroup.value === "A" ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup("A")}>A</div>
-                            <div className={`button ${crossfadergroup.value === "B" ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup("B")}>B</div>
+                            <div className={`button ${crossfadergroup.index === 1 ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup(1)}>A</div>
+                            <div className={`button ${crossfadergroup.index === 2 ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup(2)}>B</div>
                         </div>
                     )} />
                     <div className={`handle ${props.selected.value ? 'selected' : ''}`} onMouseDown={select}>
