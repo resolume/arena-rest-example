@@ -20,7 +20,7 @@ function Timeline(props) {
         return () => props.root.removeChild(element);
     });
 
-    let behaviour = props.transport.behaviour;
+    const behaviour = props.transport.behaviour;
 
     let controls = (
     
@@ -38,7 +38,6 @@ function Timeline(props) {
                     id={props.transport.position.id}
                 />
             </div>
-
             <div>
                 <span className="label" onDoubleClick={() => handle_reset(behaviour.playdirection.id)}>Direction</span>
                 <Parameter
@@ -56,16 +55,16 @@ function Timeline(props) {
                     key={behaviour.playmode.id}
                     id={behaviour.playmode.id}
                 />
-            </div>            
-            <div>
-                <span className="label" onDoubleClick={() => handle_reset(behaviour.playmode.id)}>Beatloop</span>
-                <Parameter
-                    name="Beatloop"
-                    parameter={behaviour.beatloop}
-                    key={behaviour.beatloop.id}
-                    id={behaviour.beatloop.id}
-                />
             </div>
+            <div>
+                <span className="label" onDoubleClick={() => handle_reset(behaviour.duration.id)}>Duration</span>
+                <Parameter
+                    name="Duration"
+                    parameter={behaviour.duration}
+                    key={behaviour.duration.id}
+                    id={behaviour.duration.id}
+                />
+            </div>            
             <div>
                 <span className="label" onDoubleClick={() => handle_reset(behaviour.speed.id)}>Speed</span>
                 <Parameter
@@ -75,6 +74,17 @@ function Timeline(props) {
                     id={behaviour.speed.id}
                 />
             </div>             
+            {behaviour.beatloop &&
+            <div>
+                <span className="label" onDoubleClick={() => handle_reset(behaviour.beatloop.id)}>Beatloop</span>
+                <Parameter
+                    name="Beatloop"
+                    parameter={behaviour.beatloop}
+                    key={behaviour.beatloop.id}
+                    id={behaviour.beatloop.id}
+                />
+            </div>
+            }
         </div>
     );
 
