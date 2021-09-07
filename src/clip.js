@@ -1,5 +1,5 @@
 import { ResolumeContext } from './resolume_provider.js'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Properties from './properties.js'
 import PropTypes from 'prop-types';
 import ContextMenu from './context_menu.js';
@@ -26,14 +26,33 @@ function Clip(props) {
     };
 
     /**
+     *  We need to track whether the clip is being pressed upon by the mouse
+     *  because if we hold the mouse button down and then wiggle the mouse a
+     *  bit, the mouseup event does not trigger when the mouse pointer leaves
+     *  the image area. For that case we use a mouse leave event, but it should
+     *  only be triggered when the mouse was previously holding the button
+     */
+    const [ mouseDown, setMouseDown ] = useState(false);
+
+    /**
       * Connected has 5 possible states 
       * "Empty", "Disconnected", "Previewing", "Connected", "Connected & previewing"
       */
     const connected = props.connected.index >= 3;
     const name = props.name.value.length > 12 ? props.name.value.substring(0,11) + "..." : props.name.value;
 
-    const connect   = down  => context.action('trigger', `/composition/clips/by-id/${props.id}/connect`, down);
-    const select    = ()    => context.action('trigger', `/composition/clips/by-id/${props.id}/select`);
+    const select = () => context.action('trigger', `/composition/clips/by-id/${props.id}/select`);
+
+    const connect = down => {
+        // don't send the release event twice
+        // in a row without a connect in between
+        if (!mouseDown && !down) {
+            return;
+        }
+
+        context.action('trigger', `/composition/clips/by-id/${props.id}/connect`, down)
+        setMouseDown(down);
+    };
 
     return (
         <div>
@@ -48,6 +67,8 @@ function Clip(props) {
                             src={context.clip_url(props.id, props.thumbnail.last_update)}
                             onMouseDown={() => connect(true)}
                             onMouseUp={() => connect(false)}
+                            onMouseLeave={() => connect(false)}
+                            onDragStart={(event) => event.preventDefault()}
                             alt={props.name.value}
                         />
                     </div>
