@@ -79,7 +79,8 @@ function Properties(props) {
                 <Effect
                     key={`effect_${value.name}`}
                     name={value.name}
-                    mixer={value.mixer}
+                    bypassed={value.bypassed}
+                    mixer={value.mixer}                    
                     params={value.params}
                 />
             );
@@ -120,6 +121,7 @@ function Properties(props) {
             return (
                 <Effect
                     key={`effect_${value.name}`}
+                    bypassed={value.bypassed}
                     name={value.name}
                     mixer={value.mixer}
                     params={value.params}

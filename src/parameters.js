@@ -15,11 +15,6 @@ function Parameters(props) {
         let name = value[0];
         const param = value[1];
 
-        // do not render parameters that are supposed to be hidden
-        // (should we be doing this in the frontend?)
-        if (param.view && param.view.visible === false)
-            return null;
-
         if (param.view && param.view.alternative_name)
             name = param.view.alternative_name;
 

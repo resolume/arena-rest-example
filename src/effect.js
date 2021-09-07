@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import { ResolumeContext } from './resolume_provider.js'
+import React, { useContext, useState } from 'react'
+import ParameterMonitor from './parameter_monitor.js'
 import Parameters from './parameters.js'
 import PropTypes from 'prop-types';
 
@@ -7,7 +9,9 @@ import PropTypes from 'prop-types';
   * effect chain
   */
 function Effect(props) {
+    const context = useContext(ResolumeContext);
     const [ expanded, setExpanded ] = useState(true);
+    const set_bypass                = bypassed  => context.parameters.update_parameter(props.bypassed.id, bypassed);
 
     return (
         <div className="effect">
@@ -15,6 +19,11 @@ function Effect(props) {
                 <span className={`arrow ${expanded ? 'down' : 'right'}`}></span>
                 {props.name}
             </div>
+            {props.bypassed &&
+                <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
+                    <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
+                )} />
+            }
             {expanded && props.mixer &&
                 /* An Effect does not always have a mixer, Mask and Transform do not for instance */
                 <Parameters
