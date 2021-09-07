@@ -72,7 +72,7 @@ function Clip(props) {
                         root={clip_root}
                     />
                 </React.Fragment>
-        }
+            }
         </div>
     )
 }

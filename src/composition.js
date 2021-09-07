@@ -61,6 +61,9 @@ function Composition() {
             solo={layer.solo}
             crossfadergroup={layer.crossfadergroup}
             master={layer.master}
+            maskmode={layer.maskmode}
+            faderstart={layer.faderstart}
+            ignorecolumntrigger={layer.ignorecolumntrigger}
             dashboard={layer.dashboard}
             autopilot={layer.autopilot}
             transition={layer.transition}

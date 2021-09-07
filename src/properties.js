@@ -132,6 +132,7 @@ function Properties(props) {
         video_section = (
             <div>
                 {props.video.sourceparams &&
+                    /* Only available for Clip Video Tracks */
                     <div>
                         <div className="title">{props.name}</div>
                         <div className="content">
@@ -161,6 +162,18 @@ function Properties(props) {
                                 params={props.video.mixer}
                             />    
                         }
+                        {props.video.autosize &&
+                            /* Only available for Layer Video Tracks */
+                            <div>
+                                <span className="label" onDoubleClick={() => handle_reset(props.video.autosize.id)}>Auto Size</span>
+                                <Parameter
+                                    name="Auto Size"
+                                    key={props.video.autosize.id}
+                                    id={props.video.autosize.id}
+                                    parameter={props.video.autosize}
+                                />
+                            </div>
+                        }                      
                         <div className="effects">
                             {effects}
                         </div>

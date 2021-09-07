@@ -14,18 +14,22 @@ function MenuOption(props) {
     const update = value => context.action('set', `/parameter/by-id/${props.param.id}`, value);
 
     return (
-        <ParameterMonitor.Single parameter={props.param} render={parameter => {
-            const options = parameter.options.map((option, index) => {
-                return (
-                    <div
-                        className={`option ${index === parameter.index ? 'selected' : ''}`}
-                        onClick={() => update(index)}
-                    >
+        <ParameterMonitor.Single parameter={props.param} render={parameter => {            
+            let options = null;
+            /* this check is in because the ContexMenu for the Layer passes Boolean Parameters to this menu, and those don't have any options  */
+            if (parameter.options)
+            {
+                options = parameter.options.map((option, index) => {
+                    return (
+                        <div
+                            className={`option ${index === parameter.index ? 'selected' : ''}`}
+                            onClick={() => update(index)}
+                        >
                         {option}
-                    </div>
-                )
-            });
-
+                        </div>
+                    )
+                });
+            }
             return (
                 <div className="option" onMouseEnter={() => setExpanded(true)} onMouseLeave={() => setExpanded(false)}>
                     {props.name}
@@ -81,7 +85,6 @@ function ContextMenu(props) {
             <span onContextMenu={open_menu}>
                 {props.children}
             </span>
-
             {open && 
                 <div className="context-menu" style={position}>
                     <div className="label">{props.name}</div>
