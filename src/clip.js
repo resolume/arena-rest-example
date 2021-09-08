@@ -80,10 +80,12 @@ function Clip(props) {
             </div>
             {props.selected.value &&
                 <React.Fragment>
-                    <Timeline
-                        transport={props.transport}
-                        root={clip_transport}
-                    />
+                    {props.transport &&
+                        <Timeline
+                            transport={props.transport}
+                            root={clip_transport}
+                        />
+                    }
                     <Properties
                         name={props.name.value}
                         dashboard={props.dashboard}    
