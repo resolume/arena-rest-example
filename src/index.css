@@ -367,8 +367,14 @@ input[type="range"]::-webkit-slider-thumb {
     padding-left: 12px;
 }
 
-.context-menu > .option:after {
+.context-menu > .menu:after {
     content: '▸';
+    position: absolute;
+    right: 8px;
+}
+
+.context-menu > .option.checked:after {
+    content: '✓';
     position: absolute;
     right: 8px;
 }
