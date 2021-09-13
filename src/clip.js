@@ -17,13 +17,17 @@ const clip_root = document.getElementById('clip_properties');
 function Clip(props) {
     const context = useContext(ResolumeContext);
 
-    const menu_options = {
+    let menu_options = {
         'Beat Snap':                props.beatsnap,
+        'Transport':                props.transporttype,
         'Target':                   props.target,
         'Trigger Style':            props.triggerstyle,
         'Fader Start':              props.faderstart,
-        'Ignore Column Trigger':    props.ignorecolumntrigger,
-    };
+        'Ignore Column Trigger':    props.ignorecolumntrigger
+    };    
+    /* Add 'Resize' option to menu if clip has video track */
+    if (props.video)
+        menu_options['Resize'] = props.video.resize;
 
     /**
      *  We need to track whether the clip is being pressed upon by the mouse

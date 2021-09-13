@@ -43,6 +43,7 @@ function Composition() {
             audio={clip.audio}
             video={clip.video}
             beatsnap={clip.beatsnap}
+            transporttype={clip.transporttype}
             target={clip.target}
             triggerstyle={clip.triggerstyle}
             faderstart={clip.faderstart}
