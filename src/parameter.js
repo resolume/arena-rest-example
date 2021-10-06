@@ -166,6 +166,30 @@ function ParamRange(props) {
                 onChange={(value) => debouncer.set_value(value / multiplier)}
             />
         )
+    } else if (view.control_type === 'spinner') {
+        return (
+            <span className="parameter spinner">
+                <input
+                    type="text"
+                    value={(value || parameter.value) * multiplier}
+                    onChange={(event) => debouncer.set_value(parseFloat(event.target.value) / multiplier)}
+                />
+
+                <Parameter
+                    name={props.name}
+                    parameter={parameter}
+                    label="-"
+                    modifier={value => value - step}
+                />
+
+                <Parameter
+                    name={props.name}
+                    parameter={parameter}
+                    label="+"
+                    modifier={value => value + step}
+                />
+            </span>
+        )
     }
 
     const view_type = props.view_type || "range";
