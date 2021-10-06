@@ -22,48 +22,6 @@ body {
 
 /**~~~~~~LAYERS~~~~~~~**/
 
-.layer
-{
-    width: 180px;
-    margin-bottom: 5px;
-}
-
-.layer .controls { 
-    display: grid;
-    grid-template-columns: 1fr 0.1fr; 
-}
-
-.layer .buttons { 
-    display: grid;
-    grid-template-rows: 2.25fr 1fr 1fr;
-}
-
-.layer .cbs {    
-    display: grid;    
-    grid-template-columns: repeat(3, 1fr); 
-    width: 100%;
-    height: 100%;    
-}
-
-
-.layer input[type='range'] {
-    writing-mode: bt-lr;
-    -webkit-appearance: slider-vertical; 
-    height: 95px;
-    width: 10px;
-    height: 95px;    
-}
-
-
-.layer .crossfadergroup {       
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-}
-
-.layer .handle {    
-    margin-right: 2px;
-}
-
 .button
 {
     text-align: center;        

@@ -5,6 +5,7 @@ import Properties from './properties.js';
 import PropTypes from 'prop-types';
 import ContextMenu from './context_menu.js';
 import Parameter from './parameter';
+import './layer.css';
 
 // we need to draw outside of our container, but instead
 // draw elsewhere in the html hierarchy
