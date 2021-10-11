@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { ResolumeContext } from './resolume_provider.js'
 import ParameterMonitor from './parameter_monitor.js'
 import PropTypes from 'prop-types';
@@ -43,6 +43,61 @@ class value_debouncer
 }
 
 /**
+ *  Intercept and monitor changes to submit when
+ *  editing is complete
+ */
+class value_monitor
+{
+    /**
+     *  Constructor
+     *
+     *  @param  updater     The function to call to send the updated value to the server
+     *  @param  displayer   The function to call to update the displayed value
+     */
+    constructor(updater, displayer) {
+        this.updater    = updater;
+        this.displayer  = displayer;
+        this.value      = undefined;
+    }
+
+    /**
+     *  Update the shown value
+     *
+     *  @param  value   The new value to show
+     */
+    set_value(value) {
+        this.displayer(value);
+        this.value = value;
+    }
+
+    /**
+     *  Confirm the change
+     */
+    confirm() {
+        // if no value was saved, we need not
+        // store any values
+        if (!this.value) {
+            return;
+        }
+
+        this.updater(this.value);
+
+        setTimeout(() => {
+            this.value = undefined;
+            this.displayer(undefined);
+        }, 25);
+    }
+
+    /**
+     *  Abort changes
+     */
+    abort() {
+        this.updater(undefined);
+        this.value = undefined;
+    }
+};
+
+/**
   * A parameter showing a simple text field
   */
 function ParamString(props) {
@@ -55,14 +110,14 @@ function ParamString(props) {
         const [ value, setValue ] = useState();
         const { parameter, on_update } = props;
 
-        const debouncer = new value_debouncer(on_update, setValue);
+        const debouncer = useRef(new value_debouncer(on_update, setValue));
 
         return (
             <span className="parameter">
                 <input
                     type="text"
                     value={value || parameter.value}
-                    onChange={(event) => debouncer.set_value(event.target.value)}
+                    onChange={(event) => debouncer.current.set_value(event.target.value)}
                 />
             </span>
         )
@@ -110,7 +165,7 @@ function ParamChoice(props) {
     const [ value, setValue ] = useState();
     const { parameter, readonly, on_update } = props;
 
-    const debouncer = new value_debouncer(on_update, setValue);
+    const debouncer = useRef(new value_debouncer(on_update, setValue));
 
     const options = parameter.options.map((option, index) => {
         return (
@@ -123,7 +178,7 @@ function ParamChoice(props) {
     return (
         <select className="choice"
             value={value || parameter.index}
-            onChange={(event) => debouncer.set_value(parseInt(event.target.value, 10))}
+            onChange={(event) => debouncer.current.set_value(parseInt(event.target.value, 10))}
             readOnly={readonly}
         >
             {options}
@@ -143,7 +198,7 @@ function ParamRange(props) {
     const multiplier    = view.multiplier || 1;
     const step          = view.step || (parameter.max - parameter.min) / 100;
     const suffix        = view.suffix || "";
-    const debouncer     = new value_debouncer(on_update, setValue);
+    const debouncer     = useRef(new value_debouncer(on_update, setValue));
     const showlabel     = hidelabel === "no";
 
     let show_number = (number) => {
@@ -163,16 +218,33 @@ function ParamRange(props) {
                 step={step}
                 value={(value || parameter.value) * multiplier}
                 readOnly={readonly}
-                onChange={(value) => debouncer.set_value(value / multiplier)}
+                onChange={(value) => debouncer.current.set_value(value / multiplier)}
             />
         )
     } else if (view.control_type === 'spinner') {
+        const monitor = useRef(new value_monitor(on_update, setValue));
+
+        const handler = (event) => {
+            switch (event.charCode) {
+                case 13:
+                    monitor.current.confirm();
+                    event.target.blur();
+                    break;
+                case 27:
+                    monitor.current.abort();
+                    event.target.blur();
+                    break;
+            }
+        };
+
         return (
             <span className="parameter spinner">
                 <input
                     type="text"
                     value={(value || parameter.value) * multiplier}
-                    onChange={(event) => debouncer.set_value(parseFloat(event.target.value) / multiplier)}
+                    onChange={(event) => monitor.current.set_value(parseFloat(event.target.value) / multiplier)}
+                    onKeyPress={handler}
+                    onBlur={() => monitor.current.confirm()}
                 />
 
                 <Parameter
@@ -203,7 +275,7 @@ function ParamRange(props) {
                 step={step}
                 value={(value || parameter.value) * multiplier}
                 readOnly={readonly}
-                onChange={(event) => debouncer.set_value(parseFloat(event.target.value) / multiplier)}
+                onChange={(event) => debouncer.current.set_value(parseFloat(event.target.value) / multiplier)}
             />
             {showlabel &&
                 <span>{show_number(value || parameter.value) * multiplier} {suffix}</span>
@@ -236,7 +308,7 @@ function ParamColor(props) {
 
     const [ value, setValue ] = useState();
     const { parameter, readonly, on_update } = props;
-    const debouncer = new value_debouncer(on_update, setValue);
+    const debouncer = useRef(new value_debouncer(on_update, setValue));
 
     /**
       * Right now we ignore the alpha component of the color value we receive
@@ -254,7 +326,7 @@ function ParamColor(props) {
             key={index}
             parameter={parameter}
             color={color}
-            onPick={() => debouncer.set_value(color)}
+            onPick={() => debouncer.current.set_value(color)}
         />
     );
 
@@ -264,7 +336,7 @@ function ParamColor(props) {
                 type="color"
                 value={v}
                 readOnly={readonly}
-                onChange={(event) => debouncer.set_value(event.target.value)}
+                onChange={(event) => debouncer.current.set_value(event.target.value)}
             />
             <span>
                 {palette}
