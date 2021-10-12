@@ -130,7 +130,7 @@ function ParamString(props) {
 function ParamEvent(props) {
     const { parameter, on_update } = props;
 
-    const view  = parameter.view        || {};
+    const view  = parameter.view        || props.view || {};
     const name  = view.alternative_name || props.name;
 
     return (
@@ -194,7 +194,7 @@ function ParamRange(props) {
     const { parameter, readonly, on_update, hidelabel } = props;
 
     // retrieve the multiplier and view - if given
-    const view          = parameter.view || {};
+    const view          = parameter.view || props.view || {};
     const multiplier    = view.multiplier || 1;
     const step          = view.step || (parameter.max - parameter.min) / 100;
     const suffix        = view.suffix || "";
@@ -377,6 +377,7 @@ function Parameter(props) {
                 return (
                     <ParamEvent
                         parameter={param}
+                        view={props.view}
                         name={props.name}
                         readonly={props.readonly}
                         on_update={(value) => handle_update(value)}
@@ -386,6 +387,7 @@ function Parameter(props) {
                 return (
                     <ParamBoolean
                         parameter={param}
+                        view={props.view}
                         name={props.name}
                         readonly={props.readonly}
                         on_update={(value) => handle_update(value)}
@@ -395,6 +397,7 @@ function Parameter(props) {
                 return (
                     <ParamRange
                         parameter={param}
+                        view={props.view}
                         name={props.name}
                         readonly={props.readonly}
                         on_update={(value) => handle_update(value)}
@@ -406,6 +409,7 @@ function Parameter(props) {
                 return (
                     <ParamChoice
                         parameter={param}
+                        view={props.view}
                         name={props.name}
                         readonly={props.readonly}
                         on_update={(value) => handle_update(value)}
@@ -415,6 +419,7 @@ function Parameter(props) {
                 return (
                     <ParamColor
                         parameter={param}
+                        view={props.view}
                         name={props.name}
                         readonly={props.readonly}
                         on_update={(value) => handle_update(value)}
@@ -424,6 +429,7 @@ function Parameter(props) {
                 return (
                     <ParamString
                         parameter={param}
+                        view={props.view}
                         name={props.name}
                         readonly={props.readonly}
                         on_update={(value) => handle_update(value)}
