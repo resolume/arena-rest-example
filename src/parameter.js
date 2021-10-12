@@ -53,10 +53,12 @@ class value_monitor
      *
      *  @param  updater     The function to call to send the updated value to the server
      *  @param  displayer   The function to call to update the displayed value
+     *  @param  parser      The function to parse the value before sending
      */
-    constructor(updater, displayer) {
+    constructor(updater, displayer, parser) {
         this.updater    = updater;
         this.displayer  = displayer;
+        this.parser     = parser;
         this.value      = undefined;
     }
 
@@ -80,10 +82,15 @@ class value_monitor
             return;
         }
 
-        this.updater(this.value);
+        if (this.parser) {
+            this.updater(this.parser(this.value));
+        } else {
+            this.updater(this.value);
+        }
+
+        this.value = undefined;
 
         setTimeout(() => {
-            this.value = undefined;
             this.displayer(undefined);
         }, 25);
     }
@@ -222,7 +229,8 @@ function ParamRange(props) {
             />
         )
     } else if (view.control_type === 'spinner') {
-        const monitor = useRef(new value_monitor(on_update, setValue));
+        const parser  = (value) => parseFloat(value) / multiplier;
+        const monitor = useRef(new value_monitor(on_update, setValue, parser));
 
         const handler = (event) => {
             switch (event.charCode) {
@@ -241,8 +249,8 @@ function ParamRange(props) {
             <span className="parameter spinner">
                 <input
                     type="text"
-                    value={(value || parameter.value) * multiplier}
-                    onChange={(event) => monitor.current.set_value(parseFloat(event.target.value) / multiplier)}
+                    value={((value !== undefined) ? value : parameter.value) * multiplier}
+                    onChange={(event) => monitor.current.set_value(event.target.value)}
                     onKeyPress={handler}
                     onBlur={() => monitor.current.confirm()}
                 />
