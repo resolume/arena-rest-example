@@ -9,27 +9,10 @@ function TempoToolbar({ tempocontroller }) {
                 BPM
                 <Parameter
                     view_type="number"
+                    view={{control_type: 'spinner'}}
                     name="BPM"
                     parameter={tempocontroller.tempo}
                     hidelabel="yes"
-                />
-            </span>
-
-            <span>
-                <Parameter
-                    name="BPM"
-                    parameter={tempocontroller.tempo}
-                    label="-"
-                    modifier={value => value - 1}
-                />
-            </span>
-
-            <span>
-                <Parameter
-                    name="BPM"
-                    parameter={tempocontroller.tempo}
-                    label="+"
-                    modifier={value => value + 1}
                 />
             </span>
 
