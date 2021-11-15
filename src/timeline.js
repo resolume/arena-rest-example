@@ -20,7 +20,7 @@ function Timeline(props) {
         return () => props.root.removeChild(element);
     });
 
-    const behaviour = props.transport.behaviour;
+    const params = props.transport.controls;
 
     let controls = (
     
@@ -40,49 +40,49 @@ function Timeline(props) {
                     />
                 </div>
                 <div>
-                    <span className="label" onDoubleClick={() => handle_reset(behaviour.playdirection.id)}>Direction</span>
+                    <span className="label" onDoubleClick={() => handle_reset(params.playdirection.id)}>Direction</span>
                     <Parameter
                         name="Direction"
-                        parameter={behaviour.playdirection}
-                        key={behaviour.playdirection.id}
-                        id={behaviour.playdirection.id}
+                        parameter={params.playdirection}
+                        key={params.playdirection.id}
+                        id={params.playdirection.id}
                     />
                 </div>
                 <div>
-                    <span className="label" onDoubleClick={() => handle_reset(behaviour.playmode.id)}>Play Mode</span>
+                    <span className="label" onDoubleClick={() => handle_reset(params.playmode.id)}>Play Mode</span>
                     <Parameter
                         name="Play Mode"
-                        parameter={behaviour.playmode}
-                        key={behaviour.playmode.id}
-                        id={behaviour.playmode.id}
+                        parameter={params.playmode}
+                        key={params.playmode.id}
+                        id={params.playmode.id}
                     />
                 </div>
                 <div>
-                    <span className="label" onDoubleClick={() => handle_reset(behaviour.duration.id)}>Duration</span>
+                    <span className="label" onDoubleClick={() => handle_reset(params.duration.id)}>Duration</span>
                     <Parameter
                         name="Duration"
-                        parameter={behaviour.duration}
-                        key={behaviour.duration.id}
-                        id={behaviour.duration.id}
+                        parameter={params.duration}
+                        key={params.duration.id}
+                        id={params.duration.id}
                     />
                 </div>            
                 <div>
-                    <span className="label" onDoubleClick={() => handle_reset(behaviour.speed.id)}>Speed</span>
+                    <span className="label" onDoubleClick={() => handle_reset(params.speed.id)}>Speed</span>
                     <Parameter
                         name="Speed"
-                        parameter={behaviour.speed}
-                        key={behaviour.speed.id}
-                        id={behaviour.speed.id}
+                        parameter={params.speed}
+                        key={params.speed.id}
+                        id={params.speed.id}
                     />
                 </div>             
-                {behaviour.beatloop &&
+                {params.beatloop &&
                 <div>
-                    <span className="label" onDoubleClick={() => handle_reset(behaviour.beatloop.id)}>Beatloop</span>
+                    <span className="label" onDoubleClick={() => handle_reset(params.beatloop.id)}>Beatloop</span>
                     <Parameter
                         name="Beatloop"
-                        parameter={behaviour.beatloop}
-                        key={behaviour.beatloop.id}
-                        id={behaviour.beatloop.id}
+                        parameter={params.beatloop}
+                        key={params.beatloop.id}
+                        id={params.beatloop.id}
                     />
                 </div>            
                 }
