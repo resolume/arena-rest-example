@@ -242,6 +242,8 @@ function ParamRange(props) {
                     monitor.current.abort();
                     event.target.blur();
                     break;
+                default:
+                    break;
             }
         };
 
