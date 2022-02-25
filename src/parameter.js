@@ -23,7 +23,7 @@ class value_debouncer
 
         this.debounced_change = useDebouncedCallback((value) => {
             updater(value);
-        }, 10, { max_wait: 25 });
+        }, 25, { max_wait: 25 });
 
         this.debounced_clear = useDebouncedCallback(() => {
             displayer(undefined);
@@ -129,6 +129,27 @@ function ParamString(props) {
             </span>
         )
     }
+}
+
+/**
+  * A parameter showing a multiline text field
+  */
+function ParamText(props) {
+    const [ value, setValue ] = useState();
+    const { parameter, on_update } = props;
+
+    const debouncer = useRef(new value_debouncer(on_update, setValue));
+
+    return (
+        <span className="parameter">
+            <textarea
+                onChange={(event) => debouncer.current.set_value(event.target.value)}
+                spellcheck="false"
+            >
+                {value || parameter.value}
+            </textarea>
+        </span>
+    )
 }
 
 /**
@@ -428,6 +449,16 @@ function Parameter(props) {
             } else if (param.valuetype === "ParamColor") {
                 return (
                     <ParamColor
+                        parameter={param}
+                        view={props.view}
+                        name={props.name}
+                        readonly={props.readonly}
+                        on_update={(value) => handle_update(value)}
+                    />
+                )
+            } else if (param.valuetype === "ParamText") {
+                return (
+                    <ParamText
                         parameter={param}
                         view={props.view}
                         name={props.name}

@@ -5,6 +5,19 @@
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+.parameter textarea {
+    vertical-align: top;
+    margin-left: 10px;
+    background: #080808;
+    border: 2px solid #080808;
+    outline: none;
+    color: white;
+}
+
+.parameter textarea:focus {
+    border-color: #3a3a39;
+}
+
 .parameter input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
