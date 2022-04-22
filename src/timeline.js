@@ -29,64 +29,66 @@ function Timeline(props) {
                 <span className={`arrow ${expanded ? 'down' : 'right'}`}></span>
                 Transport
             </div>
-            <div className="content">
-                <div>
-                    <span className="label" onDoubleClick={() => handle_reset(props.transport.position.id)}>Position</span>
-                    <Parameter
-                        name="Position"
-                        parameter={props.transport.position}
-                        key={props.transport.position.id}
-                        id={props.transport.position.id}
-                    />
+            {expanded &&
+                <div className="content">
+                    <div>
+                        <span className="label" onDoubleClick={() => handle_reset(props.transport.position.id)}>Position</span>
+                        <Parameter
+                            name="Position"
+                            parameter={props.transport.position}
+                            key={props.transport.position.id}
+                            id={props.transport.position.id}
+                        />
+                    </div>
+                    <div>
+                        <span className="label" onDoubleClick={() => handle_reset(params.playdirection.id)}>Direction</span>
+                        <Parameter
+                            name="Direction"
+                            parameter={params.playdirection}
+                            key={params.playdirection.id}
+                            id={params.playdirection.id}
+                        />
+                    </div>
+                    <div>
+                        <span className="label" onDoubleClick={() => handle_reset(params.playmode.id)}>Play Mode</span>
+                        <Parameter
+                            name="Play Mode"
+                            parameter={params.playmode}
+                            key={params.playmode.id}
+                            id={params.playmode.id}
+                        />
+                    </div>
+                    <div>
+                        <span className="label" onDoubleClick={() => handle_reset(params.duration.id)}>Duration</span>
+                        <Parameter
+                            name="Duration"
+                            parameter={params.duration}
+                            key={params.duration.id}
+                            id={params.duration.id}
+                        />
+                    </div>            
+                    <div>
+                        <span className="label" onDoubleClick={() => handle_reset(params.speed.id)}>Speed</span>
+                        <Parameter
+                            name="Speed"
+                            parameter={params.speed}
+                            key={params.speed.id}
+                            id={params.speed.id}
+                        />
+                    </div>             
+                    {params.beatloop &&
+                    <div>
+                        <span className="label" onDoubleClick={() => handle_reset(params.beatloop.id)}>Beatloop</span>
+                        <Parameter
+                            name="Beatloop"
+                            parameter={params.beatloop}
+                            key={params.beatloop.id}
+                            id={params.beatloop.id}
+                        />
+                    </div>            
+                    }
                 </div>
-                <div>
-                    <span className="label" onDoubleClick={() => handle_reset(params.playdirection.id)}>Direction</span>
-                    <Parameter
-                        name="Direction"
-                        parameter={params.playdirection}
-                        key={params.playdirection.id}
-                        id={params.playdirection.id}
-                    />
-                </div>
-                <div>
-                    <span className="label" onDoubleClick={() => handle_reset(params.playmode.id)}>Play Mode</span>
-                    <Parameter
-                        name="Play Mode"
-                        parameter={params.playmode}
-                        key={params.playmode.id}
-                        id={params.playmode.id}
-                    />
-                </div>
-                <div>
-                    <span className="label" onDoubleClick={() => handle_reset(params.duration.id)}>Duration</span>
-                    <Parameter
-                        name="Duration"
-                        parameter={params.duration}
-                        key={params.duration.id}
-                        id={params.duration.id}
-                    />
-                </div>            
-                <div>
-                    <span className="label" onDoubleClick={() => handle_reset(params.speed.id)}>Speed</span>
-                    <Parameter
-                        name="Speed"
-                        parameter={params.speed}
-                        key={params.speed.id}
-                        id={params.speed.id}
-                    />
-                </div>             
-                {params.beatloop &&
-                <div>
-                    <span className="label" onDoubleClick={() => handle_reset(params.beatloop.id)}>Beatloop</span>
-                    <Parameter
-                        name="Beatloop"
-                        parameter={params.beatloop}
-                        key={params.beatloop.id}
-                        id={params.beatloop.id}
-                    />
-                </div>            
-                }
-            </div>
+            }
         </div>
     );
 
