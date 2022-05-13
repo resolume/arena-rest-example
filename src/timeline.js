@@ -63,6 +63,7 @@ function Timeline(props) {
                         <Parameter
                             name="Duration"
                             parameter={params.duration}
+                            view={{control_type: 'spinner', step: 0.1}}
                             key={params.duration.id}
                             id={params.duration.id}
                         />
