@@ -1,0 +1,15 @@
+div.effects div.group {
+   color: #4d8c75; 
+   text-transform: uppercase;
+}
+
+div.effects div.group div.effect {
+    color: white;
+    text-transform: none;
+    padding: 4px;
+    margin-left: 11px;
+}
+
+div.effects div.group div.effect div.preset {
+    margin-left: 15px;
+}

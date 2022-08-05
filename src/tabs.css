@@ -1,0 +1,31 @@
+div.tabs div.names {
+    margin-top: 5px;
+    height: 28px;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+div.tabs div.names div {
+    transition: background-color .20s;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 5px 10px 7px;
+    background-color: #1a1a1a;
+    color: #a5a5a5;
+    flex-grow: 1;
+}
+
+div.tabs div.names div:hover {
+    background-color: #242424;
+}
+
+div.tabs div.names div.selected {
+    font-weight: bold;
+    background-color: #4d8c75;
+    color: #e9e9e9;
+}
+
+div.tabs div.component {
+    padding: 10px;
+}

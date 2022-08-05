@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { ResolumeContext } from './resolume_provider.js'
+import { ResolumeContext } from './resolume_provider'
 import PropTypes from 'prop-types'
 
 /**

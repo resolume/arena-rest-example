@@ -1,15 +1,17 @@
-import { ResolumeContext } from './resolume_provider.js'
+import { ResolumeContext } from './resolume_provider'
 import CrossFader from './crossfader.js'
 import TempoToolbar from './tempo_toolbar.js'
 import Column from './column.js'
 import Deck from './deck.js'
 import Layer from './layer.js'
 import Clip from './clip.js'
+import Browser from './browser'
 import Properties from './properties.js'
 import React, { useContext } from 'react'
 
-// composition effect controls are rendered elseewhere
+// composition effect controls and browser are rendered elseewhere
 const composition_root = document.getElementById('composition_properties');
+const browser_root = document.getElementById('browser');
 
 /**
   * Component rendering the entire composition
@@ -135,6 +137,9 @@ function Composition() {
                 video={context.composition.video}
                 title="Composition"
                 root={composition_root}
+            />
+            <Browser
+                root={browser_root}
             />
         </React.Fragment>
     );

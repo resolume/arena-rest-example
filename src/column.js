@@ -1,4 +1,4 @@
-import { ResolumeContext } from './resolume_provider.js'
+import { ResolumeContext } from './resolume_provider'
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import ParameterMonitor from './parameter_monitor.js'

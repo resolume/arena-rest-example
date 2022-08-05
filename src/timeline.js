@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { ResolumeContext } from './resolume_provider.js'
+import { ResolumeContext } from './resolume_provider'
 import Parameter from './parameter.js'
 import PropTypes from 'prop-types';
 

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ResolumeContext } from './resolume_provider.js'
+import { ResolumeContext } from './resolume_provider'
 
 
 /**

@@ -1,4 +1,4 @@
-import { ResolumeContext } from './resolume_provider.js'
+import { ResolumeContext } from './resolume_provider'
 import React, { useContext, useState } from 'react'
 import Properties from './properties.js'
 import PropTypes from 'prop-types';
@@ -47,6 +47,11 @@ function Clip(props) {
 
     const select = () => context.action('trigger', `/composition/clips/by-id/${props.id}/select`);
 
+    const drop = (event) => {
+        event.preventDefault();
+        context.post(`/composition/clips/by-id/${props.id}/${event.dataTransfer.getData('path')}`, event.dataTransfer.getData('object'));
+    };
+
     const connect = down => {
         // don't send the release event twice
         // in a row without a connect in between
@@ -65,7 +70,7 @@ function Clip(props) {
                     name={props.name.value}
                     options={menu_options}
                 >
-                <div className="clip">
+                <div className="clip" onDragOver={(event) => event.preventDefault()} onDrop={drop}>
                     <div className={`${connected ? 'connected' : 'none'}`}>
                         <img className="thumbnail"
                             src={context.clip_url(props.id, props.thumbnail.last_update)}

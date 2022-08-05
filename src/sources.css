@@ -1,0 +1,15 @@
+div.sources div.group {
+   color: #4d8c75; 
+   text-transform: uppercase;
+}
+
+div.sources div.group div.source {
+    color: white;
+    text-transform: none;
+    padding: 4px;
+    margin-left: 11px;
+}
+
+div.sources div.group div.source div.preset {
+    margin-left: 15px;
+}

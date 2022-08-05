@@ -1,9 +1,8 @@
 import React, { useContext, useRef, useState } from 'react';
-import { ResolumeContext } from './resolume_provider.js'
+import { ResolumeContext } from './resolume_provider'
 import ParameterMonitor from './parameter_monitor.js'
 import PropTypes from 'prop-types';
 import Rotary from './rotary.js';
-import { useDebouncedCallback } from 'use-debounce';
 import './parameter.css';
 
 /**
@@ -19,15 +18,12 @@ class value_debouncer
       * @param  displayer   The function to call to update the displayed value
       */
     constructor(updater, displayer) {
+        this.updater = updater;
         this.displayer = displayer;
 
-        this.debounced_change = useDebouncedCallback((value) => {
-            updater(value);
-        }, 25, { max_wait: 25 });
-
-        this.debounced_clear = useDebouncedCallback(() => {
-            displayer(undefined);
-        }, 100);
+        this.update_timer = undefined;
+        this.clear_timer = undefined;
+        this.value = undefined;
     }
 
     /**
@@ -36,9 +32,21 @@ class value_debouncer
       * @param  value   The new value to store
       */
     set_value(value) {
+        this.value = value;
         this.displayer(value);
-        this.debounced_change.callback(value);
-        this.debounced_clear.callback(value);
+
+        if (this.update_timer === undefined) {
+            this.update_timer = window.setTimeout(() => {
+                this.updater(this.value);
+                this.update_timer = undefined;
+            }, 25);
+        }
+
+        if (this.clear_timer !== undefined) {
+            window.clearTimeout(this.clear_timer);
+        }
+
+        this.clear_timer = window.setTimeout(() => { this.displayer(undefined); }, 100);
     }
 }
 
@@ -108,17 +116,17 @@ class value_monitor
   * A parameter showing a simple text field
   */
 function ParamString(props) {
+    const [ value, setValue ] = useState();
+    const { parameter, on_update } = props;
+
+    const debouncer = useRef(new value_debouncer(on_update, setValue));
+
     // are we showing a read-only parameter
     if (props.readonly) {
         return (
             <span className="parameter" title={props.parameter.value}>{props.parameter.value}</span>
         )
     } else {
-        const [ value, setValue ] = useState();
-        const { parameter, on_update } = props;
-
-        const debouncer = useRef(new value_debouncer(on_update, setValue));
-
         return (
             <span className="parameter">
                 <input
@@ -229,6 +237,9 @@ function ParamRange(props) {
     const debouncer     = useRef(new value_debouncer(on_update, setValue));
     const showlabel     = hidelabel === "no";
 
+    const parser        = (value) => parseFloat(value) / multiplier;
+    const monitor       = useRef(new value_monitor(on_update, setValue, parser));
+
     let show_number = (number) => {
         if (Number.isInteger(number)) {
             return number;
@@ -250,9 +261,6 @@ function ParamRange(props) {
             />
         )
     } else if (view.control_type === 'spinner') {
-        const parser  = (value) => parseFloat(value) / multiplier;
-        const monitor = useRef(new value_monitor(on_update, setValue, parser));
-
         const handler = (event) => {
             switch (event.charCode) {
                 case 13:

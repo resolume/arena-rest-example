@@ -1,4 +1,4 @@
-import { ResolumeContext } from './resolume_provider.js'
+import { ResolumeContext } from './resolume_provider'
 import Parameter from './parameter.js'
 import Parameters from './parameters.js'
 import React, { useContext } from 'react'
