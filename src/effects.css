@@ -8,6 +8,7 @@ div.effects div.group div.effect {
     text-transform: none;
     padding: 4px;
     margin-left: 11px;
+    background-color: black;
 }
 
 div.effects div.group div.effect div.preset {

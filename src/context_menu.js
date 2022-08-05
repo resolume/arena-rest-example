@@ -11,41 +11,49 @@ function MenuOption(props) {
     const context                   = useContext(ResolumeContext);
     const [ expanded, setExpanded ] = useState(false);
 
-    const update = value => context.action('set', `/parameter/by-id/${props.param.id}`, value);
+    if (typeof props.action == 'function') {
+        return (
+            <div className="option" onClick={props.action}>
+                {props.name}
+            </div>
+        )
+    } else if (typeof props.param == 'object') {
+        const update = value => context.action('set', `/parameter/by-id/${props.param.id}`, value);
 
-    return (
-        <ParameterMonitor.Single parameter={props.param} render={parameter => {            
-            /* this check is in because the ContexMenu for the Layer passes Boolean Parameters to this menu, and those don't have any options  */
-            if (parameter.options) {
-                const options = parameter.options.map((option, index) => {
+        return (
+            <ParameterMonitor.Single parameter={props.param} render={parameter => {
+                /* this check is in because the ContexMenu for the Layer passes Boolean Parameters to this menu, and those don't have any options  */
+                if (parameter.options) {
+                    const options = parameter.options.map((option, index) => {
+                        return (
+                            <div
+                                className={`option ${index === parameter.index ? 'selected' : ''}`}
+                                onClick={() => update(index)}
+                            >
+                            {option}
+                            </div>
+                        )
+                    });
                     return (
-                        <div
-                            className={`option ${index === parameter.index ? 'selected' : ''}`}
-                            onClick={() => update(index)}
-                        >
-                        {option}
+                        <div className="option menu" onMouseEnter={() => setExpanded(true)} onMouseLeave={() => setExpanded(false)}>
+                            {props.name}
+                            {expanded &&
+                                <div className="sub-menu">{options}</div>
+                            }
                         </div>
                     )
-                });
-                return (
-                    <div className="option menu" onMouseEnter={() => setExpanded(true)} onMouseLeave={() => setExpanded(false)}>
-                        {props.name}
-                        {expanded &&
-                            <div className="sub-menu">{options}</div>
-                        }
-                    </div>
-                )
-            } else if (parameter.valuetype === 'ParamBoolean') {
-                return (
-                    <div className={`option ${parameter.value === true ? 'checked' : ''}`} onClick={() => update(!parameter.value)}>
-                        {props.name}
-                    </div>
-                )
-            } else {
-                console.warn("Unsupported parameter in context menu");
-            }
-        }} />
-    );
+                } else if (parameter.valuetype === 'ParamBoolean') {
+                    return (
+                        <div className={`option ${parameter.value === true ? 'checked' : ''}`} onClick={() => update(!parameter.value)}>
+                            {props.name}
+                        </div>
+                    )
+                } else {
+                    console.warn("Unsupported parameter in context menu");
+                }
+            }} />
+        );
+    }
 }
 
 
@@ -73,15 +81,13 @@ function ContextMenu(props) {
     /**
       * Render the menu content
       */
-    const options = Object.entries(props.options).map((value) => {
-        const name      = value[0];
-        const option    = value[1];
-
+    const options = Object.entries(props.options).map(([name, option]) => {
         return (
             <MenuOption
                 name={name}
-                param={option}
-                key={`menu_option_${option.id}`}
+                param={option.param}
+                action={option.action}
+                key={`menu_option_${name}`}
             />
         )
     });

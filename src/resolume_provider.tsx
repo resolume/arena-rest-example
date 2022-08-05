@@ -6,6 +6,7 @@ import ISources from './ISources'
 
 type ResolumeContextProperties = {
     post: (path: string, body: string) => void,
+    remove: (path: string) => void,
     effects: IEffects,
     sources: ISources,
 };
@@ -102,6 +103,7 @@ function ResolumeProvider(props: ResolumeContextParameters) {
             } else {
                 setComposition(default_composition);
                 setSources(default_sources);
+                setEffects(default_effects);
                 setProduct(default_product);
             }
         });
@@ -151,6 +153,18 @@ function ResolumeProvider(props: ResolumeContextParameters) {
         transport.send_message(message);
     };
 
+    // send a delete-like request
+    const remove = (path: string) => {
+        // create the message
+        let message = {
+            action: 'remove',
+            path:   path,
+        };
+
+        // now send the message over the transport
+        transport.send_message(message);
+    };
+
     const clip_url = (id: number, last_update: string) => {
         // is this the default clip (i.e. it has never been updated from its dummy
         if (last_update === "0") {
@@ -163,6 +177,7 @@ function ResolumeProvider(props: ResolumeContextParameters) {
     const properties = {
         action,         // execute an action
         post,           // send a 'post' request
+        remove,         // send a 'delete' request
         composition,    // the current composition state
         sources,        // the current sources available
         effects,        // the current effects available

@@ -18,9 +18,11 @@ function Layer(props) {
     const context = useContext(ResolumeContext);
 
     const menu_options = {
-        'Mask Mode':                props.maskmode,    
-        'Fader Start':              props.faderstart,
-        'Ignore Column Trigger':    props.ignorecolumntrigger
+        'Add':                      { action: () => context.post('/composition/layers/add')                 },
+        'Remove':                   { action: () => context.remove(`/composition/layers/by-id/${props.id}`) },
+        'Mask Mode':                { param: props.maskmode                                                 },
+        'Fader Start':              { param: props.faderstart                                               },
+        'Ignore Column Trigger':    { param: props.ignorecolumntrigger                                      },
     };
 
     const set_bypass                = bypassed  => context.parameters.update_parameter(props.bypassed.id, bypassed);
