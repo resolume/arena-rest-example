@@ -17,7 +17,10 @@ function Monitor(props) {
     useEffect(() => {
         parameters.register_monitor(parameter.id, onChange, parameter);
         return () => { parameters.unregister_monitor(parameter.id, onChange); };
-    }, [parameter.id]);
+    }, [parameter.id]); // eslint-disable-line react-hooks/exhaustive-deps
+    // note: lint warning disabled because we _really_ do not want to update
+    // every time the parameter changes since this results in endless loops
+    // because the parameter is constantly unsubscribed and resubscribed.
 
     // we don't render anything from here
     return (null);
