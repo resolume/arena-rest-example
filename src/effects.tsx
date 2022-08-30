@@ -18,11 +18,11 @@ const Effects = () => {
                         draggable
                         key={effect.idstring + '_' + preset}
                         onDragStart={(event) => {
-                            event.dataTransfer.setData('path', 'effects');
+                            event.dataTransfer.setData('path', `effects/${group}`);
                             event.dataTransfer.setData('object', `effect:///${group}/${effect.name}/${preset}`);
                         }}
                     >
-                        preset
+                        {preset}
                     </div>
                 )
 
@@ -32,7 +32,7 @@ const Effects = () => {
                             className="effect"
                             draggable
                             onDragStart={(event) => {
-                                event.dataTransfer.setData('path', 'effects');
+                                event.dataTransfer.setData('path', `effects/${group}`);
                                 event.dataTransfer.setData('object', `effect:///${group}/${effect.name}`);
                             }}
                         >

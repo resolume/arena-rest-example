@@ -22,7 +22,7 @@ const Sources = () => {
                             event.dataTransfer.setData('object', `source:///${group}/${source.name}/${preset}`)
                         }}
                     >
-                        preset
+                        {preset}
                     </div>
                 )
 
