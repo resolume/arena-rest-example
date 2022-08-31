@@ -1,6 +1,7 @@
 import { ResolumeContext } from './resolume_provider.js'
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
+import ParameterMonitor from './parameter_monitor.js'
 
 /**
   * Component rendering a column within the composition
@@ -13,13 +14,15 @@ function Column({ id, index, name, connected }) {
     const display_name = name.value.replace(/#/g, index+1);
 
     return (
-        <div
-            className={`column ${connected.value ? 'connected' : ''}`}
-            onMouseDown={() => connect(true)}
-            onMouseUp={() => connect(false)}
-        >
-            {display_name}
-        </div>
+        <ParameterMonitor.Single parameter={connected} render={connected => (
+            <div
+                className={`column ${connected.value ? 'connected' : ''}`}
+                onMouseDown={() => connect(true)}
+                onMouseUp={() => connect(false)}
+            >
+                {display_name}
+            </div>
+        )} />
     );
 }
 

@@ -57,9 +57,11 @@ function Layer(props) {
                                     <div className={`button ${crossfadergroup.index === 2 ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup(2)}>B</div>
                                 </div>
                             )} />
-                            <div className={`handle ${props.selected.value ? 'selected' : ''}`} onMouseDown={select}>
-                                {name}
-                            </div>
+                            <ParameterMonitor.Single parameter={props.selected} render={selected => (
+                                <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
+                                    {name}
+                                </div>
+                            )} />
                         </div>
                         <div className="master">
                             <Parameter
@@ -74,20 +76,22 @@ function Layer(props) {
                 </div>
                 </ContextMenu>
             </div>
-            {props.selected.value &&
+            <ParameterMonitor.Single parameter={props.selected} render={selected => (
                 <React.Fragment>
-                    <Properties
-                        name={name}    
-                        dashboard={props.dashboard}
-                        autopilot={props.autopilot}
-                        transition={props.transition}
-                        audio={props.audio}
-                        video={props.video}
-                        title="Layer"
-                        root={layer_root}
-                    />
+                    {selected.value &&
+                        <Properties
+                            name={name}
+                            dashboard={props.dashboard}
+                            autopilot={props.autopilot}
+                            transition={props.transition}
+                            audio={props.audio}
+                            video={props.video}
+                            title="Layer"
+                            root={layer_root}
+                        />
+                    }
                 </React.Fragment>
-            }            
+            )} />
         </div>
     );
 }
