@@ -123,6 +123,7 @@ function Properties(props) {
                     key={`effect_${value.name}`}
                     bypassed={value.bypassed}
                     name={value.name}
+                    display_name={value.display_name}
                     mixer={value.mixer}
                     params={value.params}
                 />

@@ -17,7 +17,7 @@ function Effect(props) {
         <div className="effect">
             <div className="title" onClick={() => setExpanded(!expanded)}>
                 <span className={`arrow ${expanded ? 'down' : 'right'}`}></span>
-                {props.name}
+                {props.display_name ?? props.name}
             </div>
             {props.bypassed &&
                 <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
