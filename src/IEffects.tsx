@@ -1,7 +1,12 @@
+export interface IEffectPreset {
+    id: number,
+    name: string,
+}
+
 export interface IEffect {
     idstring: string,
     name: string,
-    presets: string[],
+    presets: IEffectPreset[],
 }
 
 export interface IEffects {

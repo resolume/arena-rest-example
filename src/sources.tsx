@@ -19,7 +19,7 @@ const Sources = () => {
                         key={source.idstring + '_' + preset}
                         onDragStart={(event) =>  {
                             event.dataTransfer.setData('path', 'open');
-                            event.dataTransfer.setData('object', `source:///${group}/${source.name}/${preset}`)
+                            event.dataTransfer.setData('object', `source:///${group}/${encodeURIComponent(source.name)}/${preset}`)
                         }}
                     >
                         {preset}
@@ -33,7 +33,7 @@ const Sources = () => {
                             draggable
                             onDragStart={(event) => {
                                 event.dataTransfer.setData('path', 'open');
-                                event.dataTransfer.setData('object', `source:///${group}/${source.name}`)
+                                event.dataTransfer.setData('object', `source:///${group}/${encodeURIComponent(source.name)}`)
                             }}
                         >
                             {source.name}
