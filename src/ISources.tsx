@@ -1,7 +1,12 @@
+export interface ISourcePreset {
+    id: number,
+    name: string,
+}
+
 export interface ISource {
     idstring: string,
     name: string,
-    presets: string[],
+    presets: ISourcePreset[],
 }
 
 export interface ISources {
