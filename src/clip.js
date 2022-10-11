@@ -4,6 +4,7 @@ import Properties from './properties.js'
 import PropTypes from 'prop-types';
 import ContextMenu from './context_menu.js';
 import Timeline from './timeline.js';
+import ParameterMonitor from './parameter_monitor.js';
 
 // we need to draw outside of our container, but instead
 // draw elsewhere in the html hierarchy
@@ -38,11 +39,6 @@ function Clip(props) {
      */
     const [ mouseDown, setMouseDown ] = useState(false);
 
-    /**
-      * Connected has 5 possible states 
-      * "Empty", "Disconnected", "Previewing", "Connected", "Connected & previewing"
-      */
-    const connected = props.connected.index >= 3;
     const name = props.name.value.length > 12 ? props.name.value.substring(0,11) + "..." : props.name.value;
 
     const select = () => context.action('trigger', `/composition/clips/by-id/${props.id}/select`);
@@ -70,21 +66,26 @@ function Clip(props) {
                     name={props.name.value}
                     options={menu_options}
                 >
-                <div className="clip" onDragOver={(event) => event.preventDefault()} onDrop={drop}>
-                    <div className={`${connected ? 'connected' : 'none'}`}>
-                        <img className="thumbnail"
-                            src={context.clip_url(props.id, props.thumbnail.last_update)}
-                            onMouseDown={() => connect(true)}
-                            onMouseUp={() => connect(false)}
-                            onMouseLeave={() => connect(false)}
-                            onDragStart={(event) => event.preventDefault()}
-                            alt={props.name.value}
-                        />
+                <ParameterMonitor.Single parameter={props.connected} render={connected => (
+                    <div className="clip" onDragOver={(event) => event.preventDefault()} onDrop={drop}>
+                        {/* Connected has 5 possible states: "Empty", "Disconnected", "Previewing", "Connected", "Connected & previewing"*/}
+                        <div className={`${connected.index >= 3 ? 'connected' : 'none'}`}>
+                            <img className="thumbnail"
+                                src={context.clip_url(props.id, props.thumbnail.last_update)}
+                                onMouseDown={() => connect(true)}
+                                onMouseUp={() => connect(false)}
+                                onMouseLeave={() => connect(false)}
+                                onDragStart={(event) => event.preventDefault()}
+                                alt={props.name.value}
+                            />
+                        </div>
+                        <ParameterMonitor.Single parameter={props.selected} render={selected => (
+                            <div className={`clip handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
+                                {name}
+                            </div>
+                        )} />
                     </div>
-                    <div className={`clip handle ${props.selected.value ? 'selected' : ''}`} onMouseDown={select}>
-                        {name}
-                    </div>
-                </div>
+                )} />
                 </ContextMenu>
             </div>
             {props.selected.value &&

@@ -16,13 +16,13 @@ const Sources = () => {
                     <div
                         className="preset"
                         draggable
-                        key={source.idstring + '_' + preset}
+                        key={preset.id}
                         onDragStart={(event) =>  {
                             event.dataTransfer.setData('path', 'open');
                             event.dataTransfer.setData('object', `source:///${group}/${encodeURIComponent(source.name)}/${preset}`)
                         }}
                     >
-                        {preset}
+                        {preset.name}
                     </div>
                 )
 
