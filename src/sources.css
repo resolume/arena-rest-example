@@ -10,6 +10,9 @@ div.sources div.group div.source {
     margin-left: 11px;
 }
 
-div.sources div.group div.source div.preset {
-    margin-left: 15px;
+div.sources div.group div.preset {
+    color: #b3b3b3;
+    padding: 2px;
+    text-transform: none;
+    margin-left: 24px;
 }

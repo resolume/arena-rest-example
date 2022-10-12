@@ -11,6 +11,9 @@ div.effects div.group div.effect {
     background-color: black;
 }
 
-div.effects div.group div.effect div.preset {
-    margin-left: 15px;
+div.effects div.group div.preset {
+    color: #b3b3b3;
+    padding: 2px;
+    text-transform: none;
+    margin-left: 24px;
 }

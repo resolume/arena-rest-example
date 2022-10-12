@@ -37,8 +37,8 @@ const Effects = () => {
                             }}
                         >
                             {effect.name}
-                            {presets}
                         </div>
+                        {presets}
                     </React.Fragment>
                 );
             });

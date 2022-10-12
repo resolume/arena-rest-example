@@ -19,7 +19,7 @@ const Sources = () => {
                         key={preset.id}
                         onDragStart={(event) =>  {
                             event.dataTransfer.setData('path', 'open');
-                            event.dataTransfer.setData('object', `source:///${group}/${encodeURIComponent(source.name)}/${preset}`)
+                            event.dataTransfer.setData('object', `source:///${group}/${encodeURIComponent(source.name)}/${encodeURIComponent(preset.name)}`)
                         }}
                     >
                         {preset.name}
@@ -37,8 +37,8 @@ const Sources = () => {
                             }}
                         >
                             {source.name}
-                            {presets}
                         </div>
+                        {presets}
                     </React.Fragment>
                 );
             });
