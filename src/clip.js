@@ -88,24 +88,28 @@ function Clip(props) {
                 )} />
                 </ContextMenu>
             </div>
-            {props.selected.value &&
+            <ParameterMonitor.Single parameter={props.selected} render={selected => (
                 <React.Fragment>
-                    {props.transport &&
-                        <Timeline
-                            transport={props.transport}
-                            root={clip_transport}
-                        />
+                    {selected.value &&
+                        <React.Fragment>
+                            {props.transport &&
+                                <Timeline
+                                    transport={props.transport}
+                                    root={clip_transport}
+                                />
+                            }
+                            <Properties
+                                name={props.name.value}
+                                dashboard={props.dashboard}    
+                                audio={props.audio}
+                                video={props.video}
+                                title="Clip"
+                                root={clip_root}
+                            />
+                        </React.Fragment>
                     }
-                    <Properties
-                        name={props.name.value}
-                        dashboard={props.dashboard}    
-                        audio={props.audio}
-                        video={props.video}
-                        title="Clip"
-                        root={clip_root}
-                    />
                 </React.Fragment>
-            }
+            )} />
         </div>
     )
 }
