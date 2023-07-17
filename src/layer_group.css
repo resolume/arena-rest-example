@@ -1,0 +1,10 @@
+.layer_group .cbs {    
+    display: grid;    
+    grid-template-columns: 1fr repeat(3, fit-content(1ch)); 
+    width: 100%;
+}
+
+.layer_group .cbs div {
+    padding-left: 4px;
+    padding-right: 4px;
+}

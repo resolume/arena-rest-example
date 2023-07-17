@@ -6,6 +6,7 @@ import Deck from './deck.js'
 import Layer from './layer.js'
 import Clip from './clip.js'
 import Browser from './browser'
+import LayerGroup from './layer_group.js'
 import Properties from './properties.js'
 import React, { useContext } from 'react'
 
@@ -54,27 +55,82 @@ function Composition() {
         />
     );
 
-    const layers = context.composition.layers.map((layer, index) =>
-        <Layer
-            id={layer.id}
-            key={layer.id}
-            index={index}
-            name={layer.name}
-            bypassed={layer.bypassed}
-            solo={layer.solo}
-            crossfadergroup={layer.crossfadergroup}
-            master={layer.master}
-            maskmode={layer.maskmode}
-            faderstart={layer.faderstart}
-            ignorecolumntrigger={layer.ignorecolumntrigger}
-            dashboard={layer.dashboard}
-            autopilot={layer.autopilot}
-            transition={layer.transition}
-            audio={layer.audio}
-            video={layer.video}
-            selected={layer.selected}
-        />
-    ).reverse();
+    const layers_and_groups = (() => {
+        // first get an iterator on both the layers and groups
+        const layer_iter = context.composition.layers.reverse()[Symbol.iterator]();
+        const group_iter = context.composition.layergroups.reverse()[Symbol.iterator]();
+
+        // load the first value from both
+        let layer = layer_iter.next().value;
+        let group = group_iter.next().value;
+
+        // this will hold all the resulting layers
+        const result = [];
+
+        // we need to keep track of layer and group indices (necessary
+        // so we can translate layer names if they are set to default)
+        let layer_index = 0;
+        let group_index = 0;
+
+        // as long as there are both layers and groups left
+        // we are going to have to figure out who comes first
+        while (layer || group) {
+            // we compare the first layer in the group with the current layer
+            // if that's a match, we'll add the group at this spot and then
+            // skip all the layers (since they are already in the group)
+            if (!layer || (layer && group && layer.id === group.layers.reverse()[0].id)) {
+                // add layer group to result
+                result.push(
+                    <LayerGroup
+                        id={group.id}
+                        key={group.id}
+                        index={group_index}
+                        name={group.name}
+                        bypassed={group.bypassed}
+                        solo={group.solo}
+                        selected={group.selected}
+                        layers={group.layers}
+                    />
+                );
+
+                // skip layers already in group
+                for (let i = 0; i < group.layers.length; i++)
+                    layer = layer_iter.next().value;
+
+                // move to next group
+                group_index++;
+                group = group_iter.next().value;
+            } else {
+                result.push(
+                    <Layer
+                        id={layer.id}
+                        key={layer.id}
+                        index={layer_index}
+                        name={layer.name}
+                        bypassed={layer.bypassed}
+                        solo={layer.solo}
+                        crossfadergroup={layer.crossfadergroup}
+                        master={layer.master}
+                        maskmode={layer.maskmode}
+                        faderstart={layer.faderstart}
+                        ignorecolumntrigger={layer.ignorecolumntrigger}
+                        dashboard={layer.dashboard}
+                        autopilot={layer.autopilot}
+                        transition={layer.transition}
+                        audio={layer.audio}
+                        video={layer.video}
+                        selected={layer.selected}
+                    />
+                )
+
+                // move to next layer
+                layer_index++;
+                layer = layer_iter.next().value;
+            }
+        }
+
+        return result;
+    })();
 
     const decks = context.composition.decks.map((deck) =>
         <Deck
@@ -117,7 +173,7 @@ function Composition() {
             <div className="composition">
                 <div className="layers_and_clips">
                     <div className="layers">
-                        {layers}
+                        {layers_and_groups}
                     </div>
                     <div className="clips" style={s}>
                         {columns}
