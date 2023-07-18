@@ -10,6 +10,8 @@ import LayerGroup from './layer_group.js'
 import Properties from './properties.js'
 import React, { useContext } from 'react'
 
+import array_reverse_iterator from './reverse_iterator.js'
+
 // composition effect controls and browser are rendered elseewhere
 const composition_root = document.getElementById('composition_properties');
 const browser_root = document.getElementById('browser');
@@ -30,35 +32,12 @@ function Composition() {
         />
     );
 
-    const all_clips = Array.prototype.concat.apply([],
-        context.composition.layers.map(layer => layer.clips).reverse()
-    );
-
-    const clips = all_clips.map((clip) =>
-        <Clip
-            id={clip.id}
-            key={clip.id}
-            thumbnail={clip.thumbnail}
-            name={clip.name}
-            selected={clip.selected}
-            connected={clip.connected}
-            dashboard={clip.dashboard}
-            audio={clip.audio}
-            video={clip.video}
-            beatsnap={clip.beatsnap}
-            transporttype={clip.transporttype}
-            target={clip.target}
-            triggerstyle={clip.triggerstyle}
-            faderstart={clip.faderstart}
-            ignorecolumntrigger={clip.ignorecolumntrigger}
-            transport={clip.transport}
-        />
-    );
+    const clips = [];
 
     const layers_and_groups = (() => {
         // first get an iterator on both the layers and groups
-        const layer_iter = context.composition.layers.reverse()[Symbol.iterator]();
-        const group_iter = context.composition.layergroups.reverse()[Symbol.iterator]();
+        const layer_iter = array_reverse_iterator(context.composition.layers);
+        const group_iter = array_reverse_iterator(context.composition.layergroups);
 
         // load the first value from both
         let layer = layer_iter.next().value;
@@ -78,7 +57,7 @@ function Composition() {
             // we compare the first layer in the group with the current layer
             // if that's a match, we'll add the group at this spot and then
             // skip all the layers (since they are already in the group)
-            if (!layer || (layer && group && layer.id === group.layers.reverse()[0].id)) {
+            if (!layer || (layer && group && layer.id === group.layers[group.layers.length - 1].id)) {
                 // add layer group to result
                 result.push(
                     <LayerGroup
@@ -93,9 +72,51 @@ function Composition() {
                     />
                 );
 
+                let column_index = 0;
+
+                // a layer group comes with its own columns
+                for (const column of group.columns) {
+                    clips.push(
+                        <Column
+                            id={column.id}
+                            key={column.id}
+                            index={column_index}
+                            name={column.name}
+                            connected={column.connected}
+                        />
+                    )
+
+                    column_index++;
+                }
+
                 // skip layers already in group
-                for (let i = 0; i < group.layers.length; i++)
+                for (let i = 0; i < group.layers.length; i++) {
+                    // add all the clips
+                    for (const clip of layer.clips) {
+                        clips.push(
+                                <Clip
+                                    id={clip.id}
+                                    key={clip.id}
+                                    thumbnail={clip.thumbnail}
+                                    name={clip.name}
+                                    selected={clip.selected}
+                                    connected={clip.connected}
+                                    dashboard={clip.dashboard}
+                                    audio={clip.audio}
+                                    video={clip.video}
+                                    beatsnap={clip.beatsnap}
+                                    transporttype={clip.transporttype}
+                                    target={clip.target}
+                                    triggerstyle={clip.triggerstyle}
+                                    faderstart={clip.faderstart}
+                                    ignorecolumntrigger={clip.ignorecolumntrigger}
+                                    transport={clip.transport}
+                                />
+                        );
+                    }
+
                     layer = layer_iter.next().value;
+                }
 
                 // move to next group
                 group_index++;
@@ -122,6 +143,30 @@ function Composition() {
                         selected={layer.selected}
                     />
                 )
+
+                // add all the clips
+                for (const clip of layer.clips) {
+                    clips.push(
+                            <Clip
+                                id={clip.id}
+                                key={clip.id}
+                                thumbnail={clip.thumbnail}
+                                name={clip.name}
+                                selected={clip.selected}
+                                connected={clip.connected}
+                                dashboard={clip.dashboard}
+                                audio={clip.audio}
+                                video={clip.video}
+                                beatsnap={clip.beatsnap}
+                                transporttype={clip.transporttype}
+                                target={clip.target}
+                                triggerstyle={clip.triggerstyle}
+                                faderstart={clip.faderstart}
+                                ignorecolumntrigger={clip.ignorecolumntrigger}
+                                transport={clip.transport}
+                            />
+                    );
+                }
 
                 // move to next layer
                 layer_index++;

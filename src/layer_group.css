@@ -1,3 +1,9 @@
+.layer_group.highlighted {
+    border-left: 3px solid #A1FCD5;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
 .layer_group .cbs {    
     display: grid;    
     grid-template-columns: 1fr repeat(3, fit-content(1ch)); 
