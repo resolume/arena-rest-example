@@ -10,8 +10,6 @@ import LayerGroup from './layer_group.js'
 import Properties from './properties.js'
 import React, { useContext } from 'react'
 
-import array_reverse_iterator from './reverse_iterator.js'
-
 // composition effect controls and browser are rendered elseewhere
 const composition_root = document.getElementById('composition_properties');
 const browser_root = document.getElementById('browser');
