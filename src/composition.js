@@ -54,7 +54,7 @@ function Composition() {
             // we compare the first layer in the group with the current layer
             // if that's a match, we'll add the group at this spot and then
             // skip all the layers (since they are already in the group)
-            if (!layer || (layer && group && layer.id === group.layers[group.layers.length - 1].id)) {
+            if (!layer || (layer && group && layer.id === group.layers[0].id)) {
                 // add layer group to result
                 layers_and_groups.push(
                     <LayerGroup
