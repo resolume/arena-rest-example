@@ -42,20 +42,22 @@ function LayerGroup(props) {
 
     return (
         <ParameterMonitor.Single parameter={props.selected} render={selected => (
-            <div className={`layer_group ${selected.value ? 'highlighted' : ''}`}>
-                <div className="cbs">
-                    <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
-                        {name}
+            <div>
+                <div className={`layer_group ${selected.value ? 'highlighted' : ''}`}>
+                    <div className="cbs">
+                        <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
+                            {name}
+                        </div>
+                        <div className={`button off`} onMouseDown={clear}>X</div>
+                        <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
+                            <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
+                        )} />
+                        <ParameterMonitor.Single parameter={props.solo} render={solo => (
+                            <div className={`button ${solo.value ? 'on' : 'off'}`} onMouseDown={() => set_solo(!solo.value)}>S</div>
+                        )} />
                     </div>
-                    <div className={`button off`} onMouseDown={clear}>X</div>
-                    <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
-                        <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
-                    )} />
-                    <ParameterMonitor.Single parameter={props.solo} render={solo => (
-                        <div className={`button ${solo.value ? 'on' : 'off'}`} onMouseDown={() => set_solo(!solo.value)}>S</div>
-                    )} />
+                    {layers}
                 </div>
-                {layers}
             </div>
         )} />
     );
