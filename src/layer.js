@@ -32,71 +32,72 @@ function Layer(props) {
     const toggle_crossfadergroup    = value     => context.parameters.update_parameter(props.crossfadergroup.id, value);
 
     /* Replace # with ((index+1) of Layer) */
-    const name      = props.name.value.replace(/#/g, props.index+1);
     const select    = () => context.action('trigger', `/composition/layers/by-id/${props.id}/select`);
     const clear     = () => context.action('trigger', `/composition/layers/by-id/${props.id}/clear`);
 
     return (
-        <div>
+        <ParameterMonitor.Single parameter={props.name} render={name => (
             <div>
-                <ContextMenu
-                    name={name}
-                    options={menu_options}
-                >
-                <div className="layer">       
-                    <div className="controls">
-                        <div className="buttons">
-                            <div className="cbs">
-                                <div className={`button off`} onMouseDown={clear}>Clear</div>
-                                <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
-                                    <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
-                                )} />
-                                <ParameterMonitor.Single parameter={props.solo} render={solo => (
-                                    <div className={`button ${solo.value ? 'on' : 'off'}`} onMouseDown={() => set_solo(!solo.value)}>S</div>
-                                )} />
+                <div>
+                    <ContextMenu
+                        name={name.value.replace(/#/g, props.index+1)}
+                        options={menu_options}
+                    >
+                        <div className="layer">       
+                            <div className="controls">
+                                <div className="buttons">
+                                    <div className="cbs">
+                                        <div className={`button off`} onMouseDown={clear}>Clear</div>
+                                        <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
+                                            <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
+                                        )} />
+                                        <ParameterMonitor.Single parameter={props.solo} render={solo => (
+                                            <div className={`button ${solo.value ? 'on' : 'off'}`} onMouseDown={() => set_solo(!solo.value)}>S</div>
+                                        )} />
+                                    </div>
+                                    <ParameterMonitor.Single parameter={props.crossfadergroup} render={crossfadergroup => (
+                                        <div className="crossfadergroup">
+                                            <div className={`button ${crossfadergroup.index === 1 ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup(1)}>A</div>
+                                            <div className={`button ${crossfadergroup.index === 2 ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup(2)}>B</div>
+                                        </div>
+                                    )} />
+                                    <ParameterMonitor.Single parameter={props.selected} render={selected => (
+                                        <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
+                                            {name.value.replace(/#/g, props.index+1)}
+                                        </div>
+                                    )} />
+                                </div>
+                                <div className="master">
+                                    <Parameter
+                                        name="Master"
+                                        parameter={props.master}
+                                        hidelabel="yes"
+                                        key={props.master.id}
+                                        id={props.master.id}
+                                    />
+                                </div>
                             </div>
-                            <ParameterMonitor.Single parameter={props.crossfadergroup} render={crossfadergroup => (
-                                <div className="crossfadergroup">
-                                    <div className={`button ${crossfadergroup.index === 1 ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup(1)}>A</div>
-                                    <div className={`button ${crossfadergroup.index === 2 ? 'on' : 'off'}`} onMouseDown={() => toggle_crossfadergroup(2)}>B</div>
-                                </div>
-                            )} />
-                            <ParameterMonitor.Single parameter={props.selected} render={selected => (
-                                <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
-                                    {name}
-                                </div>
-                            )} />
                         </div>
-                        <div className="master">
-                            <Parameter
-                                name="Master"
-                                parameter={props.master}
-                                hidelabel="yes"
-                                key={props.master.id}
-                                id={props.master.id}
-                            />
-                        </div>
-                    </div>
+                    </ContextMenu>
                 </div>
-                </ContextMenu>
+                <ParameterMonitor.Single parameter={props.selected} render={selected => (
+                    <React.Fragment>
+                        {selected.value &&
+                            <Properties
+                                name={name.value.replace(/#/g, props.index+1)}
+                                dashboard={props.dashboard}
+                                autopilot={props.autopilot}
+                                transition={props.transition}
+                                audio={props.audio}
+                                video={props.video}
+                                title="Layer"
+                                root={layer_root}
+                            />
+                        }
+                    </React.Fragment>
+                )} />
             </div>
-            <ParameterMonitor.Single parameter={props.selected} render={selected => (
-                <React.Fragment>
-                    {selected.value &&
-                        <Properties
-                            name={name}
-                            dashboard={props.dashboard}
-                            autopilot={props.autopilot}
-                            transition={props.transition}
-                            audio={props.audio}
-                            video={props.video}
-                            title="Layer"
-                            root={layer_root}
-                        />
-                    }
-                </React.Fragment>
-            )} />
-        </div>
+        )} />
     );
 }
 

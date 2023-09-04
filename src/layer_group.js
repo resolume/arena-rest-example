@@ -45,7 +45,6 @@ function LayerGroup(props) {
     const set_solo      = solo      => context.parameters.update_parameter(props.solo.id, solo);
 
     /* Replace # with ((index+1) of Layer) */
-    const name      = props.name.value.replace(/#/g, props.index+1);
     const select    = () => context.action('trigger', `/composition/layergroups/by-id/${props.id}/select`);
     const clear     = () => context.action('trigger', `/composition/layergroups/by-id/${props.id}/clear`);
 
@@ -54,14 +53,16 @@ function LayerGroup(props) {
             <div>
                 <div className={`layer_group ${selected.value ? 'highlighted' : ''}`}>
                     <div className="cbs">
-                        <ContextMenu
-                            name={name}
-                            options={menu_options}
-                        >
-                            <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
-                                {name}
-                            </div>
-                        </ContextMenu>
+                        <ParameterMonitor.Single parameter={props.name} render={name => (
+                            <ContextMenu
+                                name={name.value.replace(/#/g, props.index+1)}
+                                options={menu_options}
+                            >
+                                <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
+                                    {name.value.replace(/#/g, props.index+1)}
+                                </div>
+                            </ContextMenu>
+                        )} />
                         <div className={`button off`} onMouseDown={clear}>X</div>
                         <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
                             <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>

@@ -16,23 +16,22 @@ function Column({ id, index, name, connected }) {
         'Remove':                   { action: () => context.remove(`/composition/columns/by-id/${id}`)  },
     };
 
-    /* Replace # with ((index+1) of Colunn) */
-    const display_name = name.value.replace(/#/g, index+1);
-
     return (
         <ParameterMonitor.Single parameter={connected} render={connected => (
-            <ContextMenu
-                name={display_name}
-                options={menu_options}
-            >
-                <div
-                    className={`column ${connected.value ? 'connected' : ''}`}
-                    onMouseDown={() => connect(true)}
-                    onMouseUp={() => connect(false)}
+            <ParameterMonitor.Single parameter={name} render={name => (
+                <ContextMenu
+                    name={name.value.replace(/#/g, index+1)}
+                    options={menu_options}
                 >
-                    {display_name}
-                </div>
-            </ContextMenu>
+                    <div
+                        className={`column ${connected.value ? 'connected' : ''}`}
+                        onMouseDown={() => connect(true)}
+                        onMouseUp={() => connect(false)}
+                    >
+                        {name.value.replace(/#/g, index+1)}
+                    </div>
+                </ContextMenu>
+            )} />
         )} />
     );
 }

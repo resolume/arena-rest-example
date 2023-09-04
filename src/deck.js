@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { ResolumeContext } from './resolume_provider'
+import ParameterMonitor from './parameter_monitor.js'
 import PropTypes from 'prop-types'
 
 /**
@@ -14,7 +15,9 @@ function Deck({ id, name, selected }) {
             className={`deck ${selected ? 'selected' : ''}`}
             onClick={select}
         >
-        {name.value}
+            <ParameterMonitor.Single parameter={name} render={name => (
+                <span>{name.value}</span>
+            )} />
         </div>
     );
 }
