@@ -18,11 +18,13 @@ function Layer(props) {
     const context = useContext(ResolumeContext);
 
     const menu_options = {
-        'Add':                      { action: () => context.post('/composition/layers/add')                 },
-        'Remove':                   { action: () => context.remove(`/composition/layers/by-id/${props.id}`) },
-        'Mask Mode':                { param: props.maskmode                                                 },
-        'Fader Start':              { param: props.faderstart                                               },
-        'Ignore Column Trigger':    { param: props.ignorecolumntrigger                                      },
+        'New':                      { action: () => context.post('/composition/layers/add')                                             },
+        'Insert Below':             { action: () => context.post('/composition/layers/add', `/composition/layers/by-id/${props.id}`)    },
+        'Duplicate':                { action: () => context.post(`/composition/layers/by-id/${props.id}/duplicate`)                     },
+        'Remove':                   { action: () => context.remove(`/composition/layers/by-id/${props.id}`)                             },
+        'Mask Mode':                { param: props.maskmode                                                                             },
+        'Fader Start':              { param: props.faderstart                                                                           },
+        'Ignore Column Trigger':    { param: props.ignorecolumntrigger                                                                  },
     };
 
     const set_bypass                = bypassed  => context.parameters.update_parameter(props.bypassed.id, bypassed);
@@ -38,9 +40,9 @@ function Layer(props) {
         <div>
             <div>
                 <ContextMenu
-                    name={props.name.value}
+                    name={name}
                     options={menu_options}
-                >        
+                >
                 <div className="layer">       
                     <div className="controls">
                         <div className="buttons">
