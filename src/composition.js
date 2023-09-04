@@ -63,6 +63,7 @@ function Composition() {
                         index={group_index}
                         name={group.name}
                         bypassed={group.bypassed}
+                        ignorecolumntrigger={group.ignorecolumntrigger}
                         solo={group.solo}
                         selected={group.selected}
                         layers={group.layers}

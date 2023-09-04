@@ -2,6 +2,7 @@ import { ResolumeContext } from './resolume_provider'
 import React, { useContext } from 'react'
 import Layer from './layer.js'
 import ParameterMonitor from './parameter_monitor.js'
+import ContextMenu from './context_menu.js';
 import './layer_group.css';
 
 /**
@@ -9,6 +10,14 @@ import './layer_group.css';
   */
 function LayerGroup(props) {
     const context = useContext(ResolumeContext);
+
+    const menu_options = {
+        'New':                      { action: () => context.post('/composition/layergroups/add')                            },
+        'Duplicate':                { action: () => context.post(`/composition/layergroups/by-id/${props.id}/duplicate`)    },
+        'Remove':                   { action: () => context.remove(`/composition/layergroups/by-id/${props.id}`)            },
+        'Add Layer':                { action: () => context.post(`/composition/layergroups/by-id/${props.id}/add-layer`)    },
+        'Ignore Column Trigger':    { param: props.ignorecolumntrigger                                      },
+    };
 
     const layers = props.layers.map((layer, index) =>
         <Layer
@@ -45,9 +54,14 @@ function LayerGroup(props) {
             <div>
                 <div className={`layer_group ${selected.value ? 'highlighted' : ''}`}>
                     <div className="cbs">
-                        <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
-                            {name}
-                        </div>
+                        <ContextMenu
+                            name={name}
+                            options={menu_options}
+                        >
+                            <div className={`handle ${selected.value ? 'selected' : ''}`} onMouseDown={select}>
+                                {name}
+                            </div>
+                        </ContextMenu>
                         <div className={`button off`} onMouseDown={clear}>X</div>
                         <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
                             <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
