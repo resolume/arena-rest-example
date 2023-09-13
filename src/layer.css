@@ -32,6 +32,15 @@
 .layer .master input[type='range'] {
     height: 20px;
     width: 105px;
+
+    /* this is necessary for chrome, which likes to put
+     * weird borders around input elements, which then
+     * overlaps other controls, blocking clicks.
+     */
+    margin: 0px;
+    position: relative;
+    top: 10px;
+    left: 10px;
 }
 
 /* Firefox-specific range styling */
