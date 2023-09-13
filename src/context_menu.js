@@ -72,6 +72,14 @@ function ContextMenu(props) {
 
     const open_menu = event => {
         event.preventDefault();
+
+        // emulate click on document, this should close
+        // any other instances of open context menu
+        const click = new MouseEvent('click');
+        document.dispatchEvent(click);
+
+        // now add handler to close the context menu
+        // this needs to be after the simulated click
         document.addEventListener("click", close_menu);
 
         setOpen(true);
