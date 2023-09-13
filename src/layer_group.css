@@ -4,9 +4,9 @@
     border-bottom-left-radius: 5px;
 }
 
-.layer_group .cbs {    
+.layer_group > .cbs {
     display: grid;    
-    grid-template-columns: 1fr repeat(3, fit-content(1ch)); 
+    grid-template-columns: 1fr repeat(3, fit-content(1ch));
     width: 100%;
 }
 
