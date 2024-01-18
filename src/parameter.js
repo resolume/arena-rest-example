@@ -240,6 +240,19 @@ function ParamRange(props) {
     const parser        = (value) => parseFloat(value) / multiplier;
     const monitor       = useRef(new value_monitor(on_update, setValue, parser));
 
+    let clamp = (number) => {
+        const min = parameter.in;
+        const max = parameter.out;
+
+        if (min && number < min)
+            return min;
+
+        if (max && number > max)
+            return max;
+
+        return number;
+    }
+
     let show_number = (number) => {
         if (Number.isInteger(number)) {
             return number;
@@ -257,7 +270,7 @@ function ParamRange(props) {
                 step={step}
                 value={(value || parameter.value) * multiplier}
                 readOnly={readonly}
-                onChange={(value) => debouncer.current.set_value(value / multiplier)}
+                onChange={(value) => debouncer.current.set_value(clamp(value / multiplier))}
             />
         )
     } else if (view.control_type === 'spinner') {
@@ -281,7 +294,7 @@ function ParamRange(props) {
                 <input
                     type="text"
                     value={((value !== undefined) ? value : parameter.value) * multiplier}
-                    onChange={(event) => monitor.current.set_value(event.target.value)}
+                    onChange={(event) => monitor.current.set_value(clamp(event.target.value))}
                     onKeyPress={handler}
                     onBlur={() => monitor.current.confirm()}
                 />
@@ -314,7 +327,7 @@ function ParamRange(props) {
                 step={step}
                 value={(value || parameter.value) * multiplier}
                 readOnly={readonly}
-                onChange={(event) => debouncer.current.set_value(parseFloat(event.target.value) / multiplier)}
+                onChange={(event) => debouncer.current.set_value(clamp(parseFloat(event.target.value) / multiplier))}
             />
             {showlabel &&
                 <span>{show_number(value || parameter.value) * multiplier} {suffix}</span>
