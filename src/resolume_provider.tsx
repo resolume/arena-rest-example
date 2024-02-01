@@ -5,6 +5,7 @@ import IEffects from './IEffects'
 import ISources from './ISources'
 
 type ResolumeContextProperties = {
+    action: (type: string, path: string, value: any) => void,
     post: (path: string, body: string) => void,
     remove: (path: string) => void,
     effects: IEffects,
@@ -165,6 +166,11 @@ function ResolumeProvider(props: ResolumeContextParameters) {
         transport.send_message(message);
     };
 
+    // send a regular HTTP request using fetch
+    const fetch = (path: string, options: Record<string, unknown>) => {
+        return window.fetch(`//${props.host}:${props.port}/api/v1${path}`, options);
+    };
+
     const clip_url = (id: number, last_update: string) => {
         // is this the default clip (i.e. it has never been updated from its dummy
         if (last_update === "0") {
@@ -178,6 +184,7 @@ function ResolumeProvider(props: ResolumeContextParameters) {
         action,         // execute an action
         post,           // send a 'post' request
         remove,         // send a 'delete' request
+        fetch,          // send a regular http request, using fetch
         composition,    // the current composition state
         sources,        // the current sources available
         effects,        // the current effects available

@@ -4,6 +4,7 @@ import Properties from './properties.js'
 import PropTypes from 'prop-types';
 import ContextMenu from './context_menu.js';
 import Timeline from './timeline.js';
+import SelectThumbnail from './select_thumbnail';
 import ParameterMonitor from './parameter_monitor.js';
 
 // we need to draw outside of our container, but instead
@@ -18,14 +19,35 @@ const clip_root = document.getElementById('clip_properties');
 function Clip(props) {
     const context = useContext(ResolumeContext);
 
+    // show file picker for new thumbnail
+    const [ thumbnailPicker, setThumbnailPicker ] = useState(false);
+
+    // handle a file being selected
+    const pick_file = (file) => {
+        // close the picker
+        setThumbnailPicker(false);
+
+        // create the data to post
+        const data = new FormData();
+        data.append('file', file);
+
+        // do we have a file? then post the thumbnail
+        context.fetch(`/composition/clips/by-id/${props.id}/thumbnail`, {
+            method: 'POST',
+            body: data,
+        });
+    };
+
     let menu_options = {
-        'Beat Snap':                { param: props.beatsnap             },
-        'Transport':                { param: props.transporttype        },
-        'Target':                   { param: props.target               },
-        'Trigger Style':            { param: props.triggerstyle         },
-        'Fader Start':              { param: props.faderstart           },
-        'Ignore Column Trigger':    { param: props.ignorecolumntrigger  },
-    };    
+        'Beat Snap':                { param: props.beatsnap                     },
+        'Transport':                { param: props.transporttype                },
+        'Target':                   { param: props.target                       },
+        'Trigger Style':            { param: props.triggerstyle                 },
+        'Fader Start':              { param: props.faderstart                   },
+        'Ignore Column Trigger':    { param: props.ignorecolumntrigger          },
+        'Load Thumbnail':           { action: () => setThumbnailPicker(true)    },
+    };
+
     /* Add 'Resize' option to menu if clip has video track */
     if (props.video)
         menu_options['Resize'] = { param: props.video.resize };
@@ -110,6 +132,9 @@ function Clip(props) {
                     }
                 </React.Fragment>
             )} />
+            {thumbnailPicker &&
+                <SelectThumbnail title="Select clip thumbnail" onFile={pick_file} onCancel={() => setThumbnailPicker(false)} />
+            }
         </div>
     )
 }

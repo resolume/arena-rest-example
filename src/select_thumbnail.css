@@ -1,0 +1,27 @@
+.select_thumbnail {
+    text-align: center;
+}
+
+.select_thumbnail label {
+    font-size: 75px;
+    border: 1px solid white;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+
+    margin: 5px;
+}
+
+.select_thumbnail label input {
+    display: none;
+}
+
+.select_thumbnail img {
+    max-width: 100px;
+    max-width: 100px;
+}
+
+.select_thumbnail button {
+    margin: 5px;
+}

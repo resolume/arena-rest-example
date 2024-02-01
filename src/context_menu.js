@@ -5,7 +5,10 @@ import ParameterMonitor from './parameter_monitor.js'
 
 /**
   * Component for rendering a parameter option
-  * in a menu
+  * in a menu.
+  *
+  * It also supports having an entry that invokes
+  * a callback function, by giving an 'action' prop.
   */
 function MenuOption(props) {
     const context                   = useContext(ResolumeContext);
@@ -27,6 +30,7 @@ function MenuOption(props) {
                     const options = parameter.options.map((option, index) => {
                         return (
                             <div
+                                key={`option_${index}`}
                                 className={`option ${index === parameter.index ? 'selected' : ''}`}
                                 onClick={() => update(index)}
                             >
