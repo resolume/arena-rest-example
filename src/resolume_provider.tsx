@@ -82,6 +82,20 @@ function ResolumeProvider(props: ResolumeContextParameters) {
             } else if (message.type === 'effects_update') {
                 console.log('effects update', message.value);
                 setEffects(message.value);
+            } else if (message.type === 'thumbnail_update') {
+                setComposition((composition:any) => {
+                    for (const layer of composition.layers) {
+                        for (const clip of layer.clips) {
+                            if (clip.id === message.value.id) {
+                                clip.thumbnail = message.value;
+                                return { ...composition };
+                            }
+                        }
+                    }
+
+                    // no match found, re-use existing composition
+                    return composition;
+                });
             }
         });
 
