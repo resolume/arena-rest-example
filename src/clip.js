@@ -38,6 +38,11 @@ function Clip(props) {
         });
     };
 
+    // revert thumbnail to default
+    const revert_thumbnail = () => {
+        context.remove(`/composition/clips/by-id/${props.id}/thumbnail`);
+    };
+
     let menu_options = {
         'Beat Snap':                { param: props.beatsnap                     },
         'Transport':                { param: props.transporttype                },
@@ -46,6 +51,7 @@ function Clip(props) {
         'Fader Start':              { param: props.faderstart                   },
         'Ignore Column Trigger':    { param: props.ignorecolumntrigger          },
         'Load Thumbnail':           { action: () => setThumbnailPicker(true)    },
+        'Revert Thumbnail':         { action: () => revert_thumbnail()          },
     };
 
     /* Add 'Resize' option to menu if clip has video track */
