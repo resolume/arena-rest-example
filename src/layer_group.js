@@ -46,7 +46,7 @@ function LayerGroup(props) {
 
     /* Replace # with ((index+1) of Layer) */
     const select    = () => context.action('trigger', `/composition/layergroups/by-id/${props.id}/select`);
-    const clear     = () => context.action('trigger', `/composition/layergroups/by-id/${props.id}/clear`);
+    const clear     = down => context.action('trigger', `/composition/layergroups/by-id/${props.id}/clear`, down);
 
     return (
         <ParameterMonitor.Single parameter={props.selected} render={selected => (
@@ -63,7 +63,13 @@ function LayerGroup(props) {
                                 </div>
                             </ContextMenu>
                         )} />
-                        <div className={`button off`} onMouseDown={clear}>X</div>
+                        <div
+                            className={`button off`}
+                            onMouseDown={() => clear(true)}
+                            onMouseUp={() => clear(false)}
+                        >
+                            X
+                        </div>
                         <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
                             <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
                         )} />
