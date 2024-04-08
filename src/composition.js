@@ -1,4 +1,5 @@
 import { ResolumeContext } from './resolume_provider'
+import ParameterMonitor from './parameter_monitor.js'
 import CrossFader from './crossfader.js'
 import TempoToolbar from './tempo_toolbar.js'
 import Column from './column.js'
@@ -208,11 +209,34 @@ function Composition() {
         );
     }
 
+    const set_bypass    = bypassed => context.parameters.update_parameter(context.composition.bypassed.id, bypassed);
+    const select        = () => context.action('trigger', `/composition/selected`);
+    const disconnect    = () => {
+        context.action('trigger', `/composition/disconnect-all`, true);
+        context.action('trigger', '/composition/disconnect-all', false);
+    }
+
     return (
         <React.Fragment>
             <div className="composition">
-                <div className="layers_and_clips">
-                    <div className="layers">
+                <div className="composition_layers_and_clips">
+                    <div className="composition_and_layers">
+                        {context.composition.selected &&
+                            <div className="composition">
+                                <ParameterMonitor.Single parameter={context.composition.selected} render={selected => (
+                                    <div className={`button ${selected.value ? 'on' : 'off'}`} onMouseDown={select}>
+                                        Composition
+                                    </div>
+                                )} />
+                                <div className="button off" onMouseDown={disconnect}>
+                                    X
+                                </div>
+                                <ParameterMonitor.Single parameter={context.composition.bypassed} render={bypassed => (
+                                    <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
+                                )} />
+                            </div>
+                        }
+
                         {layers_and_groups}
                     </div>
                     <div className="clips" style={s}>

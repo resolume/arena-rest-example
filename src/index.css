@@ -101,14 +101,23 @@ body {
     background-color: #A1FCD5;
 }
 
-.layers_and_clips {
+.composition_layers_and_clips {
     display: flex;
 }
 
-.layers {
+.composition_and_layers {
     display: grid;
-    margin-top: 30px;
     margin-right: 5px;    
+}
+
+.composition_and_layers .composition {
+    display: grid;
+    grid-template-columns: 1fr 20px 20px;
+    height: 27px;
+}
+
+.composition_and_layers .composition .button {
+    border-radius: 0 0 4px 4px;
 }
 
 .clips {
