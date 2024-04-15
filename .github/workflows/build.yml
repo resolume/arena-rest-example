@@ -1,0 +1,28 @@
+name: npm build
+
+on:
+  push
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Install dependencies
+        run: npm install
+      - name: Compile project
+        run: npm run build
+        env:
+          PUBLIC_URL: '/api/docs/example'
+          NODE_OPTIONS: '--openssl-legacy-provider'
+      - name: Upload compiled build
+        uses: actions/upload-artifact@v3
+        with:
+          name: arena-rest-example build
+          path: build
