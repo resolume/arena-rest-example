@@ -20,7 +20,6 @@ jobs:
         run: npm run build
         env:
           PUBLIC_URL: '/api/docs/example'
-          NODE_OPTIONS: '--openssl-legacy-provider'
       - name: Upload compiled build
         uses: actions/upload-artifact@v3
         with:
