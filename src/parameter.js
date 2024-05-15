@@ -330,7 +330,7 @@ function ParamRange(props) {
                 onChange={(event) => debouncer.current.set_value(clamp(parseFloat(event.target.value) / multiplier))}
             />
             {showlabel &&
-                <span>{show_number(value || parameter.value) * multiplier} {suffix}</span>
+                <span>{show_number((value || parameter.value) * multiplier)} {suffix}</span>
             }
         </span>
     )
