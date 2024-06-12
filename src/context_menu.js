@@ -111,7 +111,7 @@ function ContextMenu(props) {
             </span>
             {open && 
                 <div className="context-menu" style={position}>
-                    <div className="label">{props.name}</div>
+                    {props.name && <div className="label">{props.name}</div>}
                     {options}
                 </div>
             }
