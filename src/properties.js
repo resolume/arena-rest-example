@@ -77,6 +77,7 @@ function Properties(props) {
         const effects = props.audio.effects.map((value) => {
             return (
                 <Effect
+                    id={value.id}
                     key={`effect_${value.name}`}
                     name={value.name}
                     bypassed={value.bypassed}
@@ -120,6 +121,7 @@ function Properties(props) {
         const effects = props.video.effects.map((value) => {
             return (
                 <Effect
+                    id={value.id}
                     key={`effect_${value.name}`}
                     bypassed={value.bypassed}
                     name={value.name}

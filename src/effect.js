@@ -1,4 +1,5 @@
 import { ResolumeContext } from './resolume_provider'
+import ContextMenu from './context_menu.js'
 import React, { useContext, useState } from 'react'
 import ParameterMonitor from './parameter_monitor.js'
 import Parameters from './parameters.js'
@@ -12,13 +13,16 @@ function Effect(props) {
     const context = useContext(ResolumeContext);
     const [ expanded, setExpanded ] = useState(true);
     const set_bypass                = bypassed  => context.parameters.update_parameter(props.bypassed.id, bypassed);
+    const set_display_name          = name => context.post(`/composition/effects/by-id/${props.id}/set-display-name`, name);
 
     return (
         <div className="effect">
-            <div className="title" onClick={() => setExpanded(!expanded)}>
-                <span className={`arrow ${expanded ? 'down' : 'right'}`}></span>
-                {props.display_name ?? props.name}
-            </div>
+            <ContextMenu options={{ Rename: { action: () => set_display_name(prompt("New display name", props.display_name ?? props.name)) } }}>
+                <div className="title" onClick={() => setExpanded(!expanded)}>
+                    <span className={`arrow ${expanded ? 'down' : 'right'}`}></span>
+                    {props.display_name ?? props.name}
+                </div>
+            </ContextMenu>
             {props.bypassed &&
                 <ParameterMonitor.Single parameter={props.bypassed} render={bypassed => (
                     <div className={`button ${bypassed.value ? 'on' : 'off'}`} onMouseDown={() => set_bypass(!bypassed.value)}>B</div>
